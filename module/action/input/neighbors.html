@@ -1,0 +1,12 @@
+<div>
+    <h4>Neighbors</h4>
+    <div class="form-group form-inline">
+        <label >Type</label>
+        <select ng-model="selector.type" class="form-control" ng-options="type for type in ['tile','corner','border']"></select>
+    </div>
+    <div class="form-group form-inline">
+        <label >Distance</label>
+        <input ng-model="selector.dist" type="text" class="form-control" placeholder=""/>
+        <span class="help-block">Fixed value OR the name of a token's property.</span>
+    </div>
+</div>

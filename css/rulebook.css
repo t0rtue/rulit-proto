@@ -1,0 +1,19 @@
+#rule-window svg, #token-editor svg {
+    background : white;
+}
+
+#rule-window {
+    /*background: #EEE;*/
+}
+
+#rule-window .editable .edit-button {
+    visibility: visible;
+}
+
+#rule-window .editable:hover .edit-button {
+    visibility: visible;
+}
+
+/*.ucfirst:first-letter {
+    text-transform:capitalize;
+}*/

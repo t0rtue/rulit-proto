@@ -1,0 +1,107 @@
+
+<div class="container-fluid">
+
+    <script type="text/javascript">
+        $(function () {
+            $('[data-toggle=tooltip]').tooltip();
+        });
+    </script>
+
+
+    <div class="row">
+        <div class="col-md-2" ng-if="rulit.layout.mode != 1">
+            <div class="row">
+                <ng-include src="'partials/gamewindow/player.html'"/>
+            </div>
+            <div class="row game-window">
+                <div ng-if="game.selectedElem.token">
+                    <ri-token-window token="game.selectedElem.token"></ri-token-window>
+                    <!-- <div
+                        ng-repeat="action in game.actions.all | tokenActions:game.selectedElem.token"
+                        ng-click="game.selectAction(action)"
+                        class="action"
+                        ng-class="{selected:action.selected}"
+                        >
+                        <span class="glyphicon glyphicon-save"></span> {{action.name}}
+                    </div> -->
+                    <ul class="list-group">
+                        <li ng-repeat="action in game.turnPhases[game.currentPhaseIdx].actions | tokenActions:game.selectedElem.token"
+                            ng-click="game.selectAction(action)"
+                            class="list-group-item"
+                            ng-class="{selected:action.selected}"
+                            >
+                            <span class="action" >{{action.name}}</span>
+                            <!-- <span class="action" >{{action.desc}}</span> -->
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="row game-window" ng-if="game.selectedElem != game.overedElem">
+                <ri-token-window token="game.overedElem.token"></ri-token-window>
+            </div>
+        </div>
+        <div  class="col-md-{{rulit.layout.mode == 1 ? 12 : 8}}">
+            <div style="text-align:center">
+                <ul class="list-group list-inline">
+                    <li ng-repeat="board in ['Main']"
+                        class="list-group-item"
+                    >
+                       {{board}} board
+                    </li>
+                </ul>
+            </div>
+
+            <div id="phase-info" ng-class="{out:!game.phaseStart}">
+                <!-- svg text is the simplest way i found to make a dynamic text size depending on parent div -->
+                <svg  height="100%" width="100%" viewBox="-50 -50 100 100" preserveAspectRatio="xMidYMid meet">
+                    <text dy="0.3em">{{game.turnPhases[game.currentPhaseIdx].name}} phase</text>
+                </svg>
+            </div>
+
+            <!-- BOARD -->
+            <ri-board
+                data="game.board"
+                on-click-elem="game.selectBoardElem(elem,type)"
+                on-over-elem="game.overBoardElem(elem)">
+            </ri-board>
+
+
+        </div>
+
+        <div class="col-md-2" ng-if="rulit.layout.mode != 1">
+
+            <div class="row">
+                <div  class="col-md-4">
+                    <h3>Turn</h3>
+                    <button class="pull-left" ng-click="game.nextTurn()">next</button>
+                    <!-- <span class="glyphicon glyphicon-play-circle"></span> -->
+                </div>
+                <div class="col-md-8">
+                    <div  ng-include="'partials/gamewindow/turn.html'"/>
+                </div>
+
+            </div>
+
+            <hr/>
+            <div class="row">
+                <ng-include src="'partials/gamewindow/actions.html'"/>
+            </div>
+        </div>
+    </div>
+
+<!--     <div class="row" ng-if="rulit.layout.mode != 1">
+        <div class="col-md-12" id="debug-box">
+            <div class="game-window">
+                <p class="">{{game.selectedElem | json}}</p>
+            </div>
+        </div>
+    </div> -->
+
+    <div class="row" ng-if="rulit.layout.mode != 1">
+        <div class="col-md-12" id="message-box">
+            <div class="game-window">
+                <p class="text-info">{{game.message}}</p>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,16 @@
+<div>
+    <select ng-model="token.type" ng-options="type for type in types"></select>
+    <h3>With properties</h3>
+    <!-- Name is <input type="text" ng-model="action.token.name"/> and property -->
+    <ul>
+        <li ng-repeat="(prop,value) in token.properties">
+            {{prop}} is equal to <input type="text" ng-model="token.properties[prop]" />
+            <button ng-click="delete(token.properties[prop])">-</button>
+        </li>
+        <li class="form-group form-inline">
+            <input type="text" class="form-control" ng-model="action.newprop.name"/>
+            is equal to <input type="text" class="form-control" ng-model="action.newprop.value"/>
+            <button class="form-control" ng-click="token.properties[action.newprop.name] = action.newprop.value">+</button>
+        </li>
+    </ul>
+</div>

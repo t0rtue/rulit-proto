@@ -1,0 +1,72 @@
+<!doctype html>
+<html ng-app="rulit">
+<head>
+    <meta charset="UTF-8" />
+
+    <script src="lib/jquery-2.1.1.min.js"></script>
+    <script src="lib/bootstrap.min.js"></script>
+   <!-- To put in each partial html files (dynamicaly loaded) using tooltip
+    <script type="text/javascript">
+        $(function () {
+            $('[data-toggle=tooltip]').tooltip();
+        });
+    </script>
+    -->
+    <script src="lib/angular.js"></script>
+    <script src="lib/ui-bootstrap-tpls-0.11.2.min.js"></script>
+
+    <!-- // <script src="lib/jquery.tinycolorpicker.min.js"></script> -->
+
+    <script src="module/rulebook.js"></script>
+    <script src="main.js"></script>
+
+    <script src="module/token/token.js"></script>
+    <script src="module/action/action.js"></script>
+    <script src="module/board/board.js"></script>
+
+    <script src="module/game/tokens.js"></script>
+    <script src="module/game/game.js"></script>
+
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/main.css" rel="stylesheet">
+    <link href="css/action.css" rel="stylesheet">
+    <link href="css/rulebook.css" rel="stylesheet">
+    <link href="module/token/token.css" rel="stylesheet">
+
+</head>
+<body>
+
+<div class="container-fluid" ng-controller="rulit.controller as rulit">
+        <div class="row">
+            <div class="col-md-3">
+                <h1>RULIT</h1>
+            </div>
+            <div class="col-md-9" class="clearfix">
+                <div class="pull-right btn-group">
+                    <button  type="button" class="btn btn-default" ng-click="rulit.layout.mode=1">|_|__|</button>
+                    <button  type="button" class="btn btn-default" ng-click="rulit.layout.mode=2">|__|_|</button>
+                    <button  type="button" class="btn btn-default" ng-click="rulit.layout.mode=3">|____|</button>
+                </div>
+            </div>
+        </div>
+
+        <div ng-controller="ri.game.controller as game" class="row">
+
+            <div
+                id="game-view"
+                class="col-md-{{rulit.layout.mode*4}}"
+                ng-style="{'background':game.theme.background, 'fill':game.theme.background}"
+                ng-include="'partials/gamewindow/gamelayout.html'">
+            </div>
+
+            <div
+                id="rule-window"
+                class="col-md-{{12 - rulit.layout.mode*4}}"
+                ng-include="'partials/rulebook/rulebook.html'">
+            </div>
+
+        </div>
+    </div>
+
+</body>
+</html>

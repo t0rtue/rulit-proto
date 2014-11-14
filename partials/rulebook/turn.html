@@ -1,0 +1,72 @@
+<div>
+    <h2>Turn</h2>
+
+    Each of player turns consists of {{game.turnPhases.length}} phases, in this order:
+    <p>
+        <ol>
+            <li ng-repeat="phase in game.turnPhases" class='text-capitalize'>{{phase.name}}</li>
+        </ol>
+    </p>
+
+    <div ng-repeat="phase in game.turnPhases">
+
+        <h3 class='text-capitalize form-inline' ng-class='{editable:!phase.edit}'>
+            <input
+                ng-if="phase.edit"
+                ng-model="phase.name"
+                type="text"
+                class="form-control"
+                placeholder="phase name">
+            </input>
+            <span ng-if="!phase.edit">
+                {{phase.name}}
+            </span>
+            <button
+                type="button"
+                class="btn btn-default edit-button"
+                ng-click="phase.edit=!phase.edit" >
+                <span class="glyphicon glyphicon-{{phase.edit ? 'ok' : 'pencil'}}"></span>
+            </button>
+        </h3>
+
+        <div ng-if="phase.edit">
+            <span class='form-inline'>
+                Player
+                <select ng-model="phase.type" class="form-control" ng-options="type for type in ['can', 'must']"></select>
+                do following actions :
+            </span>
+            <ul class="" >
+                <li ng-repeat="action in phase.actions"
+                    class="action"
+                    >
+                    {{action.name}}
+                </li>
+                <li class="">
+                    <select ng-model="model.action" class="form-control" id="actionType" ng-options="action.name for action in game.actions.all"></select>
+                    <button ng-click="phase.actions.push(model.action)">+</button>
+                </li>
+            </ul>
+        </div>
+
+        <div ng-if="!phase.edit">
+            Player <mark>can</mark> do <mark>all</mark> of the following actions <mark>as many time he wants</mark> :
+            <ul class="" >
+                <li ng-repeat="action in phase.actions"
+                    class="action"
+                    >
+                    {{action.name}}
+                </li>
+            </ul>
+        </div>
+
+    </div>
+
+    <div>
+        <button type="button" class="btn btn-default" ng-click="game.turnPhases.push({'actions':[], edit:1})" >
+            <span class="glyphicon glyphicon-plus"></span>
+        </button>
+    </div>
+
+    <h4>End phase conditions</h4>
+    <rb-todo type="feature">Automatically end the phase when some defined condition are met</rb-todo>
+</div>

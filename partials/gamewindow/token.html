@@ -1,0 +1,33 @@
+
+<div ng-if="token" class="clearfix">
+
+    <div class="media">
+
+            <div class="media-object pull-left">
+                <svg width="50" height="50" viewBox="-50 -50 100 100">
+                    <g >
+                        <ri-token
+                            class="ri-token"
+                            data="token"
+                            view="token.view">
+                        </ri-token>
+                    </g>
+                </svg>
+            </div>
+
+        <div class="media-body">
+            <h4 class="media-heading">{{token.type}}</h4>
+            <ul class="list-group" >
+              <!--   <li ng-repeat="(prop,value) in token.properties"
+                    class="action list-group-item"
+                    > -->
+                <li ng-repeat="(prop,value) in token.properties">
+                    {{prop}}<span class="pull-right">{{value}}</span>
+                </li>
+
+            </ul>
+        </div>
+    </div>
+
+
+</div>

@@ -1,0 +1,216 @@
+/*svg {
+    background: #002;
+}*/
+
+.tile {
+    /*fill:white;stroke:lightgrey;stroke-width:1;opacity:1;*/
+
+    fill:inherit;
+    /*stroke:darkblue;*/
+
+    /*fill:lightgrey;stroke:black;*/
+
+    stroke-width:1;
+    /*fill:linear-gradient(60deg, white, black);*/
+
+    -webkit-transition: fill 250ms linear;
+    transition: fill 250ms linear;
+
+}
+
+.tile, .corner, .border {
+    /*stroke : #002; fill : #333; stroke-width : 10;*/
+    stroke : #444;
+}
+
+.tile:hover {
+    /*stroke-width:3;*/
+    /*stroke : white;*/
+/*    -webkit-transition: fill 250 linear;
+    transition: fill 250ms linear;*/
+    fill : #003;
+    opacity : 1;
+}
+
+.corner:hover,
+.border:hover {
+    opacity:1;
+    fill : #003;
+
+    -webkit-transition: opacity 250ms linear;
+    transition: opacity 250ms linear;
+}
+
+.corner {
+    fill:#002;
+    /*stroke:darkblue;*/
+    stroke-width:2;
+    opacity: 0;
+}
+
+.corner:hover {
+    stroke-width:1;
+}
+
+.border {
+    stroke-width : 10;
+    /*stroke:darkblue;*/
+    opacity: 0;
+    stroke-linecap:round;
+}
+
+.border.selected {
+    stroke : pink;
+}
+
+.selected {
+    opacity: 1;
+    fill : #004;
+}
+
+.highlight {
+    opacity: 1;
+    fill : lightgreen;
+    /*-webkit-transition: none;
+    transition: none;*/
+}
+
+
+.tile.highlight:hover {
+    fill : #BFB;
+}
+
+.border.highlight {
+    stroke-width : 6;
+    stroke:lightgreen;
+}
+
+
+
+.token {
+    stroke-width : 3;
+    stroke:black;
+    fill:white;
+}
+
+
+
+.elem-selector {
+    stroke-width : 20;
+    stroke : green;
+    fill-opacity : 0;
+    stroke-opacity : 0.5;
+}
+
+
+
+
+.game-window {
+    /*background: black;*/
+    /*color: blue;*/
+    border: solid;
+    border-width: 1px;
+}
+
+
+#game-view  {
+    border: solid 1px lightgrey;
+    background: #002;
+}
+
+#message-box {
+    /*border: solid 1px lightgrey;*/
+}
+
+.tooltip-inner, .tooltip-arrow {
+    background: #002;
+    /*border: solid white;*/
+}
+
+#game-view .list-group-item {
+    /*background: #002;*/
+    background: inherit;
+    border: solid;
+    border-width: 1px;
+    /*border-corner-shape: bevel; */
+}
+
+
+#game-view .list-inline {
+    margin-bottom: 0;
+}
+
+#game-view button {
+    /*background: #002;*/
+    background: inherit;
+    border: solid 3px;
+}
+
+#game-view button,
+#game-view .list-group-item,
+#game-view .clickable-item svg {
+    -webkit-transition: background 250 linear;
+    transition: background 250ms linear;
+}
+
+#game-view button:hover,
+#game-view .list-group-item:hover,
+#game-view .clickable-item:hover svg {
+    background: #003;
+}
+
+#game-view hr {
+    /*color: #113;*/
+    border: solid 1px #333;
+}
+
+#game-view .selected {
+    background: #001;
+}
+/*#game-view {
+    border-color: #AAA!important;
+}*/
+
+
+#game-view .turnphase-indicator {
+    stroke : #333;
+    stroke-width : 2;
+    fill-opacity : 0;
+    fill : #003;
+}
+
+
+#game-view .turnphase-indicator.current {
+    fill-opacity : 1;
+}
+
+#phase-info {
+    position:absolute;
+    height:10%;
+    width:80%;
+    top:30%;
+    left:10%;
+    background: #003;
+    border-top: 5px solid grey;
+    border-bottom: 5px solid grey;
+
+    -webkit-transition: left 400 ease;
+    transition: left 400ms ease;
+}
+
+#phase-info.out {
+    left:-300%;
+}
+
+#phase-info svg text {
+    text-anchor : middle;
+     /*font-family:Verdana;*/
+    font-size: 50px;
+    fill:grey;
+}
+
+
+div {
+    -webkit-transition: width 350 ease;
+    transition: width 350ms ease;
+}

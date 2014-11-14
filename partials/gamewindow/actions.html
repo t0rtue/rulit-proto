@@ -1,0 +1,55 @@
+<div>
+
+    <div class="clearfix" ng-mouseover="game.hover_window='tokens'">
+        <div ng-repeat="token in game.tokens.all"
+             ng-click="game.freeAction('put', token)"
+             class="clickable-item">
+                <div class="pull-left" >
+                    <!-- Trick here, th ng-class allows to highlight the selected elem if used as input in current action
+                        TODO put in a controller, generalize this behavior (action inputs and related elems)
+                     -->
+                    <svg
+                        ng-class="{selected : token.type==game.actions.current.token.type}"
+                        width="50" height="50"
+                        viewBox="-50 -50 100 100">
+                        <g >
+                            <ri-token
+                                class="ri-token"
+                                data='token'
+                                view="token.view">
+                            </ri-token>
+                        </g>
+                    </svg>
+                </div>
+
+        </div>
+    </div>
+
+    <!-- <h1>Actions</h1> -->
+    <ul class="list-group" ng-mouseover="game.hover_window='actions'">
+        <!-- <li ng-repeat="action in game.actions.all" -->
+        <li ng-repeat="action in game.turnPhases[game.currentPhaseIdx].actions"
+            ng-click="game.selectAction(action)"
+            class="list-group-item"
+            ng-class="{selected:action.selected}"
+            >
+            <span class="glyphicon glyphicon-{{{'put':'log-in', 'move':'share'}[action.type]}}"></span>
+            <span class="action" >{{action.name}}</span>
+            <!-- <span class="action" >{{action.desc}}</span> -->
+        </li>
+    </ul>
+
+    <h4>current action</h4>
+    {{game.actions.current.name}}
+
+<!--
+    <div
+        ng-repeat="action in game.actions.all | filter:game.isCurrentElemAction"
+        ng-click="game.selectAction(action)"
+        class="action"
+        ng-class="{selected:action.selected}"
+        >
+        <span class="glyphicon glyphicon-save"></span> {{action.name}}
+    </div> -->
+
+</div>

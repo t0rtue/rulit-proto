@@ -1,0 +1,76 @@
+<div>
+    <div>
+        <ul class="nav nav-pills" role="tablist">
+            <li class="active"><a href="#material" role="pill" data-toggle="pill">Material</a></li>
+            <li><a href="#goal" role="pill" data-toggle="pill">Goal</a></li>
+            <li><a href="#actions" role="pill" data-toggle="pill">Actions</a></li>
+            <li><a href="#turn" role="pill" data-toggle="pill">Turn</a></li>
+            <li><a href="#setup" role="pill" data-toggle="pill">Setup</a></li>
+            <li><a href="#theming" role="pill" data-toggle="pill">Theme</a></li>
+        </ul>
+    </div>
+
+    <!-- ===> {{game.hover_window}} -->
+
+    <!-- <div class="tab-content" style="overflow-y:auto"> -->
+    <div class="tab-content">
+
+        <div
+            id="material"
+            class="tab-pane fade in active"
+            ng-include="'partials/rulebook/material.html'">
+
+        </div>
+
+        <div class="tab-pane fade" id="goal">
+            <h3>Principes and game goal</h3>
+            <h3>End game conditions</h3>
+            <h3>Victory conditions</h3>
+        </div>
+
+        <div
+            id="actions"
+            class="tab-pane fade"
+            ng-include="'partials/rulebook/actions.html'">
+        </div>
+
+        <div
+            id="turn"
+            class="tab-pane fade"
+            ng-include="'partials/rulebook/turn.html'">
+        </div>
+
+        <div class="tab-pane fade" id="setup">
+            <h3>Player resources</h3>
+            <div ng-repeat="(prop, value) in game.player.properties">
+                <div >
+                    <svg
+                        width="30" height="30"
+                        viewBox="-50 -50 100 100">
+                        <g >
+                            <ri-token
+                                class="ri-token"
+                                data='{}'
+                                view="game.propertyView[prop]">
+                            </ri-token>
+                        </g>
+                    </svg>
+
+                    {{prop}}
+                    {{value}}
+
+                </div>
+            </div>
+            <h3>Board setup</h3>
+            <h3>Reserve</h3>
+        </div>
+
+        <div id="theming" class="tab-pane fade">
+            <h3>Colors</h3>
+            <label>Background</label>
+            <input type="text" ng-model="game.theme.background"></input>
+            <h3>Windows disposition</h3>
+        </div>
+
+    </div>
+</div>
