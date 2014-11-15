@@ -66,10 +66,19 @@
         </div>
 
         <div id="theming" class="tab-pane fade">
+            <h2>Game</h2>
             <h3>Colors</h3>
             <label>Background</label>
             <input type="text" ng-model="game.theme.background"></input>
             <h3>Windows disposition</h3>
+
+            <h2>Rulit</h2>
+            <h3>Theme</h3>
+            <select
+                ng-model="rulit.bootstrapTheme"
+                class="form-control"
+                ng-options="theme for theme in ['standard', 'paper', 'slate', 'cyborg', 'darkly', 'flatly', 'superhero']">
+            </select>
         </div>
 
     </div>
