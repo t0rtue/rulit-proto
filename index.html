@@ -9,14 +9,9 @@
 
     <script src="lib/jquery-2.1.1.min.js"></script>
     <script src="lib/bootstrap.min.js"></script>
-   <!-- To put in each partial html files (dynamicaly loaded) using tooltip
-    <script type="text/javascript">
-        $(function () {
-            $('[data-toggle=tooltip]').tooltip();
-        });
-    </script>
-    -->
+
     <script src="lib/angular.js"></script>
+    <script src="lib/angular-ui-router.min.js"></script>
     <script src="lib/ui-bootstrap-tpls-0.11.2.min.js"></script>
 
     <!-- // <script src="lib/jquery.tinycolorpicker.min.js"></script> -->
@@ -47,48 +42,16 @@
     </script>
 
 </head>
-<body>
+<body ng-controller="rulit.controller as rulit">
 
-<div class="container-fluid" ng-controller="rulit.controller as rulit">
-<!-- <div class="container" ng-controller="rulit.controller as rulit"> -->
+    <!-- Dynamically load bootstrap theme depending on user choice -->
+    <link
+        ng-if="rulit.bootstrapTheme != 'standard'"
+        ng-attr-href="http://maxcdn.bootstrapcdn.com/bootswatch/3.3.0/{{rulit.bootstrapTheme}}/bootstrap.min.css"
+        rel="stylesheet"
+    />
 
-        <!-- Dynamically load bootstrap theme depending on user choice -->
-        <link
-            ng-if="rulit.bootstrapTheme != 'standard'"
-            ng-attr-href="http://maxcdn.bootstrapcdn.com/bootswatch/3.3.0/{{rulit.bootstrapTheme}}/bootstrap.min.css"
-            rel="stylesheet"
-        />
-
-        <div class="row">
-            <div class="col-md-3">
-                <h1>RULIT</h1>
-            </div>
-            <div class="col-md-9" class="clearfix">
-                <div class="pull-right btn-group">
-                    <button  type="button" class="btn btn-default" ng-click="rulit.layout.mode=1">|_|__|</button>
-                    <button  type="button" class="btn btn-default" ng-click="rulit.layout.mode=2">|__|_|</button>
-                    <button  type="button" class="btn btn-default" ng-click="rulit.layout.mode=3">|____|</button>
-                </div>
-            </div>
-        </div>
-
-        <div ng-controller="ri.game.controller as game" class="row">
-
-            <div
-                id="game-view"
-                class="col-md-{{rulit.layout.mode*4}}"
-                ng-style="{'background':game.theme.background, 'fill':game.theme.background}"
-                ng-include="'partials/gamewindow/gamelayout.html'">
-            </div>
-
-            <div
-                id="rule-window"
-                class="col-md-{{12 - rulit.layout.mode*4}}"
-                ng-include="'partials/rulebook/rulebook.html'">
-            </div>
-
-        </div>
-    </div>
+    <section ui-view></section>
 
 </body>
 </html>

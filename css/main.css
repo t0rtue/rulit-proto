@@ -2,6 +2,14 @@
     background: #002;
 }*/
 
+.centered {
+    text-align: center;
+}
+
+.clickable:hover {
+    cursor: pointer;
+}
+
 .tile {
     /*fill:white;stroke:lightgrey;stroke-width:1;opacity:1;*/
 

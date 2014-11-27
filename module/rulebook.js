@@ -1,4 +1,30 @@
-angular.module('ri.module.rulebook', [])
+angular.module('ri.module.rulebook', ['ui.router'])
+
+.config(function($stateProvider, $urlRouterProvider) {
+
+
+    $urlRouterProvider.otherwise("/");
+
+    $stateProvider
+        .state('gameEdit.material', {
+            url : "#material",
+        })
+        .state('gameEdit.goal', {
+            url : "#goal",
+        })
+        .state('gameEdit.actions', {
+            url : "#actions",
+        })
+        .state('gameEdit.turn', {
+            url : "#turn",
+        })
+        .state('gameEdit.setup', {
+            url : "#setup",
+        })
+        .state('gameEdit.theming', {
+            url : "#theming",
+        })
+})
 
 .controller('TokenEditModalCtrl', function ($scope, $modal, $log) {
 

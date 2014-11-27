@@ -4,7 +4,7 @@
 
         <ul class="media-list list-group">
             <li class="list-group-item media" ng-repeat="token in game.tokens.all" ng-mouseover="tok">
-                <a class="pull-left" href="#" ng-click="openModal(token)">
+                <div class="pull-left clickable" ng-click="openModal(token)">
                     <div class="media-object">
                         <svg width="80" height="80" viewBox="-50 -50 100 100">
                             <g >
@@ -16,7 +16,7 @@
                             </g>
                         </svg>
                     </div>
-                </a>
+                </div>
                 <div class="media-body">
                     <h3 class='text-capitalize' ng-class='{editable:!token.edit}'>{{token.type}}
                         <button type="button" class="btn btn-default edit-button" ng-click="token.edit=!token.edit" >
