@@ -119,7 +119,13 @@
 }
 
 #message-box {
-    /*border: solid 1px lightgrey;*/
+    margin-bottom: 10px;
+
+}
+
+#message-box .game-window {
+    padding-left: 10px;
+    padding-top: 10px;
 }
 
 .tooltip-inner, .tooltip-arrow {
