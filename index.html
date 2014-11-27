@@ -50,9 +50,14 @@
 <body>
 
 <div class="container-fluid" ng-controller="rulit.controller as rulit">
+<!-- <div class="container" ng-controller="rulit.controller as rulit"> -->
 
         <!-- Dynamically load bootstrap theme depending on user choice -->
-        <link ng-attr-href="http://maxcdn.bootstrapcdn.com/bootswatch/3.3.0/{{rulit.bootstrapTheme}}/bootstrap.min.css" rel="stylesheet"/>
+        <link
+            ng-if="rulit.bootstrapTheme != 'standard'"
+            ng-attr-href="http://maxcdn.bootstrapcdn.com/bootswatch/3.3.0/{{rulit.bootstrapTheme}}/bootstrap.min.css"
+            rel="stylesheet"
+        />
 
         <div class="row">
             <div class="col-md-3">
