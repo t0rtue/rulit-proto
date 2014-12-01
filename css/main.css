@@ -10,6 +10,45 @@
     cursor: pointer;
 }
 
+.product-name {
+    font-family: "Raleway";
+}
+
+#title h1 {
+    font-size: 100px;
+}
+
+#title h2 {
+    margin-top: 0;
+}
+
+/*
+    Games list
+*/
+
+.game-item p {
+    margin: 0px 0px 0px;
+    font-size:20px;
+    /*color: #555;*/
+}
+
+.game-item .glyphicon {
+    font-size:25px;
+    /*color: #555;*/
+    padding: 0px 10px;
+    visibility: hidden;
+}
+
+.game-item .glyphicon:hover {
+    font-size:30px;
+    cursor : pointer;
+    /*color: #5A5;*/
+}
+
+.game-item:hover .glyphicon {
+    visibility: visible;
+}
+
 .tile {
     /*fill:white;stroke:lightgrey;stroke-width:1;opacity:1;*/
 

@@ -3,25 +3,25 @@ angular.module('ri.module.rulebook', ['ui.router'])
 .config(function($stateProvider, $urlRouterProvider) {
 
 
-    $urlRouterProvider.otherwise("/");
+    // $urlRouterProvider.otherwise("/");
 
     $stateProvider
-        .state('gameEdit.material', {
+        .state('game.edit.material', {
             url : "#material",
         })
-        .state('gameEdit.goal', {
+        .state('game.edit.goal', {
             url : "#goal",
         })
-        .state('gameEdit.actions', {
+        .state('game.edit.actions', {
             url : "#actions",
         })
-        .state('gameEdit.turn', {
+        .state('game.edit.turn', {
             url : "#turn",
         })
-        .state('gameEdit.setup', {
+        .state('game.edit.setup', {
             url : "#setup",
         })
-        .state('gameEdit.theming', {
+        .state('game.edit.theming', {
             url : "#theming",
         })
 })
