@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+
+<div id="bookcontent">
+
+  <link href="css/irulebook.css" rel="stylesheet"></link>
+
+  <script type="text/javascript">
+      $(document).ready(function(){/* activate sidebar */
+          $('#sidebar').affix({
+            offset: {
+              top: 235
+            }
+          });
+      })
+  </script>
+
+
+
+  <nav class="navbar navbar-default navbar-fixed-top" role="banner">
+    <div class="container">
+      <div class="navbar-header">
+        <button class="navbar-toggle" type="button" data-toggle="collapse" data-target=".navbar-collapse">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a ui-sref=".top" class="navbar-brand">{{rulebook.name}}</a>
+      </div>
+      <div class="collapse navbar-collapse" role="navigation">
+        <ul class="nav navbar-nav navbar-left">
+          <li>
+            <a ng-click="rulebook.save()" href=""><span  title="save the rules" class="glyphicon"  ng-class="rulebook.modified ? 'glyphicon-save' : 'glyphicon-saved'" ></span></a>
+          </li>
+          <li>
+            <a ui-sref="game.play({name:rulebook.name})"><span  title="play" class="glyphicon glyphicon-play"></span></a>
+          </li>
+        </ul>
+        <ul class="nav navbar-nav navbar-right">
+          <li>
+            <a href="#home">Rulit</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <div id="header">
+    <div class="container-fluid">
+        <div class="row">
+          <div class="col-md-12 centered">
+            <h1>{{rulebook.name}}
+              <p class="lead">Rulebook</p>
+            </h1>
+          </div>
+        </div>
+    </div><!--/container-->
+  </div><!--/masthead-->
+
+  <!--main-->
+  <div class="container">
+      <div class="row">
+        <!--left menu-->
+        <div class="col-md-2" id="leftCol" role="tablist">
+          <ul class="nav nav-stacked" id="sidebar">
+            <li ><a role="pill" data-toggle="pill" ui-sref=".intro">Introduction</a></li>
+            <li ><a role="pill" data-toggle="pill" ui-sref=".material">Material</a></li>
+            <li ><a role="pill" data-toggle="pill" ui-sref=".goal">Goal</a></li>
+            <li ><a role="pill" data-toggle="pill" ui-sref=".turn">Turn</a></li>
+            <li ><a role="pill" data-toggle="pill" ui-sref=".strategy">Strategy</a></li>
+          </ul>
+        </div><!--/left menu-->
+
+        <!--right-->
+        <div class="col-md-10">
+
+            <!-- INTRO -->
+            <span class="anchor" id="intro"></span>
+            <h1>Introduction</h1>
+            <div class="row">
+                <div class="col-md-10">
+                    <textarea class="form-control" ng-model="rulebook.game.introduction" auto-grow="true"></textarea>
+                </div>
+                <rb-info layout="col-md-2">
+                    Freely write introduction to the game. Background story, key principles and why it is an interesting game.
+                </rb-info>
+            </div>
+            <hr/>
+
+            <!-- MATERIAL -->
+            <span class="anchor" id="material"></span>
+            <h1>Material</h1>
+            <h3>Game area</h3>
+            <p>
+                <rb-grid type="rulebook.game.gridType" size="rulebook.game.gridSize"></rb-grid>
+            </p>
+            <h3>Tokens</h3>
+            <div class="row">
+                <div class="col-md-10">
+                  <p>The game is composed of several elements.</p>
+                  <rb-token-list tokens='rulebook.game.tokens' add='rulebook.addToken(type)'></rb-token-list>
+            </div>
+                <rb-info layout="col-md-2">
+                    List all elements manipulated during the game.
+                    <br/>
+                    You can then use these tokens in the rules.
+                </rb-info>
+            </div>
+            <hr/>
+
+            <!-- GOAL -->
+            <span class="anchor" id="goal"></span>
+            <h1>Goal</h1>
+            <div class="row">
+                <div class="col-md-10">
+                    The game has no goal.
+                </div>
+                <rb-info layout="col-md-2">
+                    Define end conditions and how a player can win or lose.
+                </rb-info>
+            </div>
+            <hr/>
+
+            <!-- TURN -->
+            <span class="anchor" id="turn"></span>
+            <h1>Turn</h1>
+            <div class="row">
+                <div class="col-md-10">
+                    <rb-turn phases="rulebook.game.turnPhases" tokens="rulebook.game.tokens.all"></rb-turn>
+                </div>
+                <rb-info layout="col-md-2">
+                    Organize player turn and define allowed actions for each phase.
+                </rb-info>
+            </div>
+
+          </div><!--/right-->
+        </div><!--/row-->
+  </div><!--/container-->
+
+</div>

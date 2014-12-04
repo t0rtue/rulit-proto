@@ -40,8 +40,10 @@ angular.module('ri.module.game', ['ri.module.tokens', 'ri.module.action', 'ri.mo
 
 .controller(
     'ri.game.controller',
-    ['$injector', '$timeout', 'ri.actions', 'ri.board.selector.neighbor' ,'match', 'ri.game',
-    function($injector, $timeout, actions, neighborSelector, match, game) {
+    ['$injector', '$timeout', '$stateParams', 'ri.actions', 'ri.board.selector.neighbor' ,'match', 'riGame',
+    function($injector, $timeout, $stateParams, actions, neighborSelector, match, game) {
+
+    this.name = $stateParams.name;
 
     this.theme = {
         background : '#002'
@@ -50,8 +52,8 @@ angular.module('ri.module.game', ['ri.module.tokens', 'ri.module.action', 'ri.mo
     // Dynamic dependency injection...
     // TODO better and configurable
     var grid;
-    this.gridType = 'hexa';
-    this.gridSize = 10;
+    this.gridType = game.gridType;
+    this.gridSize = game.gridSize;
     this.reloadGrid = function(type, size) {
         // if (grid) delete grid;
         grid = $injector.get('ri.grid.' + type);
@@ -84,10 +86,11 @@ angular.module('ri.module.game', ['ri.module.tokens', 'ri.module.action', 'ri.mo
     };
 
     this.turn = 1;
-    this.turnPhases = [
-        {name:'deployment', actions:[actions.all[0], actions.all[1], actions.all[2]]},
-        {name:'income', actions:[actions.all[3]]}
-    ];
+    // this.turnPhases = [
+    //     {name:'deployment', actions:[actions.all[0], actions.all[1], actions.all[2]]},
+    //     {name:'income', actions:[actions.all[3]]}
+    // ];
+    this.turnPhases = game.turnPhases;
     this.currentPhaseIdx = 0;
     this.pouet = 0;
 

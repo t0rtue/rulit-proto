@@ -2,6 +2,12 @@
     background: #002;
 }*/
 
+body {
+ padding-top:50px;
+ /*background-color: #F2F2F2;*/
+ color: #555;
+}
+
 .centered {
     text-align: center;
 }
@@ -45,7 +51,15 @@
     /*color: #5A5;*/
 }
 
-.game-item:hover .glyphicon {
+.game-item .close {
+    visibility: hidden;
+    position: absolute;
+    margin-top: -15px;
+    right: 0px;
+}
+
+.game-item:hover .glyphicon,
+.game-item:hover .close {
     visibility: visible;
 }
 

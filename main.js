@@ -1,4 +1,4 @@
-angular.module('rulit', ['ui.bootstrap', 'ui.router', 'ri.gameStore', 'ri.module.rulebook', 'ri.module.token', 'ri.module.board', 'ri.module.game'])
+angular.module('rulit', ['ui.bootstrap', 'ui.router', 'ri.gameStore', 'ri.module.rulebook', 'ri.module.irulebook', 'ri.module.token', 'ri.module.board', 'ri.module.game'])
 
 .value('gameListGistID', 'a4fad8d36b6acfb39835')
 
@@ -14,7 +14,10 @@ angular.module('rulit', ['ui.bootstrap', 'ui.router', 'ri.gameStore', 'ri.module
         })
         .state('sandbox', {
             url : "/sandbox",
-            templateUrl : 'partials/game.edit.html'
+            templateUrl : 'partials/game.edit.html',
+            resolve: {
+                riGame : function(gameStore, $stateParams) { return {} }
+            }
         })
         .state('game', {
             url : "/:name",
@@ -24,13 +27,17 @@ angular.module('rulit', ['ui.bootstrap', 'ui.router', 'ri.gameStore', 'ri.module
                 riGame : function(gameStore, $stateParams) { return gameStore.get($stateParams.name) }
             }
         })
-        .state('game.edit', {
+        .state('game.rb', {
             url : "/rulebook",
-            templateUrl : 'partials/rulebook/rulebook.html'
+            templateUrl  : 'partials/interactive-rulebook.html',
+            controller   : 'ri.interactiveRulebook.controller',
+            controllerAs : 'rulebook'
         })
         .state('game.play', {
             url : "/play",
-            templateUrl : 'partials/gamewindow/gamelayout.html'
+            templateUrl : 'partials/gamewindow/gamelayout.html',
+            controller  : 'ri.game.controller',
+            controllerAs: 'game'
         })
         .state('game.def', {
             url : "/def",
@@ -52,11 +59,18 @@ angular.module('rulit', ['ui.bootstrap', 'ui.router', 'ri.gameStore', 'ri.module
     gameStore.loadGamesList(gameListGistID);
 
     this.createGame = function(name) {
-        gameStore.save(name, {});
+        gameStore.save(name, {
+            introduction : "This game will be a fantastic game soon!",
+            gridType : 'square',
+            gridSize : 10,
+            tokens : {
+                all: []
+            },
+            turnPhases : []
+        });
     }
 
 }])
-
 
 .directive('riGamesList', [function() {
     return {
@@ -71,9 +85,9 @@ angular.module('rulit', ['ui.bootstrap', 'ui.router', 'ri.gameStore', 'ri.module
                    class="list-group-item game-item"> \
                     <p> \
                         {{game.name}} \
+                        <button type="button" class="pull-right close"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button> \
                         <span ui-sref="game.play({name:game.name})" title="play" class="pull-right glyphicon glyphicon-play" ></span> \
-                        <span ui-sref="game.edit({name:game.name})" title="edit rules" class="pull-right glyphicon glyphicon-cog" ></span> \
-                        <!-- <button type="button" class="close"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button> --> \
+                        <span ui-sref="game.rb({name:game.name})" title="edit rules" class="pull-right glyphicon glyphicon-cog" ></span> \
                     </p> \
                 </a> \
             </div>'

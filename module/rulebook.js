@@ -6,6 +6,12 @@ angular.module('ri.module.rulebook', ['ui.router'])
     // $urlRouterProvider.otherwise("/");
 
     $stateProvider
+        .state('game.edit.top', {
+            url : "#",
+        })
+        .state('game.edit.intro', {
+            url : "#intro",
+        })
         .state('game.edit.material', {
             url : "#material",
         })
