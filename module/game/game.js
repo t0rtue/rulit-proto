@@ -34,8 +34,8 @@ angular.module('ri.module.game', ['ri.module.action', 'ri.module.board'])
 
 .controller(
     'ri.game.controller',
-    ['$injector', '$timeout', '$stateParams', 'ri.actions', 'ri.board.selector.neighbor' ,'match', 'riGame',
-    function($injector, $timeout, $stateParams, actions, neighborSelector, match, game) {
+    ['$timeout', '$stateParams', 'ri.actions', 'ri.board.selector.neighbor' ,'match', 'riGame', 'riGrid',
+    function($timeout, $stateParams, actions, neighborSelector, match, game, grid) {
 
     this.name = $stateParams.name;
 
@@ -43,19 +43,7 @@ angular.module('ri.module.game', ['ri.module.action', 'ri.module.board'])
         background : '#002'
     };
 
-    // Dynamic dependency injection...
-    // TODO better and configurable
-    var grid;
-    this.gridType = game.gridType;
-    this.gridSize = game.gridSize;
-    this.reloadGrid = function(type, size) {
-        // if (grid) delete grid;
-        grid = $injector.get('ri.grid.' + type);
-        grid.init(size);
-        this.board = grid.maps;
-    };
-
-    this.reloadGrid(this.gridType, this.gridSize);
+    this.board = grid.maps;
 
     this.tokens = game.tokens;
 

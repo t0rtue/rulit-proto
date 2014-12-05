@@ -16,7 +16,7 @@ angular.module('rulit', ['ui.bootstrap', 'ui.router', 'ri.gameStore', 'ri.module
             url : "/sandbox",
             templateUrl : 'partials/game.edit.html',
             resolve: {
-                riGame : function(gameStore, $stateParams) { return {} }
+                riGame : function($stateParams, gameStore) { return {} }
             }
         })
         .state('game', {
@@ -24,7 +24,7 @@ angular.module('rulit', ['ui.bootstrap', 'ui.router', 'ri.gameStore', 'ri.module
             abstract: true,
             template: '<ui-view/>',
             resolve: {
-                riGame : function(gameStore, $stateParams) { return gameStore.get($stateParams.name) }
+                riGame : function($stateParams, gameStore) { return gameStore.get($stateParams.name) }
             }
         })
         .state('game.rb', {
@@ -37,7 +37,14 @@ angular.module('rulit', ['ui.bootstrap', 'ui.router', 'ri.gameStore', 'ri.module
             url : "/play",
             templateUrl : 'partials/gamewindow/gamelayout.html',
             controller  : 'ri.game.controller',
-            controllerAs: 'game'
+            controllerAs: 'game',
+            resolve: {
+                riGrid : function($injector, riGame) {
+                    var grid = $injector.get('ri.grid.' + riGame.gridType);
+                    grid.init(riGame.gridSize);
+                    return grid;
+                }
+            }
         })
         .state('game.def', {
             url : "/def",
