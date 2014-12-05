@@ -13,11 +13,19 @@ angular.module('ri.gameStore', ['ngResource'])
     var gistStore = $resource('https://api.github.com/gists/:id');
     var localGames = [];
 
+    function _gameID(name) {
+        return "rulitGames-" + name;
+    }
+
     var store = {
 
         games : [],
         // game  : {},
 
+        /*
+            Load games list into store.games from public (gist) and local storage
+            Games list do not contains all games data but only game metadata (name, source)
+        */
         loadGamesList : function(gamesGistID) {
             // Public from gist
             var gamesGist = gistStore.get({ id: gamesGistID }, function() {
@@ -34,6 +42,10 @@ angular.module('ri.gameStore', ['ngResource'])
             });
         },
 
+        /*
+            Get a specific game by name
+            Return a promise
+        */
         get : function(name) {
 
             var deferred = $q.defer();
@@ -50,7 +62,7 @@ angular.module('ri.gameStore', ['ngResource'])
                         deferred.resolve(game);
                     });
                 } else {
-                    game = angular.fromJson(localStorage["rulitGames-"+gameInfo.name]);
+                    game = angular.fromJson(localStorage[_gameID(gameInfo.name)]);
                     deferred.resolve(game);
                 }
             } else { // New game
@@ -60,14 +72,18 @@ angular.module('ri.gameStore', ['ngResource'])
             return deferred.promise;
         },
 
+        /*
+            Save a game on localStorage
+            If not existing game then store it and update games list and stored games index
+        */
         save : function(name, game) {
-            var gameID = "rulitGames-"+name;
+            var gameID = _gameID(name);
 
             if (localStorage[gameID]) { // existing game
                 localStorage[gameID] = angular.toJson(game);
             } else { // new game
                 // Store the new game
-                localStorage["rulitGames-"+name] = angular.toJson(game);
+                localStorage[gameID] = angular.toJson(game);
 
                 // Update and store local games list
                 localGames.push({name:name});
@@ -75,6 +91,28 @@ angular.module('ri.gameStore', ['ngResource'])
 
                 // Update available games list
                 store.games.push({name:name, source:'local'});
+            }
+        },
+
+        /*
+            Remove a game by name
+            Update game list and stored games index
+        */
+        remove : function(name) {
+            var gameID = _gameID(name);
+
+            if (localStorage[gameID]) { // existing game
+                // Remove from storage
+                localStorage.removeItem(gameID);
+
+                // Update and store local games list
+                var idx = localGames.map(function(e) {return e.name}).indexOf(name);
+                localGames.splice(idx, 1);
+                localStorage.rulitGames = angular.toJson(localGames);
+
+                // Update available games list
+                idx = store.games.map(function(e) {return e.name}).indexOf(name);
+                store.games.splice(idx, 1);
             }
         }
 
