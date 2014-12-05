@@ -1,16 +1,18 @@
-rulit-proto
-===========
+rulit-proto (v0.2.0)
+==================
 
 Rulit proof of concept.
 
-Help me to better explain what i'm trying to do and figure out what i need to achieve my goal.
+This prototype help me to better explain what i'm trying to do and figure out what i need to achieve my goal.
 
 Quick and Dirty
 ---------------
 
-- no code documentation
+I know, it's bad...
+
+- few code documentation
 - no test
-- no real conception
+- evolutionary conception
 - partially organized
 
 Presentation page [here](http://t0rtue.github.io/rulit-project)
