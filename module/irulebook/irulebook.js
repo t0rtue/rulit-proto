@@ -24,8 +24,14 @@ angular.module('ri.module.irulebook', ['ui.router'])
         .state('game.rb.setup', {
             url : "#setup",
         })
-        .state('game.rb.theming', {
-            url : "#theming",
+        .state('game.rb.strategy', {
+            url : "#strategy",
+        })
+        .state('game.rb.example', {
+            url : "#example",
+        })
+        .state('game.rb.theme', {
+            url : "#theme",
         })
 })
 
@@ -122,9 +128,11 @@ angular.module('ri.module.irulebook', ['ui.router'])
         },
         transclude : true,
         template : ' \
-            <div class="{{layout}} alert alert-info" role="alert"> \
-                <span  title="info" class="glyphicon glyphicon-info-sign"></span> \
-                <span ng-transclude></span> \
+            <div class={{layout}}> \
+                <div class="alert alert-info" role="alert"> \
+                    <span  title="info" class="glyphicon glyphicon-info-sign"></span> \
+                    <span ng-transclude></span> \
+                </div> \
             </div>'
     }
 })

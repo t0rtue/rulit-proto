@@ -18,6 +18,7 @@ body {
 }
 
 
+
 .affix-top,.affix{
     position: static;
 }
@@ -26,27 +27,41 @@ body {
     #sidebar.affix-top {
         position: static;
         margin-top:30px;
-        /*width:228px;*/
-        width:150px;
+        width:228px;
     }
 
     #sidebar.affix {
         position: fixed;
         top:70px;
-        /*width:228px;*/
-        width:150px;
+        width:228px;
     }
 }
 
-#sidebar li.active {
+/*#sidebar li.active {
     border:0 #eee solid;
     border-right-width:5px;
+}*/
+
+
+#rulebookWrap {
+    background: #4D4D4D;
+}
+
+#rightCol {
+    background: white;
+    padding-left: 50px;
+}
+
+#bookcontent h1,
+#bookcontent h2,
+#bookcontent h3 {
+    font-weight : 700;
 }
 
 span.anchor {
     display: block;
     position: relative;
-    top: -50px;
+    top: -60px;
     visibility: hidden;
 }
 

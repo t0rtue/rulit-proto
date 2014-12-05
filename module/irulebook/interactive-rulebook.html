@@ -17,7 +17,7 @@
 
 
   <nav class="navbar navbar-default navbar-fixed-top" role="banner">
-    <div class="container">
+    <div class="container-fluid">
       <div class="navbar-header">
         <button class="navbar-toggle" type="button" data-toggle="collapse" data-target=".navbar-collapse">
           <span class="sr-only">Toggle navigation</span>
@@ -58,23 +58,26 @@
   </div><!--/masthead-->
 
   <!--main-->
-  <div class="container">
-      <div class="row">
+  <div class="container-fluid">
+      <div class="row" id="rulebookWrap">
         <!--left menu-->
-        <div class="col-md-2" id="leftCol" role="tablist">
-          <ul class="nav nav-stacked" id="sidebar">
-            <li ><a role="pill" data-toggle="pill" ui-sref=".intro">Introduction</a></li>
-            <li ><a role="pill" data-toggle="pill" ui-sref=".material">Material</a></li>
-            <li ><a role="pill" data-toggle="pill" ui-sref=".goal">Goal</a></li>
-            <li ><a role="pill" data-toggle="pill" ui-sref=".turn">Turn</a></li>
-            <li ><a role="pill" data-toggle="pill" ui-sref=".setup">Setup</a></li>
-            <li ><a role="pill" data-toggle="pill" ui-sref=".strategy">Strategy</a></li>
-            <li ><a role="pill" data-toggle="pill" ui-sref=".theme">Theme</a></li>
-          </ul>
+        <div class="col-md-2" id="leftCol">
+            <ul class="nav nav-pills nav-stacked" id="sidebar" role="navigation">
+              <li ><a role="pill" data-toggle="pill" ui-sref=".intro">Introduction</a></li>
+              <li ><a role="pill" data-toggle="pill" ui-sref=".material">Material</a></li>
+              <li ><a role="pill" data-toggle="pill" ui-sref=".goal">Goal</a></li>
+              <li ><a role="pill" data-toggle="pill" ui-sref=".turn">Turn</a></li>
+              <li ><a role="pill" data-toggle="pill" ui-sref=".setup">Setup</a></li>
+              <li><hr/></li>
+              <li ><a role="pill" data-toggle="pill" ui-sref=".strategy">Strategy</a></li>
+              <li ><a role="pill" data-toggle="pill" ui-sref=".example">Example</a></li>
+              <li><hr/></li>
+              <li ><a role="pill" data-toggle="pill" ui-sref=".theme">Theme</a></li>
+            </ul>
         </div><!--/left menu-->
 
         <!--right-->
-        <div class="col-md-10">
+        <div class="col-md-10" id="rightCol">
 
             <!-- INTRO -->
             <span class="anchor" id="intro"></span>
@@ -136,11 +139,11 @@
             </div>
 
             <!-- SETUP -->
-<!--             <span class="anchor" id="setup"></span>
+            <span class="anchor" id="setup"></span>
             <h1>Setup</h1>
             <div class="row">
                 <div class="col-md-10">
-                    <h3>Player resources</h3>
+                    <!-- <h3>Player resources</h3>
                     <div ng-repeat="(prop, value) in game.player.properties">
                         <div >
                             <svg
@@ -161,29 +164,51 @@
                         </div>
                     </div>
                     <h3>Board setup</h3>
-                    <h3>Reserve</h3>
+                    <h3>Reserve</h3> -->
                 </div>
                 <rb-info layout="col-md-2">
                     Initial configuration.
                 </rb-info>
-            </div> -->
+            </div>
+
+            <!-- STRATEGY -->
+            <span class="anchor" id="strategy"></span>
+            <h1>Strategy</h1>
+            <div class="row">
+                <div class="col-md-10">
+                </div>
+                <rb-info layout="col-md-2">
+                    Tips and advices.
+                </rb-info>
+            </div>
+
+            <!-- EXAMPLE -->
+            <span class="anchor" id="example"></span>
+            <h1>Example</h1>
+            <div class="row">
+                <div class="col-md-10">
+                </div>
+                <rb-info layout="col-md-2">
+                    Commented example scenario and situations.
+                </rb-info>
+            </div>
 
             <!-- THEME -->
-<!--             <span class="anchor" id="theme"></span>
+            <span class="anchor" id="theme"></span>
             <h1>Theme</h1>
             <div class="row">
                 <div class="col-md-10">
-                    <h2>Game</h2>
+<!--                     <h2>Game</h2>
                     <h3>Colors</h3>
                     <label>Background</label>
                     <input type="text" ng-model="game.theme.background"></input>
-                    <h3>Windows disposition</h3>
+                    <h3>Windows disposition</h3> -->
                 </div>
                 <rb-info layout="col-md-2">
                     Choose game style and visual appearance.
                 </rb-info>
             </div>
- -->
+
           </div><!--/right-->
         </div><!--/row-->
   </div><!--/container-->
