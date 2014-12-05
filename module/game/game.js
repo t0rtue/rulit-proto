@@ -1,10 +1,4 @@
-angular.module('ri.module.game', ['ri.module.tokens', 'ri.module.action', 'ri.module.board'])
-
-.service('ri.game',[ 'ri.tokens', function(tokens) {
-    return {
-        tokens : tokens
-    };
-}])
+angular.module('ri.module.game', ['ri.module.action', 'ri.module.board'])
 
 .value('match', function match(entity, attrCond) {
     if (!entity || !attrCond) return false;
