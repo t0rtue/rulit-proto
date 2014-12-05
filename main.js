@@ -1,4 +1,4 @@
-angular.module('rulit', ['ui.bootstrap', 'ui.router', 'ri.gameStore', 'ri.module.rulebook', 'ri.module.irulebook', 'ri.module.token', 'ri.module.board', 'ri.module.game'])
+angular.module('rulit', ['ui.bootstrap', 'ui.router', 'ri.gameStore', 'ri.module.irulebook', 'ri.module.token', 'ri.module.board', 'ri.module.game'])
 
 .value('gameListGistID', 'a4fad8d36b6acfb39835')
 
