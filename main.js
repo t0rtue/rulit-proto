@@ -73,7 +73,10 @@ angular.module('rulit', ['ui.bootstrap', 'ui.router', 'ri.gameStore', 'ri.module
             tokens : {
                 all: []
             },
-            turnPhases : []
+            turnPhases : [],
+            theme : {
+                background : '#002'
+            }
         });
     }
 

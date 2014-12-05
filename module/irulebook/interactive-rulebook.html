@@ -198,11 +198,30 @@
             <h1>Theme</h1>
             <div class="row">
                 <div class="col-md-10">
-<!--                     <h2>Game</h2>
                     <h3>Colors</h3>
-                    <label>Background</label>
-                    <input type="text" ng-model="game.theme.background"></input>
-                    <h3>Windows disposition</h3> -->
+
+                    <div class="row">
+                      <div class="col-md-4">
+                        <table class="table">
+                            <tr>
+                                <td><label>Background</label></td>
+                                <td><div colorpicker=""
+                                      colorpicker-position="right"
+                                      ng-style="{'background':rulebook.game.theme.background}"
+                                      ng-model="rulebook.game.theme.background" >
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><label>Text color</label></td>
+                                <td>
+                                </td>
+                            </tr>
+                        </table>
+                      </div>
+                    </div>
+
+                    <h3>Windows disposition</h3>
                 </div>
                 <rb-info layout="col-md-2">
                     Choose game style and visual appearance.

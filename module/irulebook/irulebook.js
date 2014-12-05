@@ -1,4 +1,4 @@
-angular.module('ri.module.irulebook', ['ui.router'])
+angular.module('ri.module.irulebook', ['ui.router', 'colorpicker.module'])
 
 .config(function($stateProvider, $urlRouterProvider) {
 

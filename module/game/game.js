@@ -39,9 +39,7 @@ angular.module('ri.module.game', ['ri.module.action', 'ri.module.board'])
 
     this.name = $stateParams.name;
 
-    this.theme = {
-        background : '#002'
-    };
+    this.theme = game.theme;
 
     this.board = grid.maps;
 
