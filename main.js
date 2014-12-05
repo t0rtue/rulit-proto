@@ -29,7 +29,7 @@ angular.module('rulit', ['ui.bootstrap', 'ui.router', 'ri.gameStore', 'ri.module
         })
         .state('game.rb', {
             url : "/rulebook",
-            templateUrl  : 'partials/interactive-rulebook.html',
+            templateUrl  : 'module/irulebook/interactive-rulebook.html',
             controller   : 'ri.interactiveRulebook.controller',
             controllerAs : 'rulebook'
         })

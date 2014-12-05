@@ -152,7 +152,7 @@ angular.module('ri.module.irulebook', ['ui.router'])
             'tokens' : '=',
             'add' : '&'
         },
-        templateUrl : 'partials/irulebook/tokenList.html'
+        templateUrl : 'module/irulebook/partials/tokenList.html'
     }
 }])
 
@@ -163,7 +163,7 @@ angular.module('ri.module.irulebook', ['ui.router'])
             'phases' : '=',
             'tokens' : '='
         },
-        templateUrl : 'partials/irulebook/turn.html'
+        templateUrl : 'module/irulebook/partials/turn.html'
     }
 }])
 
