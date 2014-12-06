@@ -1,11 +1,12 @@
 angular.module('ri.module.game', ['ri.module.action', 'ri.module.board'])
 
 .value('match', function match(entity, attrCond) {
-    if (!entity || !attrCond) return false;
+    if (!entity) return false;
+    if (!attrCond) return true;
     var match = attrCond.type && (attrCond.type == entity.type);
-    for (c in attrCond.properties) {
-        match = match && (entity.properties[c] == attrCond.properties[c]);
-    }
+    // for (c in attrCond.properties) {
+    //     match = match && (entity.properties[c] == attrCond.properties[c]);
+    // }
     return match;
 })
 
@@ -106,10 +107,18 @@ angular.module('ri.module.game', ['ri.module.action', 'ri.module.board'])
         this.selectedElem.selected = true;
     }
 
+    function getPropertyValue(elem, propname) {
+        var prop = $.grep(
+                        elem.properties,
+                        function(e) {return propname == e.name}
+                        )[0];
+        return prop ? prop.value : undefined;
+    }
+
     function selection(elem, type, selector) {
         var dist = parseInt(selector.dist)
                    ? selector.dist
-                   : elem.token.properties[selector.dist];
+                   : getPropertyValue(elem.token, selector.dist);
 
         var elems = neighborSelector.getDistNeighbors(
                             grid,

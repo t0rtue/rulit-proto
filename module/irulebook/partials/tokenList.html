@@ -16,7 +16,7 @@
             </div>
             <div class="media-body">
                 <h3 class='text-capitalize'>
-                    <input ng-model="token.type" type="text" class="form-control input-lg" placeholder="token type"></input>
+                    <input ng-model="token.type" type="text" class="form-control" placeholder="token type"></input>
                 </h3>
                 <ul class="list-group" >
                     <li ng-repeat="prop in token.properties"
@@ -24,10 +24,10 @@
                         >
                         <div class="row">
                             <div class="col-xs-6">
-                                <input ng-model="prop.name" type="text" class="form-control input-sm" placeholder="property"></input>
+                                <input ng-model="prop.name" type="text" class="form-control input-sm" placeholder="property name"></input>
                             </div>
                             <div class="col-xs-6">
-                                <input ng-model="prop.value" class="form-control input-sm" type="text" placeholder="value"></input>
+                                <input ng-model="prop.value" class="form-control input-sm" type="text" placeholder="default value"></input>
                             </div>
                          </div>
                     </li>
