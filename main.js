@@ -95,20 +95,7 @@ angular.module('rulit', ['ui.bootstrap', 'ui.router', 'ri.gameStore', 'ri.module
             'remove' : '&',
             'canRemove' : '@'
         },
-        template : ' \
-            <div class="list-group"> \
-                <a ng-repeat="game in games | filter:{source:source}" \
-                   class="list-group-item game-item"> \
-                    <p> \
-                        {{game.name}}\
-                        <button ng-if="canRemove" type="button" class="pull-right close" ng-click="remove({name:game.name})"> \
-                            <span aria-hidden="true">&times;</span><span class="sr-only">Close</span> \
-                        </button> \
-                        <span ui-sref="game.play({name:game.name})" title="play" class="pull-right glyphicon glyphicon-play" ></span> \
-                        <span ui-sref="game.rb({name:game.name})" title="edit rules" class="pull-right glyphicon glyphicon-cog" ></span> \
-                    </p> \
-                </a> \
-            </div>'
+        templateUrl : 'partials/game.list.html'
     }
 }])
 

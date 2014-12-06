@@ -19,8 +19,8 @@ angular.module('ri.gameStore', ['ngResource'])
 
     var store = {
 
+        // List of games metadata. Populated by loadGamesList()
         games : [],
-        // game  : {},
 
         /*
             Load games list into store.games from public (gist) and local storage
@@ -30,15 +30,15 @@ angular.module('ri.gameStore', ['ngResource'])
             // Public from gist
             var gamesGist = gistStore.get({ id: gamesGistID }, function() {
                 var publicGames = angular.fromJson( gamesGist.files['games.json'].content );
-                angular.forEach(publicGames, function(v,k) {
-                    store.games.push({name:k, source:'public', id:v});
+                angular.forEach(publicGames, function(meta, name) {
+                    store.games.push({name:name, source:'public', id:meta.gist_id, meta:meta});
                 });
             });
 
             // Locals
             localGames = localStorage.rulitGames ? angular.fromJson(localStorage.rulitGames) : [];
-            angular.forEach(localGames, function(g) {
-                store.games.push({name:g.name, source:'local', id:1});
+            angular.forEach(localGames, function(meta) {
+                store.games.push({name:meta.name, source:'local', id:meta.name, meta:meta });
             });
         },
 
@@ -62,7 +62,7 @@ angular.module('ri.gameStore', ['ngResource'])
                         deferred.resolve(game);
                     });
                 } else {
-                    game = angular.fromJson(localStorage[_gameID(gameInfo.name)]);
+                    game = angular.fromJson(localStorage[_gameID(gameInfo.id)]);
                     deferred.resolve(game);
                 }
             } else { // New game
@@ -86,11 +86,15 @@ angular.module('ri.gameStore', ['ngResource'])
                 localStorage[gameID] = angular.toJson(game);
 
                 // Update and store local games list
-                localGames.push({name:name});
+                var meta = {
+                    name : name,
+                };
+                localGames.push(meta);
                 localStorage.rulitGames = angular.toJson(localGames);
 
                 // Update available games list
-                store.games.push({name:name, source:'local'});
+                meta['source'] = 'local';
+                store.games.push(meta);
             }
         },
 

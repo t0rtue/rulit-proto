@@ -25,7 +25,7 @@
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
         </button>
-        <a ui-sref=".top" class="navbar-brand">{{rulebook.name}}</a>
+        <a ui-sref=".top" class="navbar-brand"><b>{{rulebook.name}}</b></a>
       </div>
       <div class="collapse navbar-collapse" role="navigation">
         <ul class="nav navbar-nav navbar-left">
@@ -85,6 +85,14 @@
             <div class="row">
                 <div class="col-md-10">
                     <textarea class="form-control" ng-model="rulebook.game.introduction" auto-grow="true"></textarea>
+                    <hr/>
+                    <div class="form-inline">
+                        <h3><span class="glyphicon glyphicon-user" title="players"></span> 1 player</h3>
+                        <h3><span class="glyphicon glyphicon-time" title="time"></span>
+                          <!-- <input type="number" ng-model="rulebook.game.time" class="form-control"></input> min-->
+                          &#8734;
+                        </h3>
+                    </div>
                 </div>
                 <rb-info layout="col-md-2">
                     Freely write introduction to the game. Background story, key principles and why it is an interesting game.
@@ -102,7 +110,14 @@
             <h3>Tokens</h3>
             <div class="row">
                 <div class="col-md-10">
-                  <p>The game is composed of several elements.</p>
+                  The game is composed of
+                  <ng-pluralize
+                      count="rulebook.game.tokens.all.length"
+                      when="{'0': '0 element.',
+                             'one': '1 type of token.',
+                             'other': '{} different types of token.'}">
+                  </ng-pluralize>
+
                   <rb-token-list tokens='rulebook.game.tokens' add='rulebook.addToken(type)'></rb-token-list>
             </div>
                 <rb-info layout="col-md-2">
@@ -143,6 +158,7 @@
             <h1>Setup</h1>
             <div class="row">
                 <div class="col-md-10">
+                    Initially, the board is empty.
                     <!-- <h3>Player resources</h3>
                     <div ng-repeat="(prop, value) in game.player.properties">
                         <div >
@@ -167,7 +183,7 @@
                     <h3>Reserve</h3> -->
                 </div>
                 <rb-info layout="col-md-2">
-                    Initial configuration.
+                    Describe initial configuration.
                 </rb-info>
             </div>
 
@@ -221,11 +237,17 @@
                       </div>
                     </div>
 
-                    <h3>Windows disposition</h3>
+                    <!-- <h3>Windows disposition</h3> -->
                 </div>
                 <rb-info layout="col-md-2">
                     Choose game style and visual appearance.
                 </rb-info>
+            </div>
+
+            <div class="row">
+              <div class="col-md-10 ">
+                <h1>Have fun!</h1>
+              </div>
             </div>
 
           </div><!--/right-->

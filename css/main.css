@@ -38,14 +38,17 @@ body {
     /*color: #555;*/
 }
 
-.game-item .glyphicon {
+.game-item .game-name{
+}
+
+.game-item .nav-icon {
     font-size:25px;
     /*color: #555;*/
     padding: 0px 10px;
     visibility: hidden;
 }
 
-.game-item .glyphicon:hover {
+.game-item .nav-icon:hover {
     font-size:30px;
     cursor : pointer;
     /*color: #5A5;*/
@@ -58,7 +61,7 @@ body {
     right: 0px;
 }
 
-.game-item:hover .glyphicon,
+.game-item:hover .nav-icon,
 .game-item:hover .close {
     visibility: visible;
 }
