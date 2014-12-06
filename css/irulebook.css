@@ -81,3 +81,8 @@ div[colorpicker] {
     border-radius: 50%;
     border: 2px solid lightgrey;
 }
+
+
+rb-turn .list-group-item {
+    border: none;
+}

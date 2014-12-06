@@ -2,17 +2,22 @@
     Each of player turns consists of {{phases.length}} phases, in this order:
     <div class="row">
         <div class="col-md-4">
-            <ol>
-                <li ng-repeat="phase in phases" class='text-capitalize'>
-                    <input
-                        ng-model="phase.name"
-                        type="text"
-                        class="form-control"
-                        placeholder="phase name">
-                    </input>
-                </li>
-            </ol>
-            <span class="control-add" ng-click="phases.push({'actions':[]})">Add a phase...</span>
+            <p>
+                <ol class="list-group">
+                    <li ng-repeat="phase in phases" class='text-capitalize list-group-item'>
+                        <div class="input-group">
+                            <div class="input-group-addon"><b>{{$index+1}}</b></div>
+                            <input
+                                ng-model="phase.name"
+                                type="text"
+                                class="form-control input-lg"
+                                placeholder="phase name">
+                            </input>
+                        </div>
+                    </li>
+                </ol>
+                <span class="control-add" ng-click="phases.push({'actions':[]})">Add a phase...</span>
+            </p>
         </div>
     </div>
 
@@ -22,40 +27,30 @@
             Phase {{$index + 1}}: {{phase.name}}
         </h3>
 
-        <div ng-if="phase.edit">
-            <span class='form-inline'>
-                Player
-                <select ng-model="phase.type" class="form-control" ng-options="type for type in ['can', 'must']"></select>
-                do following actions :
-            </span>
-            <ul class="" >
-                <li ng-repeat="action in phase.actions"
-                    class="action"
-                    >
-                    {{action.name}}
-                </li>
-                <li class="">
-                    <select ng-model="model.action" class="form-control" id="actionType" ng-options="action.name for action in game.actions.all"></select>
-                    <button ng-click="phase.actions.push(model.action)">+</button>
-                </li>
-            </ul>
-        </div>
-
-        <div ng-if="!phase.edit">
+        <div>
             Player <mark>can</mark> do <mark>all</mark> of the following actions <mark>as many times he wants</mark> :
-            <p>
-                <ul>
-                    <li ng-repeat="action in phase.actions">
-                        <input
-                            ng-model="action.name"
-                            type="text"
-                            class="form-control"
-                            placeholder="action name">
-                        </input>
-                    </li>
-                </ul>
-                <span class="control-add" ng-click="phase.actions.push({})">Add an action...</span>
-            </p>
+            <div class="row">
+                <div class="col-md-4">
+                    <p>
+                        <ul class="list-group">
+                            <li ng-repeat="action in phase.actions" class="list-group-item">
+                                <div class="input-group">
+                                    <div class="input-group-addon">
+                                        <span class="glyphicon glyphicon-arrow-right"></span>
+                                    </div>
+                                    <input
+                                        ng-model="action.name"
+                                        type="text"
+                                        class="form-control"
+                                        placeholder="action name">
+                                    </input>
+                                </div>
+                            </li>
+                        </ul>
+                        <span class="control-add" ng-click="phase.actions.push({})">Add an action...</span>
+                    </p>
+                </div>
+            </div>
         </div>
 
         <!-- <h4>Actions details</h4> -->
