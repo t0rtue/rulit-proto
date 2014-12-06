@@ -38,7 +38,7 @@ angular.module('ri.gameStore', ['ngResource'])
             // Locals
             localGames = localStorage.rulitGames ? angular.fromJson(localStorage.rulitGames) : [];
             angular.forEach(localGames, function(meta) {
-                store.games.push({name:meta.name, source:'local', id:meta.name, meta:meta });
+                store.games.push({name:meta.name, source:'local', id:1, meta:meta });
             });
         },
 
@@ -62,7 +62,7 @@ angular.module('ri.gameStore', ['ngResource'])
                         deferred.resolve(game);
                     });
                 } else {
-                    game = angular.fromJson(localStorage[_gameID(gameInfo.id)]);
+                    game = angular.fromJson(localStorage[_gameID(gameInfo.name)]);
                     deferred.resolve(game);
                 }
             } else { // New game
