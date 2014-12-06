@@ -1,7 +1,9 @@
-<div>
-    <select ng-model="token.type" ng-options="type for type in types"></select>
+<div class="form-group form-inline">
+    <select ng-model="token.type" ng-options="type for type in types" class="form-control" placeholder="token"></select>
+
+<!--
     <h3>With properties</h3>
-    <!-- Name is <input type="text" ng-model="action.token.name"/> and property -->
+
     <ul>
         <li ng-repeat="(prop,value) in token.properties">
             {{prop}} is equal to <input type="text" ng-model="token.properties[prop]" />
@@ -13,4 +15,7 @@
             <button class="form-control" ng-click="token.properties[action.newprop.name] = action.newprop.value">+</button>
         </li>
     </ul>
+-->
+
+    <!-- <span class="control-add" ng-click="">Add a condition...</span> -->
 </div>
