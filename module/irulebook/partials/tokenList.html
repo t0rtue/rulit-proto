@@ -1,6 +1,9 @@
 <div>
     <div class="row" ng-controller="TokenEditModalCtrl">
-        <div class="col-md-6" ng-repeat="token in tokens.all">
+        <div class="col-md-6 show-on-hover" ng-repeat="token in tokens.all">
+
+            <ri-remove-button ng-click="tokens.all.splice($index,1)"></ri-remove-button>
+
             <div class="pull-left clickable" ng-click="openModal(token)">
                 <div class="media-object">
                     <svg width="80" height="80" viewBox="-50 -50 100 100">
@@ -14,6 +17,7 @@
                     </svg>
                 </div>
             </div>
+
             <div class="media-body">
                 <h3 class='text-capitalize'>
                     <input ng-model="token.type" type="text" class="form-control" placeholder="token type"></input>
@@ -34,8 +38,8 @@
                 </ul>
                 <span class="control-add" ng-click="token.properties.push({})">Add a property...</span>
             </div>
-        </div>
 
+        </div> <!-- /token div -->
     </div>
 
     <br/>

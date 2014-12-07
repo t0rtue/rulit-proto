@@ -1,11 +1,21 @@
 <div>
-    Each of player turns consists of {{phases.length}} phases, in this order:
+    <ng-pluralize
+      count="phases.length"
+      when="{'0'    : 'Player has nothing to do during his turn.',
+             'one'  : 'Each player turn consists of one main phases.',
+             'other': 'Each player turn consists of {} phases, in this order:'}">
+    </ng-pluralize>
+
     <div class="row">
         <div class="col-md-4">
             <p>
                 <ol class="list-group">
-                    <li ng-repeat="phase in phases" class='text-capitalize list-group-item'>
+                    <li ng-repeat="phase in phases" class='text-capitalize list-group-item show-on-hover'>
+
+                        <ri-remove-button ng-click="phases.splice($index,1)"></ri-remove-button>
+
                         <div class="input-group">
+
                             <div class="input-group-addon"><b>{{$index+1}}</b></div>
                             <input
                                 ng-model="phase.name"
@@ -24,7 +34,7 @@
     <div ng-repeat="phase in phases">
 
         <h3 class='text-capitalize form-inline'>
-            Phase {{$index + 1}}: {{phase.name}}
+            Phase <span ng-if="phases.length > 1">{{$index + 1}}</span>: {{phase.name}}
         </h3>
 
         <div>
@@ -33,7 +43,8 @@
                 <div class="col-md-4">
                     <p>
                         <ul class="list-group">
-                            <li ng-repeat="action in phase.actions" class="list-group-item">
+                            <li ng-repeat="action in phase.actions" class="list-group-item show-on-hover">
+                                <ri-remove-button ng-click="phase.actions.splice($index,1)"></ri-remove-button>
                                 <div class="input-group">
                                     <div class="input-group-addon">
                                         <span class="glyphicon glyphicon-arrow-right"></span>
@@ -57,7 +68,7 @@
         <div ng-repeat="action in phase.actions">
             <div class="panel panel-default">
                 <div class="panel-heading clearfix">
-                    <span class="panel-title">{{action.name}}</span><b class="pull-right">Action</b>
+                    <span class="panel-title text-capitalize">{{action.name}}</span><b class="pull-right">Action</b>
                 </div>
                 <div class="panel-body">
                     <ri-action-edit action="action" tokens="tokens"></ri-action-edit>
@@ -67,7 +78,8 @@
 
     </div>
 
-
+<!--
     <h4>End phase conditions</h4>
     <rb-todo type="feature">Automatically end the phase when some defined condition are met</rb-todo>
+ -->
 </div>

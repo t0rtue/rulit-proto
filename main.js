@@ -99,4 +99,15 @@ angular.module('rulit', ['ui.bootstrap', 'ui.router', 'ri.gameStore', 'ri.module
     }
 }])
 
+.directive('riRemoveButton', [function() {
+    return {
+        restrict : 'E',
+        scope : {},
+        template : '\
+            <button  type="button" class="pull-right close"> \
+                <span aria-hidden="true">&#215;</span> \
+                <span class="sr-only">Close</span> \
+            </button>'
+    }
+}])
 ;

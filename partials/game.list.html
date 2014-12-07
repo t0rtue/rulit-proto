@@ -1,12 +1,11 @@
 <div class="list-group">
     <a ng-repeat="game in games | filter:{source:source}"
-       class="list-group-item game-item">
+       class="list-group-item game-item show-on-hover">
         <p>
             <span class="game-name">{{game.name}}</span>
-            <button ng-if="canRemove" type="button" class="pull-right close" ng-click="remove({name:game.name})">
-                <span aria-hidden="true">&#215;</span>
-                <span class="sr-only">Close</span>
-            </button>
+
+            <ri-remove-button ng-if="canRemove" ng-click="remove({name:game.name})"></ri-remove-button>
+
             <span ui-sref="game.play({name:game.name})" title="play" class="pull-right glyphicon glyphicon-play nav-icon" ></span>
             <span ui-sref="game.rb({name:game.name})" title="edit rules" class="pull-right glyphicon glyphicon-cog nav-icon" ></span>
         </p>

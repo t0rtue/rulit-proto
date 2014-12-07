@@ -29,6 +29,18 @@ body {
 }
 
 /*
+    Generic
+*/
+
+.show-on-hover .close {
+    visibility: hidden;
+}
+
+.show-on-hover:hover .close {
+    visibility: visible;
+}
+
+/*
     Games list
 */
 
@@ -55,14 +67,12 @@ body {
 }
 
 .game-item .close {
-    visibility: hidden;
     position: absolute;
     margin-top: -15px;
     right: 0px;
 }
 
-.game-item:hover .nav-icon,
-.game-item:hover .close {
+.game-item:hover .nav-icon {
     visibility: visible;
 }
 
