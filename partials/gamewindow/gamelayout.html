@@ -1,12 +1,33 @@
+<div>
 
-<div class="container-fluid">
+<nav class="navbar navbar-default navbar-fixed-top" role="banner">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button class="navbar-toggle" type="button" data-toggle="collapse" data-target=".navbar-collapse">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a ui-sref=".top" class="navbar-brand"><b>{{game.name}}</b></a>
+    </div>
+    <div class="collapse navbar-collapse" role="navigation">
+      <ul class="nav navbar-nav navbar-left">
+        <li>
+          <a ui-sref="game.rb({name:game.name})"><span  title="rulebook" class="glyphicon glyphicon-cog"></span></a>
+        </li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+          <a href="#home">Rulit</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
 
-    <script type="text/javascript">
-        $(function () {
-            $('[data-toggle=tooltip]').tooltip();
-        });
-    </script>
-
+<div class="container" id="game-view"
+     ng-style="{'background':game.theme.background, 'fill':game.theme.background}">
 
     <div class="row">
         <div class="col-md-2" ng-if="rulit.layout.mode != 1">
@@ -87,6 +108,8 @@
                 <ng-include src="'partials/gamewindow/actions.html'"/>
             </div>
         </div>
+
+
     </div>
 
 <!--     <div class="row" ng-if="rulit.layout.mode != 1">
@@ -97,11 +120,16 @@
         </div>
     </div> -->
 
-    <div class="row" ng-if="rulit.layout.mode != 1">
-        <div class="col-md-12" id="message-box">
-            <div class="game-window">
-                <p class="text-info">{{game.message}}</p>
+    <div class="container navbar-fixed-bottom">
+        <div class="row" ng-if="rulit.layout.mode != 1">
+            <div class="col-md-12" id="message-box">
+                <div class="game-window">
+                    <p class="text-info">{{game.message || "information"}}</p>
+                </div>
             </div>
         </div>
     </div>
+
+</div>
+
 </div>

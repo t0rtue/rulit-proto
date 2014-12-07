@@ -67,9 +67,8 @@ angular.module('ri.module.action', [])
         },
         templateUrl : 'module/action/action.edit.html',
         link: function (scope, element) {
-
             scope.$watch('tokens', function(tok) {
-                scope.tokenTypes = scope.tokens.map(function(e){return e.type});
+                scope.tokenTypes = tok.map(function(e){return e.type});
               }, true);
         }
     };

@@ -2,6 +2,80 @@
     background: #002;
 }*/
 
+body {
+ padding-top:50px;
+ /*background-color: #F2F2F2;*/
+ color: #555;
+}
+
+.centered {
+    text-align: center;
+}
+
+.clickable:hover {
+    cursor: pointer;
+}
+
+.product-name {
+    font-family: "Raleway";
+}
+
+#title h1 {
+    font-size: 100px;
+}
+
+#title h2 {
+    margin-top: 0;
+}
+
+/*
+    Generic
+*/
+
+.show-on-hover .close {
+    visibility: hidden;
+}
+
+.show-on-hover:hover .close {
+    visibility: visible;
+}
+
+/*
+    Games list
+*/
+
+.game-item p {
+    margin: 0px 0px 0px;
+    font-size:20px;
+    /*color: #555;*/
+}
+
+.game-item .game-name{
+}
+
+.game-item .nav-icon {
+    font-size:25px;
+    /*color: #555;*/
+    padding: 0px 10px;
+    visibility: hidden;
+}
+
+.game-item .nav-icon:hover {
+    font-size:30px;
+    cursor : pointer;
+    /*color: #5A5;*/
+}
+
+.game-item .close {
+    position: absolute;
+    margin-top: -15px;
+    right: 0px;
+}
+
+.game-item:hover .nav-icon {
+    visibility: visible;
+}
+
 .tile {
     /*fill:white;stroke:lightgrey;stroke-width:1;opacity:1;*/
 
@@ -119,7 +193,13 @@
 }
 
 #message-box {
-    /*border: solid 1px lightgrey;*/
+    margin-bottom: 10px;
+
+}
+
+#message-box .game-window {
+    padding-left: 10px;
+    padding-top: 10px;
 }
 
 .tooltip-inner, .tooltip-arrow {

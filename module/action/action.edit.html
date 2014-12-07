@@ -1,124 +1,44 @@
 <div >
     <form role="form">
-    <!-- <div ng-init="actions = game.actions.current"> -->
-        <h1 class='text-capitalize'>
-            {{action.name}}
-            <button type="button" class="btn btn-default edit-button" ng-click="action.edit=!action.edit" >
-                <span class="glyphicon glyphicon-{{action.edit ? 'ok' : 'pencil'}}"></span>
-            </button>
-        </h1>
 
-        <div ng-if="action.edit">
-            <h4><input class="form-control" type="text" ng-model="action.name" placeholder="action name"/></h4>
-            <!-- <label>Type</label><select ng-model="action.type" ng-options="type for type in "></select> -->
-            <div class="form-group form-inline">
-                <label for="actionType">Type</label>
-                <select ng-model="action.type" class="form-control" id="actionType" ng-options="type for type in ['put', 'get', 'move', 'interact', 'link']"></select>
-            </div>
-
+        <div class="col-md-3 form-group form-inline">
+            Player <select ng-model="action.type" class="form-control" id="actionType" ng-options="type for type in ['put', 'get', 'move', 'interact', 'link']"></select>
         </div>
 
-        <div ng-switch="action.type">
+        <div ng-switch="action.type" class="col-md-9">
 
-            <div ng-switch-when="move">
-                Move 1 {{action.token.type}} on the board.
-                <hr/>
-                <h2>Token</h2>
-
+            <!-- MOVE -->
+            <div ng-switch-when="move" class="form-group form-inline">
+                1
                 <ri-input-token token='action.token' types='tokenTypes'></ri-input-token>
-
-                <h2>On</h2>
-
+                on a neighbor
                 <ri-input-neighbors selector="action.dest"></ri-input-neighbors>
-
-                <h4>conditions</h4>
-                <rb-todo type="feature">neighbor condition</rb-todo>
-                <h3>with properties</h3>
-                <rb-todo type="feature">dest condition</rb-todo>
             </div>
 
-            <!--  -->
-
-            <div ng-switch-when="interact">
-                Interaction between a {{action.token.type}} and a neighbor {{action.target.type}}.
-                <hr/>
-                <h2>Token</h2>
-
+            <!--  CHOOSE -->
+            <div ng-switch-when="interact" class="form-group form-inline">
+                1
                 <ri-input-token token='action.token' types='tokenTypes'></ri-input-token>
-
-                <h2>Target</h2>
-
+                and 1 neighbor
                 <ri-input-token token='action.target' types='tokenTypes'></ri-input-token>
-
-                <h3>On</h3>
-
+                on a
                 <ri-input-neighbors selector="action.target.area"></ri-input-neighbors>
-
-                <h4>conditions</h4>
-                <rb-todo type="feature">neighbor condition</rb-todo>
-                <h3>with properties</h3>
-                <rb-todo type="feature">dest condition</rb-todo>
             </div>
 
-            <!--  -->
-
-
-            <div ng-switch-when="put">
-                Player take a {{action.token.type}} from the reserve and put it on a {{action.dest.type}} in the main board.
-
-                <h2>Token</h2>
-                    <select ng-model="action.token" ng-options="token.type for token in tokens"></select>
-                    <!-- {{action.token | json}} -->
-                    <ul>
-                        <li ng-repeat="(prop,value) in action.token.properties">
-                            {{prop}} : <input type="text" ng-model="action.token.properties[prop]" />
-                            <button ng-click="delete(action.token.properties[prop])">-</button>
-                        </li>
-                    </ul>
-                    <!-- with additional properties
-                    <div class="form-group">
-                        <label for="actionPropName">Name</label>
-                        <input type="text" ng-model="action.newprop.name" class="form-control" id="actionPropName"/>
-                    </div>
-                    <div class="form-group">
-                        <label for="actionPropValue">Value</label>
-                        <input type="number" ng-model="action.newprop.value" class="form-control" id="actionPropValue"/>
-                    </div>
-                    <button ng-click="action.token.properties[action.newprop.name] = action.newprop.value">+</button>
-                <rb-todo type="technique">copy extra properties in the created elem when do the put action</rb-todo> -->
-                <h2>On</h2>
-                <select ng-model="action.dest.type" ng-options="type for type in ['tile','corner','border']"></select>
+            <!-- PUT -->
+            <div ng-switch-when="put" class="form-group form-inline">
+                1
+                <select ng-model="action.token" ng-options="token.type for token in tokens" class="form-control"></select>
+                on a
+                <select ng-model="action.dest.type" ng-options="type for type in ['tile','corner','border']" class="form-control"></select>
             </div>
 
-
-            <div ng-switch-when="get">
-                Player get {{action.quantity}} {{action.property.name}} counters.
-
-                <div class="form-group">
-                    <label for="actionQuantity">Quantity</label>
-                    <input type="number" ng-model="action.quantity" class="form-control" id="actionQuantity"/>
-                </div>
-                <div class="form-group">
-                    <label for="actionResource">Of</label>
-                    <input type="text" ng-model="action.property.name" class="form-control" id="actionResource" placeholder="property, resource, point, token"/>
-                </div>
-
-                <rb-todo type="feature">quantity en fonction property, properties of specific elems, meme principe que distance pour l'action move</rb-todo>
+            <!-- GET -->
+            <div ng-switch-when="get" class="form-group form-inline">
+                <input type="number" ng-model="action.quantity" class="form-control" placeholder="a quantity of"/>
+                <input type="text" ng-model="action.property.name" class="form-control" placeholder="property, resource, point, token"/>
             </div>
         </div>
     </form>
-
-    <hr/>
-
-    <div>
-        <h2>Cost</h2>
-
-        <rb-todo type="conception">Cost? property of the action, or managed as a triggered action, or external to the action (e.g depending on the phase) </rb-todo>
-    </div>
-
-    <div>
-        <h1>Triggered actions</h1>
-        TODO ex: move a counter, loose one action point, token loose one movement point
-    </div>
 
 </div>

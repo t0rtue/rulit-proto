@@ -21,8 +21,8 @@
               <!--   <li ng-repeat="(prop,value) in token.properties"
                     class="action list-group-item"
                     > -->
-                <li ng-repeat="(prop,value) in token.properties">
-                    {{prop}}<span class="pull-right">{{value}}</span>
+                <li ng-repeat="prop in token.properties">
+                    {{prop.name}}<span class="pull-right">{{prop.value}}</span>
                 </li>
 
             </ul>

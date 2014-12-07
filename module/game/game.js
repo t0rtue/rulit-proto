@@ -1,17 +1,12 @@
-angular.module('ri.module.game', ['ri.module.tokens', 'ri.module.action', 'ri.module.board'])
-
-.service('ri.game',[ 'ri.tokens', function(tokens) {
-    return {
-        tokens : tokens
-    };
-}])
+angular.module('ri.module.game', ['ri.module.action', 'ri.module.board'])
 
 .value('match', function match(entity, attrCond) {
-    if (!entity || !attrCond) return false;
+    if (!entity) return false;
+    if (!attrCond) return true;
     var match = attrCond.type && (attrCond.type == entity.type);
-    for (c in attrCond.properties) {
-        match = match && (entity.properties[c] == attrCond.properties[c]);
-    }
+    // for (c in attrCond.properties) {
+    //     match = match && (entity.properties[c] == attrCond.properties[c]);
+    // }
     return match;
 })
 
@@ -40,26 +35,14 @@ angular.module('ri.module.game', ['ri.module.tokens', 'ri.module.action', 'ri.mo
 
 .controller(
     'ri.game.controller',
-    ['$injector', '$timeout', 'ri.actions', 'ri.board.selector.neighbor' ,'match', 'ri.game',
-    function($injector, $timeout, actions, neighborSelector, match, game) {
+    ['$timeout', '$stateParams', 'ri.actions', 'ri.board.selector.neighbor' ,'match', 'riGame', 'riGrid',
+    function($timeout, $stateParams, actions, neighborSelector, match, game, grid) {
 
-    this.theme = {
-        background : '#002'
-    };
+    this.name = $stateParams.name;
 
-    // Dynamic dependency injection...
-    // TODO better and configurable
-    var grid;
-    this.gridType = 'hexa';
-    this.gridSize = 10;
-    this.reloadGrid = function(type, size) {
-        // if (grid) delete grid;
-        grid = $injector.get('ri.grid.' + type);
-        grid.init(size);
-        this.board = grid.maps;
-    };
+    this.theme = game.theme;
 
-    this.reloadGrid(this.gridType, this.gridSize);
+    this.board = grid.maps;
 
     this.tokens = game.tokens;
 
@@ -84,10 +67,11 @@ angular.module('ri.module.game', ['ri.module.tokens', 'ri.module.action', 'ri.mo
     };
 
     this.turn = 1;
-    this.turnPhases = [
-        {name:'deployment', actions:[actions.all[0], actions.all[1], actions.all[2]]},
-        {name:'income', actions:[actions.all[3]]}
-    ];
+    // this.turnPhases = [
+    //     {name:'deployment', actions:[actions.all[0], actions.all[1], actions.all[2]]},
+    //     {name:'income', actions:[actions.all[3]]}
+    // ];
+    this.turnPhases = game.turnPhases;
     this.currentPhaseIdx = 0;
     this.pouet = 0;
 
@@ -123,10 +107,18 @@ angular.module('ri.module.game', ['ri.module.tokens', 'ri.module.action', 'ri.mo
         this.selectedElem.selected = true;
     }
 
+    function getPropertyValue(elem, propname) {
+        var prop = $.grep(
+                        elem.properties,
+                        function(e) {return propname == e.name}
+                        )[0];
+        return prop ? prop.value : undefined;
+    }
+
     function selection(elem, type, selector) {
         var dist = parseInt(selector.dist)
                    ? selector.dist
-                   : elem.token.properties[selector.dist];
+                   : getPropertyValue(elem.token, selector.dist);
 
         var elems = neighborSelector.getDistNeighbors(
                             grid,

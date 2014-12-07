@@ -1,0 +1,85 @@
+<div>
+    <ng-pluralize
+      count="phases.length"
+      when="{'0'    : 'Player has nothing to do during his turn.',
+             'one'  : 'Each player turn consists of a single phase.',
+             'other': 'Each player turn consists of {} phases, in this order:'}">
+    </ng-pluralize>
+
+    <div class="row">
+        <div class="col-md-4">
+            <p>
+                <ol class="list-group">
+                    <li ng-repeat="phase in phases" class='text-capitalize list-group-item show-on-hover'>
+
+                        <ri-remove-button ng-click="phases.splice($index,1)"></ri-remove-button>
+
+                        <div class="input-group">
+
+                            <div class="input-group-addon"><b>{{$index+1}}</b></div>
+                            <input
+                                ng-model="phase.name"
+                                type="text"
+                                class="form-control input-lg"
+                                placeholder="phase name">
+                            </input>
+                        </div>
+                    </li>
+                </ol>
+                <span class="control-add" ng-click="phases.push({'actions':[]})">Add a phase...</span>
+            </p>
+        </div>
+    </div>
+
+    <div ng-repeat="phase in phases">
+
+        <h3 class='text-capitalize form-inline'>
+            Phase <span ng-if="phases.length > 1">{{$index + 1}}</span>: {{phase.name}}
+        </h3>
+
+        <div>
+            Player <mark>can</mark> do <mark>all</mark> of the following actions <mark>as many times he wants</mark> :
+            <div class="row">
+                <div class="col-md-4">
+                    <p>
+                        <ul class="list-group">
+                            <li ng-repeat="action in phase.actions" class="list-group-item show-on-hover">
+                                <ri-remove-button ng-click="phase.actions.splice($index,1)"></ri-remove-button>
+                                <div class="input-group">
+                                    <div class="input-group-addon">
+                                        <span class="glyphicon glyphicon-arrow-right"></span>
+                                    </div>
+                                    <input
+                                        ng-model="action.name"
+                                        type="text"
+                                        class="form-control"
+                                        placeholder="action name">
+                                    </input>
+                                </div>
+                            </li>
+                        </ul>
+                        <span class="control-add" ng-click="phase.actions.push({})">Add an action...</span>
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- <h4>Actions details</h4> -->
+        <div ng-repeat="action in phase.actions">
+            <div class="panel panel-default">
+                <div class="panel-heading clearfix">
+                    <span class="panel-title text-capitalize">{{action.name}}</span><b class="pull-right">Action</b>
+                </div>
+                <div class="panel-body">
+                    <ri-action-edit action="action" tokens="tokens"></ri-action-edit>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+<!--
+    <h4>End phase conditions</h4>
+    <rb-todo type="feature">Automatically end the phase when some defined condition are met</rb-todo>
+ -->
+</div>

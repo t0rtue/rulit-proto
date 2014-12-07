@@ -1,0 +1,88 @@
+
+body {
+    padding-top:50px;
+    /*background-color: #F2F2F2;*/
+    color: #555;
+}
+
+#header {
+    min-height:250px;
+    background: #34495E;
+    color: white;
+}
+
+#header h1 {
+    font-size: 80px;
+    line-height: 1;
+    padding-top:20px;
+}
+
+
+
+.affix-top,.affix{
+    position: static;
+}
+
+@media (min-width: 979px) {
+    #sidebar.affix-top {
+        position: static;
+        margin-top:30px;
+        width:228px;
+    }
+
+    #sidebar.affix {
+        position: fixed;
+        top:70px;
+        width:228px;
+    }
+}
+
+/*#sidebar li.active {
+    border:0 #eee solid;
+    border-right-width:5px;
+}*/
+
+
+#rulebookWrap {
+    background: #4D4D4D;
+}
+
+#rightCol {
+    background: white;
+    padding-left: 50px;
+}
+
+#bookcontent h1,
+#bookcontent h2,
+#bookcontent h3 {
+    font-weight : 700;
+}
+
+span.anchor {
+    display: block;
+    position: relative;
+    top: -60px;
+    visibility: hidden;
+}
+
+.control-add {
+    color: #999;
+}
+
+.control-add:hover {
+    cursor: pointer;
+    color : #555;
+    text-decoration: underline;
+}
+
+div[colorpicker] {
+    height: 30px;
+    width: 30px;
+    border-radius: 50%;
+    border: 2px solid lightgrey;
+}
+
+
+rb-turn .list-group-item {
+    border: none;
+}
