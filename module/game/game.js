@@ -28,8 +28,7 @@ angular.module('ri.module.game', ['ri.module.action', 'ri.module.board'])
         scope : {
             'token' : '='
         },
-        //templateUrl : 'piece-view.html'
-        templateUrl : 'partials/gamewindow/token.html'
+        templateUrl : 'module/game/partials/token.html'
     };
 })
 

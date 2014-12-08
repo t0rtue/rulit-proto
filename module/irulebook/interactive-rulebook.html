@@ -262,7 +262,8 @@
                         <table class="table">
                             <tr>
                                 <td><label>Background</label></td>
-                                <td><div colorpicker=""
+                                <td>
+                                    <div colorpicker=""
                                       colorpicker-position="right"
                                       ng-style="{'background':rulebook.game.theme.background}"
                                       ng-model="rulebook.game.theme.background" >
@@ -272,6 +273,11 @@
                             <tr>
                                 <td><label>Text color</label></td>
                                 <td>
+                                    <div colorpicker=""
+                                      colorpicker-position="right"
+                                      ng-style="{'background':rulebook.game.theme.color}"
+                                      ng-model="rulebook.game.theme.color" >
+                                    </div>
                                 </td>
                             </tr>
                         </table>

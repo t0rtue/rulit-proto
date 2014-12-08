@@ -27,12 +27,12 @@
 </nav>
 
 <div class="container" id="game-view"
-     ng-style="{'background':game.theme.background, 'fill':game.theme.background}">
+     ng-style="{'background':game.theme.background, 'fill':game.theme.background, 'color':game.theme.color}">
 
     <div class="row">
         <div class="col-md-2" ng-if="rulit.layout.mode != 1">
             <div class="row">
-                <ng-include src="'partials/gamewindow/player.html'"/>
+                <ng-include src="'module/game/partials/player.html'"/>
             </div>
             <div class="row game-window">
                 <div ng-if="game.selectedElem.token">
@@ -98,14 +98,14 @@
                     <!-- <span class="glyphicon glyphicon-play-circle"></span> -->
                 </div>
                 <div class="col-md-8">
-                    <div  ng-include="'partials/gamewindow/turn.html'"/>
+                    <div  ng-include="'module/game/partials/turn.html'"/>
                 </div>
 
             </div>
 
             <hr/>
             <div class="row">
-                <ng-include src="'partials/gamewindow/actions.html'"/>
+                <ng-include src="'module/game/partials/actions.html'"/>
             </div>
         </div>
 

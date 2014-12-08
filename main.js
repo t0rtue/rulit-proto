@@ -35,7 +35,7 @@ angular.module('rulit', ['ui.bootstrap', 'ui.router', 'ri.gameStore', 'ri.module
         })
         .state('game.play', {
             url : "/play",
-            templateUrl : 'partials/gamewindow/gamelayout.html',
+            templateUrl : 'module/game/partials/gamelayout.html',
             controller  : 'ri.game.controller',
             controllerAs: 'game',
             resolve: {
