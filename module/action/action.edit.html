@@ -2,42 +2,21 @@
     <form role="form">
 
         <div class="col-md-3 form-group form-inline">
-            Player <select ng-model="action.type" class="form-control" id="actionType" ng-options="type for type in ['put', 'get', 'move', 'interact', 'link']"></select>
+            Player
+            <select
+                ng-model="action.type"
+                ng-options="type for type in ['put', 'get', 'move', 'interact', 'link']"
+                class="form-control"
+                id="actionType">
+            </select>
         </div>
 
-        <div ng-switch="action.type" class="col-md-9">
+        <div class="col-md-9">
 
-            <!-- MOVE -->
-            <div ng-switch-when="move" class="form-group form-inline">
-                1
-                <ri-input-token token='action.token' types='tokenTypes'></ri-input-token>
-                on a neighbor
-                <ri-input-neighbors selector="action.dest"></ri-input-neighbors>
+            <div class="form-group form-inline">
+                <ng-include src="'module/action/action.'+action.type+'.html'" />
             </div>
 
-            <!--  CHOOSE -->
-            <div ng-switch-when="interact" class="form-group form-inline">
-                1
-                <ri-input-token token='action.token' types='tokenTypes'></ri-input-token>
-                and 1 neighbor
-                <ri-input-token token='action.target' types='tokenTypes'></ri-input-token>
-                on a
-                <ri-input-neighbors selector="action.target.area"></ri-input-neighbors>
-            </div>
-
-            <!-- PUT -->
-            <div ng-switch-when="put" class="form-group form-inline">
-                1
-                <ri-input-token token='action.token' types='tokenTypes'></ri-input-token>
-                on a
-                <select ng-model="action.dest.type" ng-options="type for type in ['tile','corner','border']" class="form-control"></select>
-            </div>
-
-            <!-- GET -->
-            <div ng-switch-when="get" class="form-group form-inline">
-                <input type="number" ng-model="action.quantity" class="form-control" placeholder="a quantity of"/>
-                <input type="text" ng-model="action.property.name" class="form-control" placeholder="property, resource, point, token"/>
-            </div>
         </div>
     </form>
 

@@ -6,36 +6,7 @@ angular.module('ri.module.action', [])
         list of allowed dest. e.g tile and corner
     */
     var actions = {
-        all : [
-            {
-                name  : 'put a pawn on a tile',
-                type  : 'put',
-                dest  : {type:'tile'},
-                token : {type:'pawn'}
-            },
-            {
-                name : 'put a wall on a border',
-                type:'put',
-                token : {type : 'wall'},
-                dest : {type:'border'}
-            },
-            {
-                name : 'move a pawn',
-                type:'move',
-                token : {type : 'pawn'},
-                dest : {type:'tile', dist:2}
-            },
-            {
-                name : 'get 10 gold',
-                type:'get',
-                property : {name : 'gold'}, quantity : 10
-            },
-            {
-                name : 'link 2 token',
-                type:'link'
-            }
-        ],
-        free : {type:'free', dest : {type:'tile'}}
+        // free : {type:'free', dest : {type:'tile'}}
     };
 
     actions.select = function(action) {

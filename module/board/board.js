@@ -413,7 +413,6 @@ angular.module('ri.module.board', [])
             'onClickElem' : '&',
             'onOverElem' : '&'
         },
-        //templateUrl : 'piece-view.html'
         templateUrl : 'module/board/board.html'
     };
 })
