@@ -121,3 +121,9 @@ textarea.form-control:hover,
 textarea.form-control:focus {
     padding-left: 10px;
 }
+
+input[type="range"],
+input[type="range"]:hover,
+input[type="range"]:focus {
+    box-shadow: 0px 0px 0px #BBB inset;
+}

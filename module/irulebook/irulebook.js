@@ -144,12 +144,7 @@ angular.module('ri.module.irulebook', ['ui.router', 'colorpicker.module'])
             'type' : '=',
             'size' : '='
         },
-        template : ' \
-          <div class="form-inline"> \
-              The game is played on a grid of type \
-              <select ng-model="type" class="form-control" ng-options="type for type in [\'square\', \'hexa\']"></select> \
-              with a size of <input ng-model="size" class="form-control" type="number"></input> \
-          </div>'
+        templateUrl : 'module/irulebook/partials/grid.html'
     }
 }])
 

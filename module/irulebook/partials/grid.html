@@ -1,0 +1,6 @@
+<div class="form-inline">
+  The game is played on a grid of type
+  <select ng-model="type" class="form-control" ng-options="type for type in ['square', 'hexa']"></select>
+  with dimensions of <span style="width:40px; display:inline-block">{{size}}x{{size}}</span>
+  <input ng-model="size" class="form-control" type="range" step="1" min="0" max="20"></input>
+</div>
