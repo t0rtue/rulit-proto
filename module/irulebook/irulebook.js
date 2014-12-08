@@ -30,6 +30,9 @@ angular.module('ri.module.irulebook', ['ui.router', 'colorpicker.module'])
         .state('game.rb.example', {
             url : "#example",
         })
+        .state('game.rb.qref', {
+            url : "#qref",
+        })
         .state('game.rb.theme', {
             url : "#theme",
         })
@@ -167,6 +170,19 @@ angular.module('ri.module.irulebook', ['ui.router', 'colorpicker.module'])
             'tokens' : '='
         },
         templateUrl : 'module/irulebook/partials/turn.html'
+    }
+}])
+
+.directive('rbGameWindow', [function() {
+    return {
+        restrict : 'E',
+        scope : {
+            theme : '=',
+            height : '@',
+            label : '@'
+        },
+        replace : true,
+        templateUrl : 'module/irulebook/partials/gameWindow.html'
     }
 }])
 

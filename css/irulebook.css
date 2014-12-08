@@ -133,3 +133,18 @@ input[type="range"]:hover,
 input[type="range"]:focus {
     box-shadow: 0px 0px 0px #BBB inset;
 }
+
+/* Game window*/
+
+.rb-game-window {
+    margin:0px;
+}
+
+.rb-game-window .cell {
+    height:100%;
+    padding:1px;
+}
+
+.master-col {
+    padding:0px;
+}

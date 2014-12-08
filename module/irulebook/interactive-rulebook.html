@@ -69,7 +69,9 @@
               <li><hr/></li>
               <li ><a role="pill" data-toggle="pill" ui-sref=".strategy">Strategy</a></li>
               <li ><a role="pill" data-toggle="pill" ui-sref=".example">Example</a></li>
+              <li ><a role="pill" data-toggle="pill" ui-sref=".qref">Quick reference</a></li>
               <li><hr/></li>
+              <li ><a role="pill" data-toggle="pill" ui-sref=".theme">Game window</a></li>
               <li ><a role="pill" data-toggle="pill" ui-sref=".theme">Theme</a></li>
             </ul>
         </div><!--/left menu-->
@@ -207,15 +209,56 @@
                 </rb-info>
             </div>
 
-            <!-- THEME -->
-            <span class="anchor" id="theme"></span>
-            <h1>Theme</h1>
+            <!-- QUICK REFERENCE -->
+            <span class="anchor" id="qref"></span>
+            <h1>Quick reference</h1>
             <div class="row">
                 <div class="col-md-10">
-                    <h3>Colors</h3>
+
+                </div>
+            </div>
+
+            <!-- THEME -->
+            <span class="anchor" id="theme"></span>
+            <h1>Game window</h1>
+            <div class="row">
+                <div class="col-md-10">
 
                     <div class="row">
-                      <div class="col-md-4">
+
+                      <!-- GAME WINDOW -->
+                      <div class="col-md-5">
+                        <h3>Windows disposition</h3>
+                        <div id="rb-game-view">
+                          <div class="row" style="height:200px">
+                            <div class="col-md-2 master-col" style="height:100%">
+                              <rb-game-window  label="Player" theme="rulebook.game.theme" height="40%">
+                              </rb-game-window>
+
+                            </div>
+                            <div class="col-md-8  master-col" style="height:100%">
+                              <rb-game-window label="Navigation" theme="rulebook.game.theme" height="10%">
+                              </rb-game-window>
+
+                              <rb-game-window  label="Board" theme="rulebook.game.theme" height="90%">
+                              </rb-game-window>
+
+                            </div>
+                            <div class="col-md-2  master-col" style="height:100%">
+                              <rb-game-window label="Turn" theme="rulebook.game.theme" height="20%">
+                              </rb-game-window>
+                              <rb-game-window label="Tokens" theme="rulebook.game.theme" height="20%">
+                              </rb-game-window>
+                              <rb-game-window label="Actions" theme="rulebook.game.theme" height="60%">
+                              </rb-game-window>
+                            </div>
+                          </div>
+                        </div> /<!-- </rb-game-view> -->
+                      </div>  <!-- GAME WINDOW -->
+
+                      <!-- THEME -->
+                      <div class="col-md-4 col-md-offset-2">
+                        <h3>Colors</h3>
                         <table class="table">
                             <tr>
                                 <td><label>Background</label></td>
@@ -232,10 +275,9 @@
                                 </td>
                             </tr>
                         </table>
-                      </div>
-                    </div>
+                      </div> <!-- /THEME -->
 
-                    <!-- <h3>Windows disposition</h3> -->
+                    </div>
                 </div>
                 <rb-info layout="col-md-2">
                     Choose game style and visual appearance.
