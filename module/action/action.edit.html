@@ -28,7 +28,7 @@
             <!-- PUT -->
             <div ng-switch-when="put" class="form-group form-inline">
                 1
-                <select ng-model="action.token" ng-options="token.type for token in tokens" class="form-control"></select>
+                <ri-input-token token='action.token' types='tokenTypes'></ri-input-token>
                 on a
                 <select ng-model="action.dest.type" ng-options="type for type in ['tile','corner','border']" class="form-control"></select>
             </div>
