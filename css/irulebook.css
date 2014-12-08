@@ -86,6 +86,12 @@ rb-turn .list-group-item {
     border: none;
 }
 
+.rb-token .list-group-item {
+    border: none;
+    padding-top: 0px;
+    padding-left: 20px;
+}
+
 /*
     Inputs
     Material design inspired
