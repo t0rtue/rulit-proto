@@ -417,8 +417,13 @@ angular.module('ri.module.board', [])
         // ex : cond on coords, on distance, on elem attribute
         // if (distOrig && elem.token) {
         if (conditions) {
-            if (conditions.token && !elem.token) {
-                return [];
+            if (conditions.token) {
+                if (
+                    !elem.token ||
+                    (conditions.token.type && conditions.token.type != elem.token.type)
+                ) {
+                    return [];
+                }
             }
         }
 

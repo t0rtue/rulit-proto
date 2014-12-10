@@ -21,26 +21,37 @@ angular.module('ri.module.condition', [
     return {
         eval : function(cond, gamestate) {
 
-            if (!gamestate.selectedElem) return false;
-
+            if (!gamestate.selectedElem || gamestate.selectedElem.token.type != cond.token.type) {
+                return false;
+            }
 
             var lines = neighborSelector.getLines(
                 gamestate.grid,
                 gamestate.selectedElem,
                 gamestate.selectedElemType,
-                cond.quantity - 1,
-                {token:true},
+                cond.quantity,
+                {
+                    token : cond.token
+                },
                 ['row','col','diag']
             );
 
-            for (l in lines) {
+            var evaluators = {
+                'eq'   : function(n,v) {return n == v},
+                'gteq' : function(n,v) {return n >= v},
+                'lteq' : function(n,v) {return n <= v},
+                'gt'   : function(n,v) {return n > v},
+                'lt'   : function(n,v) {return n < v},
+            }
 
-                if (lines[l].length >= cond.quantity-1) {
+            cond.operator = cond.operator || 'eq';
+
+            for (l in lines) {
+                if (evaluators[cond.operator]( lines[l].length, cond.quantity-1)) {
                     gamestate.selectedElem.highlight = true;
                     for (e in lines[l]) {
                         lines[l][e]['highlight'] = true;
                     }
-
                     return true;
                 }
             }

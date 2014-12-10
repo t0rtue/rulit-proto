@@ -1,6 +1,19 @@
 <div>
-    Player has at least
+    Player has
+    <select
+        ng-model="cond.operator"
+        class="form-control"
+        ng-options="op as label for (label,op) in {
+            'exactly'   : 'eq',
+            'at least'  : 'gteq',
+            'at most'   : 'lteq',
+            'more than' : 'gt',
+            'less than' : 'lt'
+        }">
+    </select>
     <input type="number" ng-model="cond.quantity" class="form-control" placeholder="a number of"/>
-    <ri-input-token token='cond.token' types='tokenTypes'></ri-input-token>
+    <!-- <ri-input-token token='cond.token' types='tokenTypes'></ri-input-token> -->
+    <select ng-model="cond.token.type" ng-options="token.type as token.type for token in tokens" class="form-control" placeholder="token"></select>
+
     aligned on the board
 </div>
