@@ -1,5 +1,32 @@
 <div class="form-group form-inline">
-    <select ng-model="selector.type" class="form-control" ng-options="type for type in ['tile','corner','border']" placeholder="position"></select>
+
+
+    <!-- Mode neighbor or aligned -->
+    on a
+    <select
+        ng-model="selector.mode"
+        ng-options="mode as label for (mode,label) in ['neighbor','aligned']"
+        class="form-control"
+        placeholder="in all direction">
+    </select>
+
+     <span ng-if="selector.mode==0">
+         <select ng-model="selector.type" class="form-control" ng-options="type for type in ['tile','corner','border']" placeholder="position"></select>
+    </span>
+
+    <span ng-if="selector.mode==1">
+        position in the
+        <select multiple="true"
+            size="3"
+            ng-model="selector.lines"
+            ng-options="direction as label for (direction,label) in {'row':'row', 'col':'column', 'diag':'diagonal'}"
+            class="form-control no-scrollbar">
+        </select>
+    </span>
+
+    <br/>
+
     at a maximum distance of
     <input ng-model="selector.dist" type="text" class="form-control" placeholder="value OR property name"/>
+
 </div>
