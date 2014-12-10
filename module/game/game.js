@@ -114,18 +114,42 @@ angular.module('ri.module.game', ['ri.module.action', 'ri.module.board'])
         return prop ? prop.value : undefined;
     }
 
+    // TODO move in board selector
     function selection(elem, type, selector) {
         var dist = parseInt(selector.dist)
                    ? selector.dist
                    : getPropertyValue(elem.token, selector.dist);
 
-        var elems = neighborSelector.getDistNeighbors(
+        selector.conditions = selector.conditions || {};
+
+        var elems = [];
+
+        if (selector.mode == 1) {
+            // ALIGNED NEIGHBORS
+            var lines = neighborSelector.getLines(
                             grid,
                             elem,
                             type,
-                            selector.type,
-                            dist
+                            dist,
+                            selector.conditions,
+                            selector.lines
                         );
+
+            for (l in lines) {
+                elems = elems.concat(lines[l]);
+            }
+        } else {
+            // AREA NEIGHBORS
+            elems = neighborSelector.getDistNeighbors(
+                        grid,
+                        elem,
+                        type,
+                        selector.type,
+                        dist,
+                        null,
+                        selector.conditions
+                    );
+        }
 
         return elems;
     }

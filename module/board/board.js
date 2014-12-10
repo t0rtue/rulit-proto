@@ -132,9 +132,25 @@ angular.module('ri.module.board', [])
         }
     };
 
+
+    var directionOffsets = {
+        'row' : [
+            [[ 1, 0], [-1, 0]]
+        ],
+        'col' : [
+            [[ 0, 1], [ 0,-1]]
+        ],
+        'diag' : [
+            [[1, 1], [-1, -1]],
+            [[1, -1], [-1, 1]]
+        ]
+    };
+
+
     return {
         maps : maps,
         neighborsOffsets : neighborsOffsets,
+        directionOffsets : directionOffsets,
         init : init
     };
 })
@@ -317,9 +333,22 @@ angular.module('ri.module.board', [])
         }
     };
 
+    var directionOffsets = {
+        'row' : [
+            [[ 1, 0], [-1, 0]]
+        ],
+        'col' : [
+            [[ 0, 1], [ 0,-1]]
+        ],
+        'diag' : [
+            [[1, -1], [-1, 1]]
+        ]
+    };
+
     return {
         maps : maps,
         neighborsOffsets : neighborsOffsets,
+        directionOffsets : directionOffsets,
         init : init
     };
 })
@@ -329,11 +358,20 @@ angular.module('ri.module.board', [])
     // this.neighborsOffsets = grid.neighborsOffsets;
 
     // Generic management of out of bounds elems
-    function getNeighbors(grid, elem, elemType, neighbourType) {
-        var nOffsets = grid.neighborsOffsets[neighbourType][elemType];
-        if (elem.side) {
-            nOffsets = nOffsets[elem.side];
+    function getNeighbors(grid, elem, elemType, neighbourType, direction) {
+        var nOffsets;
+
+        if (direction) {
+            // nOffsets = grid.directionOffsets[direction];
+            nOffsets = direction;
+        } else {
+            nOffsets = grid.neighborsOffsets[neighbourType][elemType];
+
+            if (elem.side) {
+                nOffsets = nOffsets[elem.side];
+            }
         }
+
         var neighbour = [];
         for (c in nOffsets) {
             var offset = nOffsets[c];
@@ -348,10 +386,11 @@ angular.module('ri.module.board', [])
     }
 
     // Generic management of neighbour distance
-    function getDistNeighbors(grid, e, elemType, neighbourType, dist) {
+    function getDistNeighbors(grid, e, elemType, neighbourType, dist, direction, conditions) {
+        // var conds = conditions || {};
         var elemOrig = e;
         elemOrig.visited = true;
-        var neighbour = _distNeighbour(grid, elemOrig,elemType,neighbourType,dist,0,elemOrig);
+        var neighbour = _distNeighbour(grid, elemOrig, elemType, neighbourType, dist, direction, 0, elemOrig, conditions);
         elemOrig.visited = false;
         elemOrig.dist = null;
         setProp(neighbour, 'visited', false);
@@ -359,15 +398,28 @@ angular.module('ri.module.board', [])
         return neighbour;
     }
 
-    function _distNeighbour(grid, elem, elemType, neighbourType, dist, distOrig, elemOrig) {
+    function getLines(grid, e, elemType, dist, conditions, directions) {
+        var lines = [];
+        var allowedDir = grid.directionOffsets;
+        for (d in directions) {
+            var dirOffsets = grid.directionOffsets[directions[d]];
+            for (i in dirOffsets) {
+                var line = getDistNeighbors(grid, e, elemType, elemType, dist, dirOffsets[i], conditions);
+                lines.push(line);
+            }
+        }
+        return lines;
+    }
+
+    function _distNeighbour(grid, elem, elemType, neighbourType, dist, direction, distOrig, elemOrig, conditions) {
 
         // Check conditions
         // ex : cond on coords, on distance, on elem attribute
-        //if (elem.u != elemOrig.u && elem.v != elemOrig.v) {
-        //if (elem.u == 4 && elem.v == 4) {
         // if (distOrig && elem.token) {
-        if (false) {
-            return [];
+        if (conditions) {
+            if (conditions.token && !elem.token) {
+                return [];
+            }
         }
 
         var ret = [];
@@ -380,11 +432,11 @@ angular.module('ri.module.board', [])
             elem.dist = distOrig;
 
             if (dist > 0) {
-                var neighbour = getNeighbors(grid, elem,elemType, neighbourType);
+                var neighbour = getNeighbors(grid, elem,elemType, neighbourType, direction);
                 for (n in neighbour) {
                     var current = neighbour[n];
                     ret = ret.concat(_distNeighbour(
-                        grid, current, neighbourType, neighbourType, dist-1, distOrig+1, elemOrig));
+                        grid, current, neighbourType, neighbourType, dist-1, direction, distOrig+1, elemOrig, conditions));
                 }
             }
         }
@@ -399,8 +451,9 @@ angular.module('ri.module.board', [])
     }
 
     return {
-        getNeighbors : getNeighbors,
-        getDistNeighbors : getDistNeighbors
+        getNeighbors     : getNeighbors,
+        getDistNeighbors : getDistNeighbors,
+        getLines         : getLines
     }
 
 })
