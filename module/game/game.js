@@ -1,4 +1,4 @@
-angular.module('ri.module.game', ['ri.module.action', 'ri.module.board'])
+angular.module('ri.module.game', ['ri.module.action', 'ri.module.board', 'ri.module.condition'])
 
 .value('match', function match(entity, attrCond) {
     if (!entity) return false;
@@ -34,16 +34,16 @@ angular.module('ri.module.game', ['ri.module.action', 'ri.module.board'])
 
 .controller(
     'ri.game.controller',
-    ['$timeout', '$stateParams', 'ri.actions', 'ri.board.selector.neighbor' ,'match', 'riGame', 'riGrid',
-    function($timeout, $stateParams, actions, neighborSelector, match, game, grid) {
+    ['$injector', '$timeout', '$stateParams', 'ri.actions', 'ri.board.selector.neighbor' ,'match', 'riGame', 'riGrid',
+    function($injector, $timeout, $stateParams, actions, neighborSelector, match, game, grid) {
 
     this.name = $stateParams.name;
 
-    this.theme = game.theme;
+    this.tokens     = game.tokens;
+    this.turnPhases = game.turnPhases;
+    this.theme      = game.theme;
 
     this.board = grid.maps;
-
-    this.tokens = game.tokens;
 
     this.actions = actions;
     this.selectedElem = null;
@@ -66,11 +66,6 @@ angular.module('ri.module.game', ['ri.module.action', 'ri.module.board'])
     };
 
     this.turn = 1;
-    // this.turnPhases = [
-    //     {name:'deployment', actions:[actions.all[0], actions.all[1], actions.all[2]]},
-    //     {name:'income', actions:[actions.all[3]]}
-    // ];
-    this.turnPhases = game.turnPhases;
     this.currentPhaseIdx = 0;
     this.pouet = 0;
 
@@ -154,6 +149,33 @@ angular.module('ri.module.game', ['ri.module.action', 'ri.module.board'])
         return elems;
     }
 
+    this.checkEnd = function() {
+
+        // TODO service GameState
+        var gameState = {
+            grid : grid,
+            player : this.player,
+            turn: this.turn,
+            selectedElem: this.selectedElem,
+            selectedElemType : this.selectedElemType
+        };
+
+        var res = {};
+        for (type in {'win':1,'lose':1}) {
+            for (c in game.goal[type]) {
+                var cond = game.goal[type][c];
+                var checker = $injector.get('ri.condition.'+cond.type);
+
+                res[type] = res[type] || checker.eval(cond, gameState);
+            }
+            this.player[type] = res[type];
+        }
+
+        this.player.lose = this.player.lose && !this.player.win;
+
+        this.gameover = res.win || res.lose;
+    }
+
     this.setMessage = function(msg) {
         this.message = msg;
     }
@@ -189,6 +211,7 @@ angular.module('ri.module.game', ['ri.module.action', 'ri.module.board'])
                         //elem.token.view = model.view;
 
                         this.selectElem(elem, type);
+                        this.checkEnd();
                     }
                 } else {
                     this.selectElem(elem, type);
@@ -213,6 +236,7 @@ angular.module('ri.module.game', ['ri.module.action', 'ri.module.board'])
                     this.selectedElem.token = null;
                     this.selectElem(elem, type);
                     setProp(this.targets, 'highlight', false);
+                    this.checkEnd();
                 }
             }
 
@@ -260,6 +284,7 @@ angular.module('ri.module.game', ['ri.module.action', 'ri.module.board'])
                 var props = this.player.properties;
                 props[action.property.name] || (props[action.property.name] = 0);
                 props[action.property.name] += action.quantity;
+                this.checkEnd();
             }
         }
 

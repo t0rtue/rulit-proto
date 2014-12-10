@@ -24,7 +24,15 @@ angular.module('rulit', ['ui.bootstrap', 'ui.router', 'ri.gameStore', 'ri.module
             abstract: true,
             template: '<ui-view/>',
             resolve: {
-                riGame : function($stateParams, gameStore) { return gameStore.get($stateParams.name) }
+                riGame : function($stateParams, gameStore) {
+                    return gameStore.get($stateParams.name).then(function(g) {
+
+                                // Retro compatibility
+                                // i.e update loaded game data with newly needed properties
+                                g.goal || (g.goal = {end:[], win:[], lose:[]});
+                                return g;
+                            })
+                }
             }
         })
         .state('game.rb', {

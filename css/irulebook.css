@@ -134,6 +134,16 @@ input[type="range"]:focus {
     box-shadow: 0px 0px 0px #BBB inset;
 }
 
+/*.no-scrollbar {
+    overflow: hidden;
+}
+
+.no-scrollbar::-webkit-scrollbar {display:none;}
+.no-scrollbar::-moz-scrollbar {display:none;}
+.no-scrollbar::-o-scrollbar {display:none;}
+.no-scrollbar::-google-ms-scrollbar {display:none;}
+.no-scrollbar::-khtml-scrollbar {display:none;}*/
+
 /* Game window*/
 
 .rb-game-window {
@@ -147,4 +157,9 @@ input[type="range"]:focus {
 
 .master-col {
     padding:0px;
+}
+
+
+rb-goal .conditions-container {
+    margin-top: 20px;
 }

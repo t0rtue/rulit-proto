@@ -173,6 +173,17 @@ angular.module('ri.module.irulebook', ['ui.router', 'colorpicker.module'])
     }
 }])
 
+.directive('rbGoal', [function() {
+    return {
+        restrict : 'E',
+        scope : {
+            'conditions' : '=',
+            'tokens' : '='
+        },
+        templateUrl : 'module/irulebook/partials/goal.html'
+    }
+}])
+
 .directive('rbGameWindow', [function() {
     return {
         restrict : 'E',

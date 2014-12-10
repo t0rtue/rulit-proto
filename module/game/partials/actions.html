@@ -1,13 +1,10 @@
 <div>
 
-    <div class="clearfix" ng-mouseover="game.hover_window='tokens'">
+<!--     <div class="clearfix" ng-mouseover="game.hover_window='tokens'">
         <div ng-repeat="token in game.tokens.all"
              ng-click="game.freeAction('put', token)"
              class="clickable-item">
                 <div class="pull-left" >
-                    <!-- Trick here, th ng-class allows to highlight the selected elem if used as input in current action
-                        TODO put in a controller, generalize this behavior (action inputs and related elems)
-                     -->
                     <svg
                         ng-class="{selected : token.type==game.actions.current.token.type}"
                         width="50" height="50"
@@ -23,7 +20,30 @@
                 </div>
 
         </div>
-    </div>
+    </div> -->
+
+
+<!--     <div class="clearfix" ng-mouseover="game.hover_window='tokens'">
+        <div ng-repeat="action in game.turnPhases[game.currentPhaseIdx].actions | filter:{type:'put'}"
+             ng-click="game.selectAction(action)"
+             class="clickable-item">
+                <div class="pull-left" >
+                    <svg
+                        ng-class="{selected : action.name==game.actions.current.name}"
+                        width="50" height="50"
+                        viewBox="-50 -50 100 100">
+                        <g >
+                            <ri-token
+                                class="ri-token"
+                                data='action.token'
+                                view="action.token.view">
+                            </ri-token>
+                        </g>
+                    </svg>
+                </div>
+        </div>
+    </div> -->
+
 
     <!-- <h1>Actions</h1> -->
     <ul class="list-group" ng-mouseover="game.hover_window='actions'">

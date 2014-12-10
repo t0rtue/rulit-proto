@@ -264,7 +264,17 @@ body {
     fill-opacity : 1;
 }
 
-#phase-info {
+#game-view #next-turn-control {
+    font-size:25px;
+}
+
+#game-view #next-turn-control:hover {
+    cursor: pointer;
+    font-size: 30px;
+}
+
+#phase-info,
+#gameover-window {
     position:absolute;
     height:10%;
     width:80%;
@@ -289,6 +299,75 @@ body {
     fill:grey;
 }
 
+#gameover-window {
+    position:absolute;
+    height:25%;
+    width:80%;
+    top:-100%;
+    left:10%;
+
+    /*background: white;*/
+    background: none;
+    /*background-color:  rgba(0, 0, 0, 0.7);*/
+
+    /*border-top: 5px solid grey;*/
+    /*border-bottom: 5px solid grey;*/
+
+    border: none;
+    text-align: center;
+
+    color: black;
+    /*font-size: 100px;*/
+    font-family: "Raleway";
+    /*font-family: "Comic Sans";*/
+
+    visibility: hidden;
+    -webkit-transition: top 400 ease;
+    transition: top 400ms ease;
+}
+
+/*#gameover-window  h1 {
+    font-size: 80px;
+    font-weight: 700;
+}
+*/
+
+#gameover-window svg text {
+    text-anchor : middle;
+     /*font-family:Verdana;*/
+    font-size: 70px;
+    font-weight: 900;
+    /*fill:#050;*/
+    fill:green;
+    stroke-width:3;
+    stroke : lightgrey;
+/*    letter-spacing:2;
+    kerning:2;*/
+}
+
+#gameover-window.lose svg text {
+    /*fill:#500;*/
+    fill:red;
+}
+
+#gameover-window .glyphicon {
+    font-size: 80px;
+    /*font-weight: 700;*/
+}
+
+#gameover-window .state-icon .glyphicon {
+    font-size: 250px;
+    color : grey;
+
+/*   -webkit-text-fill-color: red;
+   -webkit-text-stroke-width: 3px;
+   -webkit-text-stroke-color: black;
+*/}
+
+#gameover-window.active {
+    visibility: visible;
+    top:20%;
+}
 
 div {
     -webkit-transition: width 350 ease;

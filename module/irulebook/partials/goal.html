@@ -1,0 +1,59 @@
+<div>
+
+    <div class="conditions-container" ng-repeat="condtype in ['end', 'win','lose']">
+
+        <h4 ng-if="condtype != 'end'">
+                    <span style="font-size:35px;vertical-align:middle">
+                        <!-- <span ng-if="condtype=='end'" class="glyphicon glyphicon-bell"></span> -->
+                        <span ng-if="condtype=='win'" class="glyphicon glyphicon-star-empty"></span>
+                        <span ng-if="condtype=='lose'" class="glyphicon glyphicon-thumbs-down"></span>
+                    </span>
+            <ng-pluralize
+                count="conditions[condtype].length"
+                when="{'0'    : 'Player {{condtype}} if {{msg}}.',
+                       'one'  : 'Player {{condtype}}s if ',
+                       'other': 'Player can {{condtype}} in {} different ways :'}"
+                ng-init="msg = {'win':'all other players lose','lose':'another player wins'}[condtype]">
+            </ng-pluralize>
+        </h4>
+
+        <h4 ng-if="condtype == 'end'">
+            <span style="font-size:35px;vertical-align:middle">
+                <span  class="glyphicon glyphicon-bell"></span>
+            </span>
+            <ng-pluralize
+              count="conditions[condtype].length"
+              when="{'0'    : 'The game ends when a player win.',
+                     'one'  : 'The game ends when :',
+                     'other': 'The game ends when :'}">
+            </ng-pluralize>
+        </h4>
+
+         <div class="row show-on-hover" ng-repeat="cond in conditions[condtype]">
+
+            <form role="form">
+                <div class="col-md-offset-1 col-md-2 form-group form-inline">
+                    <select
+                        ng-model="cond.type"
+                        ng-options="type for type in ['owning', 'alignment']"
+                        class="form-control"
+                        id="actionType">
+                    </select>
+                </div>
+
+                <div class="col-md-9">
+                    <ri-remove-button ng-click="conditions[condtype].splice($index,1)"></ri-remove-button>
+                    <div class="form-group form-inline">
+                        <ng-include src="'module/irulebook/condition/'+cond.type+'.html'" />
+                    </div>
+                </div>
+            </form>
+
+        </div>
+
+        <div class="col-md-offset-1">
+            <span class="control-add" ng-click="conditions[condtype].push({'type':'owning'})">Add {{condtype}} condition...</span>
+        </div>
+    </div>
+
+</div>

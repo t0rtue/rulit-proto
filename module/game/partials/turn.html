@@ -1,29 +1,40 @@
-<div ng-mouseover="game.hover_window='turn'">
-    <div>
-        <!-- bidouille rapide pour avoir un petit token mais prend tout l'espace du svg et qui contient un text assez gros -->
-        <svg width="100%" height="100%" viewBox="-25 -25 50 50">
-            <g>
-                <ri-token
-                    class="ri-token"
-                    data='{properties : {name:game.turn}}'
-                    view='{layers: [{size:0.4, width:2}], kernel: {size:0, label:{bindToAttr:"name"}}}'>
-                </ri-token>
-            </g>
-            <g transform="translate(-40, 0)">
-                <circle r="10"></circle>
-            </g>
-        </svg>
+<div ng-mouseover="game.hover_window='turn'" >
 
-        <svg  viewBox="0 0 100 20" >
-            <g ng-attr-transform="translate({{10 + (100 - 20*game.turnPhases.length) / 2}}, 10)">
-                <g ng-repeat="phase in game.turnPhases" ng-attr-transform="translate({{$index*20}},0)">
-                    <circle
-                        class="turnphase-indicator"
-                        ng-class="{current:$index==game.currentPhaseIdx}"
-                        r="7" >
-                    </circle>
+        <!-- bidouille rapide pour avoir un petit token mais prend tout l'espace du svg et qui contient un text assez gros -->
+        <div class="col-md-8 col-md-offset-2">
+            <svg width="100%" height="100%" viewBox="-25 -25 50 50">
+                <g>
+                    <ri-token
+                        class="ri-token"
+                        data='{properties : {name:game.turn}}'
+                        view='{layers: [{size:0.4, width:2}], kernel: {size:0, label:{bindToAttr:"name"}}}'>
+                    </ri-token>
                 </g>
-            </g>
-        </svg>
-    </div>
+             <!--    <g transform="translate(-40, 0)">
+                    <circle r="10"></circle>
+                </g> -->
+            </svg>
+        </div>
+
+        <div ng-if="game.turnPhases.length > 1" class="col-md-8 col-md-offset-2 centered">
+            <svg  viewBox="0 0 100 20" >
+                <g ng-attr-transform="translate({{10 + (100 - 20*game.turnPhases.length) / 2}}, 10)">
+                    <g ng-repeat="phase in game.turnPhases" ng-attr-transform="translate({{$index*20}},0)">
+                        <circle
+                            class="turnphase-indicator"
+                            ng-class="{current:$index==game.currentPhaseIdx}"
+                            r="7" >
+                        </circle>
+                    </g>
+                </g>
+            </svg>
+            {{game.turnPhases[game.currentPhaseIdx].name}}
+        </div>
+
+        <div class="col-md-2" style="padding:0" >
+                <span id="next-turn-control" title="next" ng-click="game.nextTurn()">
+                    <span class="glyphicon glyphicon-chevron-right"></span>
+                </span>
+        </div>
+
 </div>

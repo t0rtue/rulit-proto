@@ -72,11 +72,24 @@
                 </ul>
             </div>
 
+            <!-- PHASE INFO -->
             <div id="phase-info" ng-class="{out:!game.phaseStart}">
                 <!-- svg text is the simplest way i found to make a dynamic text size depending on parent div -->
                 <svg  height="100%" width="100%" viewBox="-50 -50 100 100" preserveAspectRatio="xMidYMid meet">
                     <text dy="0.3em">{{game.turnPhases[game.currentPhaseIdx].name}} phase</text>
                 </svg>
+            </div>
+
+            <!-- GAME OVER WINDOW -->
+            <div id="gameover-window" ng-class="{active:game.gameover,win:game.player.win,lose:game.player.lose}">
+  <!--               <span class="state-icon">
+                    <span ng-if="game.player.win" class="glyphicon glyphicon-star"></span>
+                    <span ng-if="game.player.lose" class="glyphicon glyphicon-thumbs-down"></span>
+                </span> -->
+                <svg  height="100%" width="100%" viewBox="-50 -50 100 100" preserveAspectRatio="xMidYMid meet">
+                    <text dy="0.3em">You {{game.player.win ? 'win' : 'lose'}}!</text>
+                </svg>
+                <span class="icon"><span class="glyphicon glyphicon-repeat"></span></span>
             </div>
 
             <!-- BOARD -->
@@ -92,15 +105,7 @@
         <div class="col-md-2" ng-if="rulit.layout.mode != 1">
 
             <div class="row">
-                <div  class="col-md-4">
-                    <h3>Turn</h3>
-                    <button class="pull-left" ng-click="game.nextTurn()">next</button>
-                    <!-- <span class="glyphicon glyphicon-play-circle"></span> -->
-                </div>
-                <div class="col-md-8">
-                    <div  ng-include="'module/game/partials/turn.html'"/>
-                </div>
-
+                 <div class="col-md-12" ng-include="'module/game/partials/turn.html'"/>
             </div>
 
             <hr/>
