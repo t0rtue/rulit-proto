@@ -97,12 +97,12 @@ angular.module('ri.module.token', [])
                 var props = scope.data.properties;
 
                 function computeValue(layer, attr, def) {
-                    var widthInfo = layer[attr];
-                    var width =  widthInfo ? widthInfo.bindToAttr && props
-                                           ? props[widthInfo.bindToAttr]
-                                           : widthInfo
+                    var attrInfo = layer[attr];
+                    var value =  attrInfo ? attrInfo.bindToAttr && props
+                                           ? props[attrInfo.bindToAttr]
+                                           : attrInfo
                                            : def;
-                    return width;
+                    return value;
                 }
 
                 function shapeChanged(idx) {
@@ -114,7 +114,7 @@ angular.module('ri.module.token', [])
 
                     var width = computeValue(scope.view.layers[l], 'width', 1);
                     var size = computeValue(scope.view.layers[l], 'size', 1);
-                    var color = computeValue(scope.view.layers[l], 'color', null);
+                    var color = computeValue(scope.view.layers[l], 'color', scope.data.player ? scope.data.player.color : null);
 
                     if (!layersElem[l]) {
                         addLayer(scope.view.layers[l]);

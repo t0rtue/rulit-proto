@@ -73,21 +73,30 @@
             </div>
 
             <!-- PHASE INFO -->
-            <div id="phase-info" ng-class="{out:!game.phaseStart}">
+            <div id="phase-info" class="game-menu" ng-class="{out:!game.phaseStart||game.turnPhases.length<=1}">
                 <!-- svg text is the simplest way i found to make a dynamic text size depending on parent div -->
                 <svg  height="100%" width="100%" viewBox="-50 -50 100 100" preserveAspectRatio="xMidYMid meet">
                     <text dy="0.3em">{{game.turnPhases[game.currentPhaseIdx].name}} phase</text>
                 </svg>
             </div>
 
+
+            <!-- TURN INFO -->
+            <div id="turn-info" class="game-menu" ng-class="{out:!game.turnStart}">
+                <!-- svg text is the simplest way i found to make a dynamic text size depending on parent div -->
+                <svg  height="100%" width="100%" viewBox="-50 -50 100 100" preserveAspectRatio="xMidYMid meet">
+                    <text dy="0.3em">{{game.player().name}} turn {{game.turn}}</text>
+                </svg>
+            </div>
+
             <!-- GAME OVER WINDOW -->
-            <div id="gameover-window" ng-class="{active:game.gameover,win:game.player.win,lose:game.player.lose}">
+            <div id="gameover-window" ng-class="{active:game.gameover,win:game.player().win,lose:game.player().lose}">
   <!--               <span class="state-icon">
                     <span ng-if="game.player.win" class="glyphicon glyphicon-star"></span>
                     <span ng-if="game.player.lose" class="glyphicon glyphicon-thumbs-down"></span>
                 </span> -->
                 <svg  height="100%" width="100%" viewBox="-50 -50 100 100" preserveAspectRatio="xMidYMid meet">
-                    <text dy="0.3em">You {{game.player.win ? 'win' : 'lose'}}!</text>
+                    <text dy="0.3em">You {{game.player().win ? 'win' : 'lose'}}!</text>
                 </svg>
                 <span class="icon"><span class="glyphicon glyphicon-repeat"></span></span>
             </div>

@@ -134,6 +134,10 @@ input[type="range"]:focus {
     box-shadow: 0px 0px 0px #BBB inset;
 }
 
+.small-input.form-control {
+    width: 130px;
+}
+
 /*.no-scrollbar {
     overflow: hidden;
 }

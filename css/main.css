@@ -273,8 +273,7 @@ body {
     font-size: 30px;
 }
 
-#phase-info,
-#gameover-window {
+.game-menu {
     position:absolute;
     height:10%;
     width:80%;
@@ -288,15 +287,19 @@ body {
     transition: left 400ms ease;
 }
 
-#phase-info.out {
+.game-menu.out {
     left:-300%;
 }
 
-#phase-info svg text {
+.game-menu svg text {
     text-anchor : middle;
      /*font-family:Verdana;*/
     font-size: 50px;
     fill:grey;
+}
+
+#turn-info {
+    top: 20%;
 }
 
 #gameover-window {
@@ -341,8 +344,8 @@ body {
     fill:green;
     stroke-width:3;
     stroke : lightgrey;
-/*    letter-spacing:2;
-    kerning:2;*/
+    /*letter-spacing:1em; */
+    /*kerning:40px;*/
 }
 
 #gameover-window.lose svg text {

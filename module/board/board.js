@@ -420,7 +420,8 @@ angular.module('ri.module.board', [])
             if (conditions.token) {
                 if (
                     !elem.token ||
-                    (conditions.token.type && conditions.token.type != elem.token.type)
+                    (conditions.token.type && conditions.token.type != elem.token.type) ||
+                    (elemOrig.token.player != elem.token.player)
                 ) {
                     return [];
                 }

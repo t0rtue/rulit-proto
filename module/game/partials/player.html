@@ -5,15 +5,15 @@
             <g >
                 <ri-token
                     class="ri-token"
-                    data='{properties : {name:"Player"}}'
-                    view='{layers: [{size:0.6, width:10},{size:0.8}], kernel: {size:0.5, label:{bindToAttr:"name"}}}'>
+                    data='{properties : {name:game.players.current.name}}'
+                    view='{layers: [{size:0.6, width:10, color:game.players.current.color},{size:0.8}], kernel: {size:0.5, label:{bindToAttr:"name"}}}'>
                 </ri-token>
             </g>
         </svg>
     </div>
 
     <div class="clearfix">
-        <div ng-repeat="(prop, value) in game.player.properties">
+        <div ng-repeat="(prop, value) in game.players.current.properties">
                 <div class="pull-left" >
                     <svg
                         width="30" height="30"

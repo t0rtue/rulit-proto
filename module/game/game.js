@@ -32,12 +32,47 @@ angular.module('ri.module.game', ['ri.module.action', 'ri.module.board', 'ri.mod
     };
 })
 
+.service('ri.game.state', function() {
+
+    var state = {
+        players : {
+            all : [
+                {
+                    name:'Tortue',
+                    color:'green',
+                    properties : {
+                        'gold' : 0,
+                        'victory point' : 0,
+                    }
+                }, {
+                    name:'Player2',
+                    color:'yellow',
+                }
+            ],
+            current : null,
+            idx: 0,
+        },
+        nextPlayer : function() {
+            state.players.idx++;
+            state.players.idx %= state.players.all.length;
+            state.players.current = state.players.all[state.players.idx];
+        }
+    }
+
+    state.players.current = state.players.all[0];
+
+    return state;
+})
+
 .controller(
     'ri.game.controller',
-    ['$injector', '$timeout', '$stateParams', 'ri.actions', 'ri.board.selector.neighbor' ,'match', 'riGame', 'riGrid',
-    function($injector, $timeout, $stateParams, actions, neighborSelector, match, game, grid) {
+    ['$injector', '$timeout', '$stateParams', 'ri.actions', 'ri.board.selector.neighbor' ,'match', 'riGame', 'riGrid', 'ri.game.state',
+    function($injector, $timeout, $stateParams, actions, neighborSelector, match, game, grid, gameState) {
 
     this.name = $stateParams.name;
+
+    // this.def = game;
+    this.state = gameState;
 
     this.tokens     = game.tokens;
     this.turnPhases = game.turnPhases;
@@ -48,13 +83,7 @@ angular.module('ri.module.game', ['ri.module.action', 'ri.module.board', 'ri.mod
     this.actions = actions;
     this.selectedElem = null;
 
-
-    this.player = {
-        properties : {
-            'gold' : 0,
-            'victory point' : 0,
-        }
-    };
+    this.players = gameState.players;
 
     this.propertyView = {
         'gold' : {
@@ -82,16 +111,20 @@ angular.module('ri.module.game', ['ri.module.action', 'ri.module.board', 'ri.mod
         actions.cancel();
         this.currentPhaseIdx++;
         this.currentPhaseIdx %= this.turnPhases.length;
-        this.turn += (this.currentPhaseIdx == 0);
+        if (this.currentPhaseIdx == 0) {
+            this.state.nextPlayer();
+            if (this.state.players.idx == 0) {
+                this.turn++;
+            }
+            this.turnStart = 1;
+        }
         this.phaseStart = 1;
         var that = this;
         $timeout(function() {
             that.phaseStart=0;
+            that.turnStart=0;
         }, 1000);
 
-         // $( "#phase-info" ).fadeIn( "slow", function() {
-         //    // Animation complete.
-         //    });
     }
 
     this.selectElem = function(elem, type) {
@@ -149,12 +182,18 @@ angular.module('ri.module.game', ['ri.module.action', 'ri.module.board', 'ri.mod
         return elems;
     }
 
+    function player() {
+        return gameState.players.current;
+    }
+    this.player = player;
+
+
     this.checkEnd = function() {
 
         // TODO service GameState
         var gameState = {
             grid : grid,
-            player : this.player,
+            player : player(),
             turn: this.turn,
             selectedElem: this.selectedElem,
             selectedElemType : this.selectedElemType
@@ -168,10 +207,10 @@ angular.module('ri.module.game', ['ri.module.action', 'ri.module.board', 'ri.mod
 
                 res[type] = res[type] || checker.eval(cond, gameState);
             }
-            this.player[type] = res[type];
+            player()[type] = res[type];
         }
 
-        this.player.lose = this.player.lose && !this.player.win;
+        player().lose = player().lose && !player().win;
 
         this.gameover = res.win || res.lose;
     }
@@ -208,6 +247,7 @@ angular.module('ri.module.game', ['ri.module.action', 'ri.module.board', 'ri.mod
                         )[0];
 
                         elem.token = angular.copy(model);
+                        elem.token.player = player();
                         //elem.token.view = model.view;
 
                         this.selectElem(elem, type);
@@ -220,7 +260,7 @@ angular.module('ri.module.game', ['ri.module.action', 'ri.module.board', 'ri.mod
 
             if (action.type == "move") {
                 if (elem.token) {
-                    if (match(elem.token, action.token)) {
+                    if ((elem.token.player.name == player().name) && match(elem.token, action.token)) {
                         setProp(this.targets, 'highlight', false);
                         this.targets = selection(elem, type, action.dest);
                         setProp(this.targets, 'highlight', true);
@@ -281,7 +321,7 @@ angular.module('ri.module.game', ['ri.module.action', 'ri.module.board', 'ri.mod
 
         if (action.type == "get") {
             if (action.property) {
-                var props = this.player.properties;
+                var props = player().properties;
                 props[action.property.name] || (props[action.property.name] = 0);
                 props[action.property.name] += action.quantity;
                 this.checkEnd();
