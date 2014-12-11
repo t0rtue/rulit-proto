@@ -84,8 +84,11 @@
             <!-- TURN INFO -->
             <div id="turn-info" class="game-menu" ng-class="{out:!game.turnStart}">
                 <!-- svg text is the simplest way i found to make a dynamic text size depending on parent div -->
-                <svg  height="100%" width="100%" viewBox="-50 -50 100 100" preserveAspectRatio="xMidYMid meet">
-                    <text dy="0.3em">{{game.player().name}} turn {{game.turn}}</text>
+                <svg class="pull-right" height="100%" width="40%" viewBox="-50 -50 100 100" preserveAspectRatio="xMidYMid meet">
+                    <text ng-style="{fill:game.player().color}" dy="0.3em">{{game.player().name}}</text>
+                </svg>
+                <svg height="100%" width="40%" viewBox="-50 -50 100 100" preserveAspectRatio="xMidYMid meet">
+                    <text dy="0.3em">turn {{game.turn}}</text>
                 </svg>
             </div>
 

@@ -109,6 +109,7 @@ angular.module('ri.module.game', ['ri.module.action', 'ri.module.board', 'ri.mod
     this.nextTurn = function() {
 
         actions.cancel();
+        setProp(this.targets, 'highlight', false);
         this.currentPhaseIdx++;
         this.currentPhaseIdx %= this.turnPhases.length;
         if (this.currentPhaseIdx == 0) {
@@ -125,13 +126,18 @@ angular.module('ri.module.game', ['ri.module.action', 'ri.module.board', 'ri.mod
             that.turnStart=0;
         }, 1000);
 
+        // Auto select the first action
+        var phaseActions = game.turnPhases[this.currentPhaseIdx].actions;
+        phaseActions && actions.select(phaseActions[0]);
+
+        this.selectElem(null,null);
     }
 
     this.selectElem = function(elem, type) {
         this.selectedElem && (this.selectedElem.selected = false);
         this.selectedElem = elem;
         this.selectedElemType = type;
-        this.selectedElem.selected = true;
+        elem && (this.selectedElem.selected = true);
     }
 
     function getPropertyValue(elem, propname) {
@@ -188,8 +194,7 @@ angular.module('ri.module.game', ['ri.module.action', 'ri.module.board', 'ri.mod
     this.player = player;
 
 
-    this.checkEnd = function() {
-
+    this.checkEndGame = function() {
         // TODO service GameState
         var gameState = {
             grid : grid,
@@ -212,7 +217,26 @@ angular.module('ri.module.game', ['ri.module.action', 'ri.module.board', 'ri.mod
 
         player().lose = player().lose && !player().win;
 
-        this.gameover = res.win || res.lose;
+        return res.win || res.lose;
+    }
+
+    this.checkEndPhase = function(idx) {
+        if (game.turnPhases[idx].limit == 1) {
+            return true;
+        }
+        return false;
+    }
+
+    this.manageEnd = function() {
+        // Manage end game
+        this.gameover = this.checkEndGame();
+
+        if (!this.gameover) {
+            // Auto next phase if player can not play
+            if (this.checkEndPhase(this.currentPhaseIdx)) {
+                this.nextTurn();
+            }
+        }
     }
 
     this.setMessage = function(msg) {
@@ -251,7 +275,7 @@ angular.module('ri.module.game', ['ri.module.action', 'ri.module.board', 'ri.mod
                         //elem.token.view = model.view;
 
                         this.selectElem(elem, type);
-                        this.checkEnd();
+                        this.manageEnd();
                     }
                 } else {
                     this.selectElem(elem, type);
@@ -276,7 +300,7 @@ angular.module('ri.module.game', ['ri.module.action', 'ri.module.board', 'ri.mod
                     this.selectedElem.token = null;
                     this.selectElem(elem, type);
                     setProp(this.targets, 'highlight', false);
-                    this.checkEnd();
+                    this.manageEnd();
                 }
             }
 
@@ -324,7 +348,7 @@ angular.module('ri.module.game', ['ri.module.action', 'ri.module.board', 'ri.mod
                 var props = player().properties;
                 props[action.property.name] || (props[action.property.name] = 0);
                 props[action.property.name] += action.quantity;
-                this.checkEnd();
+                this.manageEnd();
             }
         }
 

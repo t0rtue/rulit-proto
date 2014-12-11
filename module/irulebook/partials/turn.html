@@ -26,7 +26,7 @@
                         </div>
                     </li>
                 </ol>
-                <span class="control-add" ng-click="phases.push({'actions':[]})">Add a phase...</span>
+                <span class="control-add" ng-click="phases.push({type:'can', limit:'0' , actions:[]})">Add a phase...</span>
             </p>
         </div>
     </div>
@@ -38,7 +38,14 @@
         </h3>
 
         <div>
-            Player <mark>can</mark> do <mark>all</mark> of the following actions <mark>as many times he wants</mark> :
+            <!-- Player <mark>can</mark> do <mark>all</mark> of the following actions <mark>as many times he wants</mark> : -->
+            <form role="form" class="form-inline">
+                Player
+                <select ng-model="phase.type" ng-options="type for type in ['can', 'must']" class="form-control"></select>
+                do each of the following actions
+                <select ng-model="phase.limit" ng-options="idx as type for (idx,type) in ['as many time he wants', 'one time']" class="form-control"></select>
+            </form>
+
             <div class="row">
                 <div class="col-md-4">
                     <p>

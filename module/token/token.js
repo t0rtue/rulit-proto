@@ -139,7 +139,9 @@ angular.module('ri.module.token', [])
 
                 if (scope.view.kernel) {
                     var label = computeValue(scope.view.kernel, 'label', '');
-                    angular.element(kernelLabel).text(label);
+                    angular.element(kernelLabel).text(label).css({
+                        "fill": (scope.view.kernel.color || "inherit")
+                    });
                 }
 
             }
