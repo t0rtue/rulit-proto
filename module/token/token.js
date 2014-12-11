@@ -145,6 +145,7 @@ angular.module('ri.module.token', [])
             }
 
             scope.$watch('data.properties', update, true);
+            scope.$watch('data.player', update, true);
 
             // TODO only watch if mode == editing
             scope.$watch('view', update, true );

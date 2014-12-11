@@ -36,7 +36,7 @@
             </div>
             <div class="row game-window">
                 <div ng-if="game.selectedElem.token">
-                    <ri-token-window token="game.selectedElem.token"></ri-token-window>
+                    <ri-token-window elem="game.selectedElem"></ri-token-window>
                     <!-- <div
                         ng-repeat="action in game.actions.all | tokenActions:game.selectedElem.token"
                         ng-click="game.selectAction(action)"
@@ -58,7 +58,7 @@
                 </div>
             </div>
             <div class="row game-window" ng-if="game.selectedElem != game.overedElem">
-                <ri-token-window token="game.overedElem.token"></ri-token-window>
+                <ri-token-window elem="game.overedElem"></ri-token-window>
             </div>
         </div>
         <div  class="col-md-{{rulit.layout.mode == 1 ? 12 : 8}}">
@@ -73,7 +73,7 @@
             </div>
 
             <!-- PHASE INFO -->
-            <div id="phase-info" class="game-menu" ng-class="{out:!game.phaseStart||game.turnPhases.length<=1}">
+            <div id="phase-info" ng-if="game.turnPhases.length>1" class="game-menu" ng-class="{out:!game.phaseStart}">
                 <!-- svg text is the simplest way i found to make a dynamic text size depending on parent div -->
                 <svg  height="100%" width="100%" viewBox="-50 -50 100 100" preserveAspectRatio="xMidYMid meet">
                     <text dy="0.3em">{{game.turnPhases[game.currentPhaseIdx].name}} phase</text>

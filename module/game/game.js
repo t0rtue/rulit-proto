@@ -26,7 +26,7 @@ angular.module('ri.module.game', ['ri.module.action', 'ri.module.board', 'ri.mod
     return {
         restrict : 'E',
         scope : {
-            'token' : '='
+            'elem' : '='
         },
         templateUrl : 'module/game/partials/token.html'
     };
