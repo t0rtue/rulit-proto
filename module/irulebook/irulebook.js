@@ -178,7 +178,8 @@ angular.module('ri.module.irulebook', ['ui.router', 'colorpicker.module'])
         restrict : 'E',
         scope : {
             'conditions' : '=',
-            'tokens' : '='
+            'tokens' : '=',
+            'editMode' : '@'
         },
         templateUrl : 'module/irulebook/partials/goal.html'
     }

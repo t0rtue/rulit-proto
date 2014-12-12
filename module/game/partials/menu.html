@@ -1,0 +1,66 @@
+
+<div id="game-menu" class="container" ng-style="{background:menu.game.theme.background}">
+
+    <div class="row" >
+        <div class="col-md-1 centered" >
+        </div>
+
+        <div class="col-md-10 centered" >
+            <h1><b>{{menu.name}}</b></h1>
+            {{menu.game.introduction}}
+        </div>
+
+        <div class="col-md-1 centered" >
+            <!-- <span id="play-icon" ui-sref="game.play()" title="play" class="glyphicon glyphicon-play-circle" ></span> -->
+        </div>
+
+    </div>
+
+    <div class="row" ng-style="{background:menu.game.theme.background}">
+
+        <!-- PLAYERS -->
+        <div class="col-md-offset-1 col-md-2">
+            <h2 class="centered"><span class="glyphicon glyphicon-user" ></span></h2>
+
+            <div ng-repeat="player in menu.players" class="show-on-hover">
+                <ri-remove-button
+                    ng-if="menu.players.length  > menu.game.minPlayer"
+                    ng-click="menu.players.splice($index,1)">
+                </ri-remove-button>
+                <div class="input-group">
+                    <div class="input-group-addon" ng-style="{background : player.color}">
+                        <!-- <span class="glyphicon glyphicon-user" ></span> -->
+                    </div>
+                    <input ng-model="player.name" placeholder="name" type="text" class="form-control" maxlength="7" ng-style="{color : player.color}"/>
+                </div>
+            </div>
+
+            <div>
+                <span
+                    id="add-user-icon"
+                    ng-if="menu.game.maxPlayer>menu.players.length"
+                    ng-click="menu.players.push({color:['blue', 'yellow', 'black', 'white', 'red', 'green'][menu.players.length] })"
+                    class="glyphicon glyphicon-plus"
+                    aria-hidden="true">
+                </span>
+            </div>
+        </div>
+        <!-- /PLAYERS -->
+
+        <!-- MENU -->
+        <div id="menu-wrap" class="col-md-offset-2 col-md-2 centered" >
+            <span id="play-icon" ui-sref="game.play()" title="play" class="glyphicon glyphicon-play-circle" ></span>
+        </div>
+        <!-- /MENU -->
+
+        <!-- SETTINGS -->
+        <div class="col-md-offset-1 col-md-4" >
+            <h2 class="centered"><span class="glyphicon glyphicon-cog" ></span></h2>
+            <rb-goal conditions="menu.game.goal"></rb-goal>
+        </div>
+        <!-- /SETTINGS -->
+
+    </div>
+
+
+</div>

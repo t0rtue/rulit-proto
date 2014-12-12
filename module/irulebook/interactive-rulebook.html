@@ -27,11 +27,14 @@
       </div>
       <div class="collapse navbar-collapse" role="navigation">
         <ul class="nav navbar-nav navbar-left">
+          <li ui-sref-active="active">
+            <a ui-sref="game.rb"><span  title="rulebook" class="glyphicon glyphicon-cog"></span></a>
+          </li>
           <li>
             <a ng-click="rulebook.save()" href=""><span  title="save the rules" class="glyphicon"  ng-class="rulebook.modified ? 'glyphicon-save' : 'glyphicon-saved'" ></span></a>
           </li>
           <li>
-            <a ui-sref="game.play({name:rulebook.name})"><span  title="play" class="glyphicon glyphicon-play"></span></a>
+            <a ui-sref="game.menu"><span  title="play" class="glyphicon glyphicon-play"></span></a>
           </li>
         </ul>
         <ul class="nav navbar-nav navbar-right">
@@ -145,7 +148,7 @@
             <h1>Goal</h1>
             <div class="row">
                 <div class="col-md-10">
-                    <rb-goal conditions="rulebook.game.goal" tokens="rulebook.game.tokens.all"></rb-goal>
+                    <rb-goal conditions="rulebook.game.goal" tokens="rulebook.game.tokens.all" edit-mode="true"></rb-goal>
                 </div>
                 <rb-info layout="col-md-2">
                     Define end conditions and how a player can win or lose.

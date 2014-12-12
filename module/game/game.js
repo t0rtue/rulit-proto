@@ -381,4 +381,14 @@ angular.module('ri.module.game', ['ri.module.action', 'ri.module.board', 'ri.mod
 
 }])
 
+.controller(
+    'ri.gameMenu.controller',
+    ['$stateParams', 'riGame', 'ri.game.state',
+    function($stateParams, game, gameState) {
+
+    this.name = $stateParams.name;
+    this.game = game;
+    // this.state = gameState;
+    this.players = gameState.players.all;
+}])
 ;

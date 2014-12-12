@@ -1,0 +1,56 @@
+#game-menu {
+    height : 80%;
+    left: 10%;
+    position: absolute;
+}
+
+#game-menu h1 {
+    font-size: 60px
+}
+
+#game-menu .glyphicon {
+    -webkit-transition: font-size 150ms ease;
+    transition: font-size 150ms ease;
+}
+
+#game-menu #menu-wrap {
+    padding-top: 5%;
+}
+
+#game-menu #play-icon {
+    font-size: 100px;
+    color: green;
+
+    /*vertical-align: middle;*/
+}
+
+#game-menu #play-icon:hover {
+    cursor: pointer;
+    font-size: 110px;
+}
+
+
+#game-menu .form-control {
+    background: inherit;
+    font-size: 25px;
+    height: 40px;
+}
+
+#game-menu .input-group {
+    padding-top: 10px;
+}
+
+#game-menu #add-user-icon {
+    padding-top: 10px;
+    font-size: 20px;
+}
+
+#game-menu #add-user-icon:hover {
+    cursor: pointer;
+    font-size: 25px;
+}
+
+#game-menu ri-remove-button button{
+    /*background: black;*/
+    color: lightgrey;
+}

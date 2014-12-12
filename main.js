@@ -22,17 +22,19 @@ angular.module('rulit', ['ui.bootstrap', 'ui.router', 'ri.gameStore', 'ri.module
         .state('game', {
             url : "/:name",
             abstract: true,
-            template: '<ui-view/>',
+            templateUrl: 'module/game/gameView.html',
             resolve: {
                 riGame : function($stateParams, gameStore) {
                     return gameStore.get($stateParams.name).then(function(g) {
-
                                 // Retro compatibility
                                 // i.e update loaded game data with newly needed properties
                                 g.goal || (g.goal = {end:[], win:[], lose:[]});
                                 return g;
                             })
                 }
+            },
+            controller : function($scope, $stateParams) {
+                $scope.gameName = $stateParams.name;
             }
         })
         .state('game.rb', {
@@ -40,6 +42,12 @@ angular.module('rulit', ['ui.bootstrap', 'ui.router', 'ri.gameStore', 'ri.module
             templateUrl  : 'module/irulebook/interactive-rulebook.html',
             controller   : 'ri.interactiveRulebook.controller',
             controllerAs : 'rulebook'
+        })
+        .state('game.menu', {
+            url : "/menu",
+            templateUrl  : 'module/game/partials/menu.html',
+            controller   : 'ri.gameMenu.controller',
+            controllerAs : 'menu'
         })
         .state('game.play', {
             url : "/play",
