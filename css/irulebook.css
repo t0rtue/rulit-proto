@@ -167,3 +167,16 @@ input[type="range"]:focus {
 rb-goal .conditions-container {
     margin-top: 20px;
 }
+
+#players-number-section #players-number-edit {
+    visibility: hidden;
+    font-size: 15px;
+}
+
+#players-number-section input {
+    width: 80px;
+}
+
+#players-number-section:hover #players-number-edit {
+    visibility: visible;
+}

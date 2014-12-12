@@ -86,9 +86,21 @@
                 <div class="col-md-10">
                     <textarea class="form-control" ng-model="rulebook.game.introduction" auto-grow="true"></textarea>
                     <hr/>
-                    <div class="form-inline">
-                        <h3><span class="glyphicon glyphicon-user" title="players"></span> 1 player</h3>
-                        <h3><span class="glyphicon glyphicon-time" title="time"></span>
+                    <div class="form-inline" ng-init="game=rulebook.game">
+                        <h3 id="players-number-section">
+                            <span class="glyphicon glyphicon-user" title="players"></span>
+                            <span id="players-number">
+                                {{game.minPlayer}} {{game.minPlayer!=game.maxPlayer ? ' - ' + game.maxPlayer : ''}}
+                            </span>
+                            player{{game.maxPlayer>1 ? 's' : ''}}
+                            <span id="players-number-edit">
+                              <input type="number" ng-model="game.minPlayer" class="form-control" placeholder="min"></input>
+                              to
+                              <input type="number" ng-model="game.maxPlayer" class="form-control" placeholder="max"></input>
+                            </span>
+                        </h3>
+                        <h3>
+                          <span class="glyphicon glyphicon-time" title="time"></span>
                           <!-- <input type="number" ng-model="rulebook.game.time" class="form-control"></input> min-->
                           &#8734;
                         </h3>
