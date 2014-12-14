@@ -52,12 +52,34 @@ angular.module('ri.module.game', ['ri.module.action', 'ri.module.board', 'ri.mod
             current : null,
             idx: 0,
         },
+        turn : 1,
+        currentPhaseIdx : 0,
+
+        nextTurn : function() {
+            state.currentPhaseIdx++;
+            state.currentPhaseIdx %= state.gameDesc.turnPhases.length;
+            if (state.currentPhaseIdx == 0) {
+                state.nextPlayer();
+                if (state.players.idx == 0) {
+                    state.turn++;
+                }
+                state.turnStart = 1;
+            }
+            state.phaseStart = 1;
+        },
+
         nextPlayer : function() {
             state.players.idx++;
             state.players.idx %= state.players.all.length;
             state.players.current = state.players.all[state.players.idx];
         },
-        init : function() {
+
+        init : function(gameDesc) {
+            state.gameDesc = gameDesc;
+
+            state.turn = 1;
+            state.currentPhaseIdx = 0;
+
             for (p in state.players.all) {
                 var player = state.players.all[p];
                 for (prop in player.properties) {
@@ -102,11 +124,7 @@ angular.module('ri.module.game', ['ri.module.action', 'ri.module.board', 'ri.mod
         }
     };
 
-    this.turn = 1;
-    this.currentPhaseIdx = 0;
-
     this.message = "Select an action";
-
 
     function setProp(elems, attr, value) {
         for (e in elems) {
@@ -117,7 +135,7 @@ angular.module('ri.module.game', ['ri.module.action', 'ri.module.board', 'ri.mod
    startGame();
 
     function startGame() {
-        gameState.init();
+        gameState.init(game);
          // Auto select the first action
         var phaseActions = game.turnPhases[0] && game.turnPhases[0].actions;
         phaseActions && actions.select(phaseActions[0]);
@@ -128,24 +146,16 @@ angular.module('ri.module.game', ['ri.module.action', 'ri.module.board', 'ri.mod
 
         actions.cancel();
         setProp(this.targets, 'highlight', false);
-        this.currentPhaseIdx++;
-        this.currentPhaseIdx %= this.turnPhases.length;
-        if (this.currentPhaseIdx == 0) {
-            this.state.nextPlayer();
-            if (this.state.players.idx == 0) {
-                this.turn++;
-            }
-            this.turnStart = 1;
-        }
-        this.phaseStart = 1;
-        var that = this;
+
+        gameState.nextTurn();
+
         $timeout(function() {
-            that.phaseStart=0;
-            that.turnStart=0;
+            gameState.phaseStart=0;
+            gameState.turnStart=0;
         }, 1000);
 
         // Auto select the first action
-        var phaseActions = game.turnPhases[this.currentPhaseIdx].actions;
+        var phaseActions = game.turnPhases[gameState.currentPhaseIdx].actions;
         phaseActions && actions.select(phaseActions[0]);
 
         this.selectElem(null,null);
@@ -253,7 +263,7 @@ angular.module('ri.module.game', ['ri.module.action', 'ri.module.board', 'ri.mod
 
         if (!this.gameover) {
             // Auto next phase if player can not play
-            if (this.checkEndPhase(this.currentPhaseIdx)) {
+            if (this.checkEndPhase(gameState.currentPhaseIdx)) {
                 this.nextTurn();
             }
         }

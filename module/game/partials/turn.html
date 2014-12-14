@@ -6,7 +6,7 @@
                 <g>
                     <ri-token
                         class="ri-token"
-                        data='{properties : {name:game.turn}}'
+                        data='{properties : {name:game.state.turn}}'
                         view='{layers: [{size:0.4, width:2}], kernel: {size:0, label:{bindToAttr:"name"}}}'>
                     </ri-token>
                 </g>
@@ -22,13 +22,13 @@
                     <g ng-repeat="phase in game.turnPhases" ng-attr-transform="translate({{$index*20}},0)">
                         <circle
                             class="turnphase-indicator"
-                            ng-class="{current:$index==game.currentPhaseIdx}"
+                            ng-class="{current:$index==game.state.currentPhaseIdx}"
                             r="7" >
                         </circle>
                     </g>
                 </g>
             </svg>
-            {{game.turnPhases[game.currentPhaseIdx].name}}
+            {{game.turnPhases[game.state.currentPhaseIdx].name}}
         </div>
 
         <div class="col-md-2" style="padding:0" >

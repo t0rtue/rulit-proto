@@ -48,7 +48,7 @@
     <!-- <h1>Actions</h1> -->
     <ul class="list-group" ng-mouseover="game.hover_window='actions'">
         <!-- <li ng-repeat="action in game.actions.all" -->
-        <li ng-repeat="action in game.turnPhases[game.currentPhaseIdx].actions"
+        <li ng-repeat="action in game.turnPhases[game.state.currentPhaseIdx].actions"
             ng-click="game.selectAction(action)"
             class="list-group-item"
             ng-class="{selected:action.selected}"
