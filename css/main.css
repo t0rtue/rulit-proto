@@ -279,7 +279,7 @@ body {
     width:80%;
     top:30%;
     left:10%;
-    background: #003;
+    background-color: rgba(0, 0, 0, 0.5);
     border-top: 5px solid grey;
     border-bottom: 5px solid grey;
 
@@ -300,79 +300,82 @@ body {
 
 #turn-info {
     top: 20%;
+
     -webkit-transition: left 400 ease;
     transition: left 400ms ease;
 }
 
+
+/* GAMEOVER WINDOW */
+
 #gameover-window {
     position:absolute;
-    height:25%;
-    width:80%;
-    top:-100%;
-    left:10%;
+    height:100%;
 
-    /*background: white;*/
-    background: none;
-    /*background-color:  rgba(0, 0, 0, 0.7);*/
-
-    /*border-top: 5px solid grey;*/
-    /*border-bottom: 5px solid grey;*/
+    background-color:  rgba(0, 0, 0, 0);
 
     border: none;
     text-align: center;
 
     color: black;
-    /*font-size: 100px;*/
     font-family: "Raleway";
     /*font-family: "Comic Sans";*/
 
     visibility: hidden;
-    -webkit-transition: top 400 ease;
-    transition: top 400ms ease;
+
+    -webkit-transition: visibility 300 linear;
+    transition: visibility 300ms linear;
 }
 
-/*#gameover-window  h1 {
-    font-size: 80px;
-    font-weight: 700;
-}
-*/
 
-#gameover-window svg text {
+#gameover-text {
     text-anchor : middle;
      /*font-family:Verdana;*/
-    font-size: 70px;
+    font-size: 100px;
     font-weight: 900;
-    /*fill:#050;*/
     fill:green;
-    stroke-width:3;
+    stroke-width:4;
     stroke : lightgrey;
     /*letter-spacing:1em; */
     /*kerning:40px;*/
+
+    margin-bottom: 80px;
+    margin-top: -500px;
+
+    -webkit-transition: margin-top 500 linear;
+    transition: margin-top 500ms linear;
 }
 
-#gameover-window.lose svg text {
-    /*fill:#500;*/
+#gameover-window.lose #gameover-text {
     fill:red;
 }
 
-#gameover-window .glyphicon {
-    font-size: 80px;
-    /*font-weight: 700;*/
+#gameover-window.active #gameover-text {
+    margin-top: 100px;
 }
 
-#gameover-window .state-icon .glyphicon {
-    font-size: 250px;
-    color : grey;
 
-/*   -webkit-text-fill-color: red;
-   -webkit-text-stroke-width: 3px;
-   -webkit-text-stroke-color: black;
-*/}
+#gameover-window .glyphicon {
+    font-size: 80px;
+    font-weight: 900;
+    color: lightgrey;
+
+    text-shadow: 0 0 6px black;
+
+    -webkit-transition: font-size 150 linear;
+    transition: font-size 150ms linear;
+}
+
+#gameover-window .glyphicon:hover {
+    font-size: 90px;
+    cursor: pointer;
+}
 
 #gameover-window.active {
     visibility: visible;
-    top:20%;
+    background-color:  rgba(0, 0, 0, 0.5);
 }
+
 
 div {
     -webkit-transition: width 350 ease;

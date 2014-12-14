@@ -20,7 +20,7 @@
     </div>
 
     <div ng-if="!editMode">
-        Players has {{operators[cond.operator]}} {{cond.quantity}} {{cond.token.type}} aligned on the board.
+        Player has {{operators[cond.operator]}} {{cond.quantity}} {{cond.token.type}}{{cond.quantity>1?'s':''}} aligned on the board.
     </div>
 
 </div>

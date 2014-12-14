@@ -1,31 +1,5 @@
 <div>
 
-<!-- <nav class="navbar navbar-default navbar-fixed-top" role="banner">
-  <div class="container-fluid">
-    <div class="navbar-header">
-      <button class="navbar-toggle" type="button" data-toggle="collapse" data-target=".navbar-collapse">
-        <span class="sr-only">Toggle navigation</span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </button>
-      <a ui-sref=".top" class="navbar-brand"><b>{{game.name}}</b></a>
-    </div>
-    <div class="collapse navbar-collapse" role="navigation">
-      <ul class="nav navbar-nav navbar-left">
-        <li>
-          <a ui-sref="game.rb"><span  title="rulebook" class="glyphicon glyphicon-cog"></span></a>
-        </li>
-      </ul>
-      <ul class="nav navbar-nav navbar-right">
-        <li>
-          <a href="#home">Rulit</a>
-        </li>
-      </ul>
-    </div>
-  </div>
-</nav> -->
-
 <div class="container" id="game-view"
      ng-style="{'background':game.theme.background, 'fill':game.theme.background, 'color':game.theme.color}">
 
@@ -92,17 +66,7 @@
                 </svg>
             </div>
 
-            <!-- GAME OVER WINDOW -->
-            <div id="gameover-window" ng-class="{active:game.gameover,win:game.player().win,lose:game.player().lose}">
-  <!--               <span class="state-icon">
-                    <span ng-if="game.player.win" class="glyphicon glyphicon-star"></span>
-                    <span ng-if="game.player.lose" class="glyphicon glyphicon-thumbs-down"></span>
-                </span> -->
-                <svg  height="100%" width="100%" viewBox="-50 -50 100 100" preserveAspectRatio="xMidYMid meet">
-                    <text dy="0.3em">You {{game.player().win ? 'win' : 'lose'}}!</text>
-                </svg>
-                <span class="icon"><span class="glyphicon glyphicon-repeat"></span></span>
-            </div>
+
 
             <!-- BOARD -->
             <ri-board
@@ -126,8 +90,20 @@
             </div>
         </div>
 
+        <!-- GAME OVER WINDOW -->
+        <div id="gameover-window" class="container" ng-class="{active:game.gameover,win:game.player().win,lose:game.player().lose}">
+            <svg id="gameover-text" height="100px" width="100%" viewBox="-50 -50 100 100" preserveAspectRatio="xMidYMid meet">
+                <text dy="0.3em">You {{game.player().win ? 'win' : 'lose'}}!</text>
+            </svg>
+            <span id="gameover-menu" class="pull-down">
+                <span  ui-sref="game.menu" class="icon"><span class="glyphicon glyphicon-repeat"></span></span>
+            </span>
+        </div>
 
     </div>
+
+
+
 
 <!--     <div class="row" ng-if="rulit.layout.mode != 1">
         <div class="col-md-12" id="debug-box">
@@ -148,5 +124,7 @@
     </div>
 
 </div>
+
+
 
 </div>

@@ -56,10 +56,18 @@ angular.module('ri.module.game', ['ri.module.action', 'ri.module.board', 'ri.mod
             state.players.idx++;
             state.players.idx %= state.players.all.length;
             state.players.current = state.players.all[state.players.idx];
+        },
+        init : function() {
+            for (p in state.players.all) {
+                var player = state.players.all[p];
+                for (prop in player.properties) {
+                    player.properties[prop] = 0;
+                }
+            }
+            state.players.idx = 0;
+            state.players.current = state.players.all[0];
         }
     }
-
-    state.players.current = state.players.all[0];
 
     return state;
 })
@@ -96,15 +104,25 @@ angular.module('ri.module.game', ['ri.module.action', 'ri.module.board', 'ri.mod
 
     this.turn = 1;
     this.currentPhaseIdx = 0;
-    this.pouet = 0;
 
     this.message = "Select an action";
+
 
     function setProp(elems, attr, value) {
         for (e in elems) {
             elems[e][attr] = value;
         }
     }
+
+   startGame();
+
+    function startGame() {
+        gameState.init();
+         // Auto select the first action
+        var phaseActions = game.turnPhases[0] && game.turnPhases[0].actions;
+        phaseActions && actions.select(phaseActions[0]);
+    }
+
 
     this.nextTurn = function() {
 
@@ -132,6 +150,8 @@ angular.module('ri.module.game', ['ri.module.action', 'ri.module.board', 'ri.mod
 
         this.selectElem(null,null);
     }
+
+
 
     this.selectElem = function(elem, type) {
         this.selectedElem && (this.selectedElem.selected = false);
@@ -345,6 +365,7 @@ angular.module('ri.module.game', ['ri.module.action', 'ri.module.board', 'ri.mod
 
         if (action.type == "get") {
             if (action.property) {
+                player().properties || (player().properties = {});
                 var props = player().properties;
                 props[action.property.name] || (props[action.property.name] = 0);
                 props[action.property.name] += action.quantity;
@@ -389,6 +410,18 @@ angular.module('ri.module.game', ['ri.module.action', 'ri.module.board', 'ri.mod
     this.name = $stateParams.name;
     this.game = game;
     // this.state = gameState;
-    this.players = gameState.players.all;
+
+    var players = gameState.players.all;
+    if (players.length > game.maxPlayer) {
+        players.splice(game.maxPlayer, players.length - game.maxPlayer);
+    } else {
+        for (var i = players.length; i < game.minPlayer; i++) {
+            players.push({});
+        }
+    }
+
+    this.players = players;
+
+
 }])
 ;

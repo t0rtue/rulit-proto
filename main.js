@@ -28,7 +28,10 @@ angular.module('rulit', ['ui.bootstrap', 'ui.router', 'ri.gameStore', 'ri.module
                     return gameStore.get($stateParams.name).then(function(g) {
                                 // Retro compatibility
                                 // i.e update loaded game data with newly needed properties
-                                g.goal || (g.goal = {end:[], win:[], lose:[]});
+                                g.goal = g.goal || {end:[], win:[], lose:[]};
+                                g.minPlayer = g.minPlayer || 1;
+                                g.maxPlayer = g.maxPlayer || 1;
+
                                 return g;
                             })
                 }

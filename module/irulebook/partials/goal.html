@@ -67,7 +67,7 @@
         <div class="conditions-container" ng-repeat="condtype in ['end', 'win','lose']">
             <div class="row show-on-hover" ng-repeat="cond in conditions[condtype]">
                 <div class="col-md-2">
-                    <span style="font-size:35px;vertical-align:middle">
+                    <span title="{{condtype}} condition" style="font-size:35px;vertical-align:middle">
                         <span ng-if="condtype=='end'" class="glyphicon glyphicon-bell"></span>
                         <span ng-if="condtype=='win'" class="glyphicon glyphicon-star-empty"></span>
                         <span ng-if="condtype=='lose'" class="glyphicon glyphicon-thumbs-down"></span>
@@ -82,7 +82,7 @@
             </div>
         </div>
 
-        <div ng-if="(conditions['end'].length == 0) && (conditions['win'].length == 0) && (conditions['lose'].length == 0)" class="centered">
+        <div ng-if="(conditions['end'].length + conditions['win'].length + conditions['lose'].length) == 0" class="centered">
             Endless game
         </div>
 
