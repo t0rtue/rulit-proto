@@ -1,0 +1,27 @@
+<div ng-init="operators={
+                'eq'   : 'exactly',
+                'gteq' : 'at least',
+                'lteq' : 'at most',
+                'gt'   : 'more than',
+                'lt'   : 'less than'
+            }">
+
+    <div ng-if="editMode">
+        Player has
+        <select
+            ng-model="condition.operator"
+            class="form-control"
+            ng-options="op as label for (op,label) in operators">
+        </select>
+        <input type="number" ng-model="condition.quantity" class="form-control small-input" placeholder="a number of"/>
+        <!-- <ri-input-token token='condition.token' types='tokenTypes'></ri-input-token> -->
+        <select ng-model="condition.token.type" ng-options="token.type as token.type for token in tokens" class="form-control" placeholder="token"></select>
+
+        aligned on the board
+    </div>
+
+    <div ng-if="!editMode">
+        Player has {{operators[condition.operator]}} {{condition.quantity}} {{condition.token.type}}{{condition.quantity>1?'s':''}} aligned on the board.
+    </div>
+
+</div>

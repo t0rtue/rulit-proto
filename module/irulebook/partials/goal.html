@@ -47,7 +47,7 @@
                     <div class="col-md-9">
                         <ri-remove-button ng-click="conditions[condtype].splice($index,1)"></ri-remove-button>
                         <div class="form-group form-inline">
-                            <ng-include src="'module/irulebook/condition/'+cond.type+'.html'" />
+                            <ri-condition condition="cond" tokens="tokens" edit-mode="true"></ri-condition>
                         </div>
                     </div>
                 </form>
@@ -76,7 +76,7 @@
 
                 <div class="col-md-10">
                     <div>
-                        <ng-include src="'module/irulebook/condition/'+cond.type+'.html'" />
+                        <ri-condition condition="cond"></ri-condition>
                     </div>
                 </div>
             </div>

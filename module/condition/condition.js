@@ -1,10 +1,24 @@
+/*
+    Enable to check a particular game state (property value, board configuration, ...)
+    Each specific condition is a service with an eval() method returning a boolean.
+*/
 angular.module('ri.module.condition', [
     'ri.module.board' // for ri.board.selector.neighbor
 ])
 
-.service('ri.conditions', function() {
+// Entry point to eval a particular condition
+.service('ri.condition', ['$injector', function($injector) {
+    return {
+        eval : function(cond, gamestate) {
+            var checker = $injector.get('ri.condition.' + cond.type);
+            return checker.eval(cond, gamestate);
+        }
+    }
+}])
 
-})
+/*
+    Specfic conditions
+*/
 
 .service('ri.condition.owning', function() {
     return {
@@ -48,6 +62,7 @@ angular.module('ri.module.condition', [
 
             for (l in lines) {
                 if (evaluators[cond.operator]( lines[l].length, cond.quantity-1)) {
+                    // TODO move in a controller, it's not the job of the condition to highlight elements
                     gamestate.selectedElem.highlight = true;
                     for (e in lines[l]) {
                         lines[l][e]['highlight'] = true;
@@ -60,5 +75,18 @@ angular.module('ri.module.condition', [
         }
     }
 }])
+
+// Condition view with a switch allowing edition
+.directive('riCondition', function () {
+    return {
+        restrict : 'E',
+        scope : {
+            'condition' : '=',
+            'tokens'    : '=',
+            'editMode'  : '@'
+        },
+        template : '<ng-include src="\'module/condition/partials/\' + condition.type + \'.html\'" />'
+    }
+});
 
 ;

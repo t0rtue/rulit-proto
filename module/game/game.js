@@ -96,8 +96,8 @@ angular.module('ri.module.game', ['ri.module.action', 'ri.module.board', 'ri.mod
 
 .controller(
     'ri.game.controller',
-    ['$injector', '$timeout', '$stateParams', 'ri.actions', 'ri.board.selector.neighbor' ,'match', 'riGame', 'riGrid', 'ri.game.state',
-    function($injector, $timeout, $stateParams, actions, neighborSelector, match, game, grid, gameState) {
+    ['$timeout', '$stateParams', 'ri.actions', 'ri.condition', 'ri.board.selector.neighbor' ,'match', 'riGame', 'riGrid', 'ri.game.state',
+    function($timeout, $stateParams, actions, condition, neighborSelector, match, game, grid, gameState) {
 
     this.name = $stateParams.name;
 
@@ -238,9 +238,7 @@ angular.module('ri.module.game', ['ri.module.action', 'ri.module.board', 'ri.mod
         for (type in {'win':1,'lose':1}) {
             for (c in game.goal[type]) {
                 var cond = game.goal[type][c];
-                var checker = $injector.get('ri.condition.'+cond.type);
-
-                res[type] = res[type] || checker.eval(cond, gameState);
+                res[type] = res[type] || condition.eval(cond, gameState);
             }
             player()[type] = res[type];
         }

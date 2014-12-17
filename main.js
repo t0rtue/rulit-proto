@@ -12,13 +12,6 @@ angular.module('rulit', ['ui.bootstrap', 'ui.router', 'ri.gameStore', 'ri.module
             url : "/",
             templateUrl : 'partials/home.html'
         })
-        .state('sandbox', {
-            url : "/sandbox",
-            templateUrl : 'partials/game.edit.html',
-            resolve: {
-                riGame : function($stateParams, gameStore) { return {} }
-            }
-        })
         .state('game', {
             url : "/:name",
             abstract: true,
