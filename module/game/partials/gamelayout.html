@@ -47,7 +47,7 @@
             </div>
 
             <!-- PHASE INFO -->
-            <div id="phase-info" ng-if="game.turnPhases.length>1" class="game-menu" ng-class="{out:!game.state.phaseStart}">
+            <div id="phase-info" ng-if="game.turnPhases.length>1" class="gameinfo-slide" ng-class="{out:!game.state.phaseStart}">
                 <!-- svg text is the simplest way i found to make a dynamic text size depending on parent div -->
                 <svg  height="100%" width="100%" viewBox="-50 -50 100 100" preserveAspectRatio="xMidYMid meet">
                     <text dy="0.3em">{{game.turnPhases[game.state.currentPhaseIdx].name}} phase</text>
@@ -56,7 +56,7 @@
 
 
             <!-- TURN INFO -->
-            <div id="turn-info" class="game-menu" ng-class="{out:!game.state.turnStart}">
+            <div id="turn-info" class="gameinfo-slide" ng-class="{out:!game.state.turnStart}">
                 <!-- svg text is the simplest way i found to make a dynamic text size depending on parent div -->
                 <svg class="pull-right" height="100%" width="40%" viewBox="-50 -50 100 100" preserveAspectRatio="xMidYMid meet">
                     <text ng-style="{fill:game.player().color}" dy="0.3em">{{game.player().name}}</text>
@@ -66,15 +66,12 @@
                 </svg>
             </div>
 
-
-
             <!-- BOARD -->
             <ri-board
                 data="game.board"
                 on-click-elem="game.selectBoardElem(elem,type)"
                 on-over-elem="game.overBoardElem(elem)">
             </ri-board>
-
 
         </div>
 
@@ -90,13 +87,35 @@
             </div>
         </div>
 
-        <!-- GAME OVER WINDOW -->
-        <div id="gameover-window" class="container" ng-class="{active:game.gameover,win:game.player().win,lose:game.player().lose}">
-            <svg id="gameover-text" height="100px" width="100%" viewBox="-50 -50 100 100" preserveAspectRatio="xMidYMid meet">
+        <!-- PLAYER OVER WINDOW -->
+        <div
+            id="player-over-window"
+            class="container game-menu"
+            ng-class="{
+                active:game.playerOver,
+                win:game.player().win,
+                lose:game.player().lose}">
+            <svg class="game-menu-text" height="100px" width="100%" viewBox="-50 -50 100 100" preserveAspectRatio="xMidYMid meet">
                 <text dy="0.3em">You {{game.player().win ? 'win' : 'lose'}}!</text>
             </svg>
-            <span id="gameover-menu" class="pull-down">
-                <span  ui-sref="game.menu" class="icon"><span class="glyphicon glyphicon-repeat"></span></span>
+            <span class="pull-down menu-actions">
+                <span ng-click="game.continueGame()" class="icon"><span class="glyphicon glyphicon-chevron-right"></span></span>
+            </span>
+        </div>
+
+        <!-- GAME OVER WINDOW -->
+        <div  id="game-over-window" class="container game-menu" ng-class="{active:game.gameOver}">
+            <svg class="game-menu-text" height="100px" width="100%" viewBox="-50 -50 100 100" preserveAspectRatio="xMidYMid meet">
+                <text dy="0.3em">Game Over</text>
+            </svg>
+            <div id="players-result">
+                <div ng-repeat="player in game.state.players.all">
+                    <span class="glyphicon glyphicon-{{player.win ? 'star' : 'thumbs-down'}}"></span>
+                    <span ng-style="{color:player.color}">{{player.name}}</span>
+                </div>
+            </div>
+            <span class="pull-down menu-actions">
+                <span ui-sref="game.menu" class="icon"><span class="glyphicon glyphicon-repeat"></span></span>
             </span>
         </div>
 

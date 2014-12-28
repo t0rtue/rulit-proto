@@ -273,7 +273,7 @@ body {
     font-size: 30px;
 }
 
-.game-menu {
+.gameinfo-slide {
     position:absolute;
     height:10%;
     width:80%;
@@ -287,11 +287,11 @@ body {
     transition: left 600ms ease;
 }
 
-.game-menu.out {
+.gameinfo-slide.out {
     left:-300%;
 }
 
-.game-menu svg text {
+.gameinfo-slide svg text {
     text-anchor : middle;
      /*font-family:Verdana;*/
     font-size: 50px;
@@ -306,9 +306,9 @@ body {
 }
 
 
-/* GAMEOVER WINDOW */
+/* PLAYER AND GAME OVER WINDOW */
 
-#gameover-window {
+.game-menu {
     position:absolute;
     height:100%;
 
@@ -327,35 +327,43 @@ body {
     transition: visibility 300ms linear;
 }
 
+.game-menu.active {
+    visibility: visible;
+    background-color:  rgba(0, 0, 0, 0.5);
+}
 
-#gameover-text {
+.game-menu-text {
     text-anchor : middle;
      /*font-family:Verdana;*/
     font-size: 100px;
     font-weight: 900;
-    fill:green;
+    fill:black;
     stroke-width:4;
     stroke : lightgrey;
     /*letter-spacing:1em; */
     /*kerning:40px;*/
 
-    margin-bottom: 80px;
     margin-top: -500px;
 
-    -webkit-transition: margin-top 500 linear;
-    transition: margin-top 500ms linear;
+    -webkit-transition: margin-top 300 linear;
+    transition: margin-top 300ms linear;
 }
 
-#gameover-window.lose #gameover-text {
+#player-over-window.lose .game-menu-text {
     fill:red;
 }
 
-#gameover-window.active #gameover-text {
+#player-over-window.win .game-menu-text {
+    fill:green;
+}
+
+.game-menu.active .game-menu-text {
     margin-top: 100px;
 }
 
+.game-menu .icon .glyphicon {
+    margin-top: 50px;
 
-#gameover-window .glyphicon {
     font-size: 80px;
     font-weight: 900;
     color: lightgrey;
@@ -366,16 +374,27 @@ body {
     transition: font-size 150ms linear;
 }
 
-#gameover-window .glyphicon:hover {
+.game-menu .icon .glyphicon:hover {
     font-size: 90px;
     cursor: pointer;
 }
 
-#gameover-window.active {
-    visibility: visible;
-    background-color:  rgba(0, 0, 0, 0.5);
+#game-over-window .game-menu-text {
+    font-size: 80px;
+    font-weight: 900;
+    stroke-width:1;
+    stroke:black;
+    fill:lightgrey;
 }
 
+#game-over-window #players-result {
+    font-size: 40px;
+    font-weight: 900;
+}
+
+#game-over-window #players-result .glyphicon {
+    color: lightgrey;
+}
 
 div {
     -webkit-transition: width 350 ease;

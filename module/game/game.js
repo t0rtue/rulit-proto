@@ -71,7 +71,12 @@ angular.module('ri.module.game', ['ri.module.action', 'ri.module.board', 'ri.mod
         nextPlayer : function() {
             state.players.idx++;
             state.players.idx %= state.players.all.length;
-            state.players.current = state.players.all[state.players.idx];
+            var currentPlayer= state.players.all[state.players.idx];
+            if (currentPlayer.lose) {
+                state.nextPlayer();
+            } else {
+                state.players.current = currentPlayer;
+            }
         },
 
         init : function(gameDesc) {
@@ -82,6 +87,7 @@ angular.module('ri.module.game', ['ri.module.action', 'ri.module.board', 'ri.mod
 
             for (p in state.players.all) {
                 var player = state.players.all[p];
+                player.lose = player.win = false;
                 for (prop in player.properties) {
                     player.properties[prop] = 0;
                 }
@@ -224,9 +230,11 @@ angular.module('ri.module.game', ['ri.module.action', 'ri.module.board', 'ri.mod
     this.player = player;
 
 
-    this.checkEndGame = function() {
+    // Is the player win or lose
+    // Return true if player over
+    this.updatePlayerState = function() {
         // TODO service GameState
-        var gameState = {
+        var _gameState = {
             grid : grid,
             player : player(),
             turn: this.turn,
@@ -238,7 +246,7 @@ angular.module('ri.module.game', ['ri.module.action', 'ri.module.board', 'ri.mod
         for (type in {'win':1,'lose':1}) {
             for (c in game.goal[type]) {
                 var cond = game.goal[type][c];
-                res[type] = res[type] || condition.eval(cond, gameState);
+                res[type] = res[type] || condition.eval(cond, _gameState);
             }
             player()[type] = res[type];
         }
@@ -255,14 +263,42 @@ angular.module('ri.module.game', ['ri.module.action', 'ri.module.board', 'ri.mod
         return false;
     }
 
+    /*
+        Check and manage current player state.
+        Is the player over ?
+        Is the player turn finished ?
+    */
     this.manageEnd = function() {
         // Manage end game
-        this.gameover = this.checkEndGame();
+        this.playerOver = this.updatePlayerState();
 
-        if (!this.gameover) {
+        if (!this.playerOver) {
             // Auto next phase if player can not play
             if (this.checkEndPhase(gameState.currentPhaseIdx)) {
                 this.nextTurn();
+            }
+        }
+    }
+
+    /*
+        Manage the next step after a player is over (win or lose)
+        Either the game continue (no winner and still players)
+        or game over (a player win)
+    */
+    this.continueGame = function() {
+        this.playerOver = false;
+        var inGamePlayers = $.grep(
+                                gameState.players.all,
+                                function(e) {return (!e.lose && !e.win)}
+                            );
+
+        this.gameOver = (player().win || inGamePlayers.length < 2);
+        if (!this.gameOver) {
+            this.nextTurn();
+        } else {
+            // Set the win state of remaining players
+            for (i in inGamePlayers) {
+                inGamePlayers[i].win = !player().win;
             }
         }
     }
