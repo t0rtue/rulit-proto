@@ -13,7 +13,7 @@
         <br/>
 
         <div>
-            <span class="glyphicon glyphicon-user" title="players"></span> 1
+            <span ng-if="game.meta.players" class="glyphicon glyphicon-user" title="players"></span> {{game.meta.players}}
 
             <span ng-if="game.meta.time" class="glyphicon glyphicon-time" title="time" style="margin-left: 15px"></span> {{game.meta.time}}
         </div>
