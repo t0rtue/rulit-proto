@@ -38,15 +38,12 @@ angular.module('ri.module.game', ['ri.module.action', 'ri.module.board', 'ri.mod
         players : {
             all : [
                 {
-                    name:'Tortue',
+                    name:'Player1',
                     color:'green',
-                    properties : {
-                        'gold' : 0,
-                        'victory point' : 0,
-                    }
-                }, {
-                    name:'Player2',
-                    color:'yellow',
+                    // properties : {
+                    //     'gold' : 0,
+                    //     'victory point' : 0,
+                    // }
                 }
             ],
             current : null,
@@ -448,24 +445,32 @@ angular.module('ri.module.game', ['ri.module.action', 'ri.module.board', 'ri.mod
 
 .controller(
     'ri.gameMenu.controller',
-    ['$stateParams', 'riGame', 'ri.game.state',
-    function($stateParams, game, gameState) {
+    ['$stateParams', 'riGame', 'ri.game.state', function($stateParams, game, gameState) {
 
     this.name = $stateParams.name;
     this.game = game;
     // this.state = gameState;
-
     var players = gameState.players.all;
-    if (players.length > game.maxPlayer) {
-        players.splice(game.maxPlayer, players.length - game.maxPlayer);
-    } else {
-        for (var i = players.length; i < game.minPlayer; i++) {
-            players.push({});
+    this.players = players;
+
+    this.addPlayer = function() {
+        players.push({
+            name : 'Player' + (players.length+1),
+            color: ['green', 'yellow', 'blue', 'red', 'pink', 'white', 'black'][players.length]
+        });
+    }
+
+    this.init = function() {
+        if (players.length > game.maxPlayer) {
+            players.splice(game.maxPlayer, players.length - game.maxPlayer);
+        } else {
+            for (var i = players.length; i < game.minPlayer; i++) {
+                this.addPlayer();
+            }
         }
     }
 
-    this.players = players;
-
+    this.init();
 
 }])
 ;
