@@ -16,7 +16,7 @@
 
         <div class="col-md-9">
 
-            <div class="form-group form-inline">
+            <div class="form-group form-inline" ng-if="action.type">
                 <ng-include src="'module/action/action.'+action.type+'.html'" />
             </div>
 
