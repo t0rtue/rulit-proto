@@ -1,4 +1,4 @@
-rulit-proto (v0.2.0)
+rulit-proto (v0.3.0)
 ==================
 
 Rulit proof of concept.
