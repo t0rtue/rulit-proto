@@ -65,12 +65,21 @@
     <!-- GAME MODE -->
     <div ng-if="!editMode" >
         <div class="conditions-container" ng-repeat="condtype in ['end', 'win','lose']">
-            <div class="row show-on-hover" ng-repeat="cond in conditions[condtype]">
+            <div
+                ng-repeat="cond in conditions[condtype]"
+                class="row"
+                style="min-height:50px"
+                ng-mouseenter="hover=true"
+                ng-mouseleave="hover=false">
+
                 <div class="col-md-2">
-                    <span title="{{condtype}} condition" style="font-size:35px;vertical-align:middle">
+                    <span ng-if="!hover" title="{{condtype}} condition" style="font-size:35px;vertical-align:middle">
                         <span ng-if="condtype=='end'" class="glyphicon glyphicon-bell"></span>
                         <span ng-if="condtype=='win'" class="glyphicon glyphicon-star-empty"></span>
                         <span ng-if="condtype=='lose'" class="glyphicon glyphicon-thumbs-down"></span>
+                    </span>
+                    <span ng-if="hover" title="{{condtype}} condition" style="font-size:20px;vertical-align:middle">
+                        <b>{{condtype}}</b>
                     </span>
                 </div>
 
@@ -79,6 +88,7 @@
                         <ri-condition condition="cond"></ri-condition>
                     </div>
                 </div>
+
             </div>
         </div>
 
