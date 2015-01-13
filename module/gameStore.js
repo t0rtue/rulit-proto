@@ -21,18 +21,24 @@ angular.module('ri.gameStore', ['ngResource'])
 
         // List of games metadata. Populated by loadGamesList()
         games : [],
+        loaded : false,
 
         /*
             Load games list into store.games from public (gist) and local storage
             Games list do not contains all games data but only game metadata (name, source)
         */
         loadGamesList : function(gamesGistID) {
+
+            var deferred = $q.defer();
+
             // Public from gist
             var gamesGist = gistStore.get({ id: gamesGistID }, function() {
                 var publicGames = angular.fromJson( gamesGist.files['games.json'].content );
                 angular.forEach(publicGames, function(meta, name) {
                     store.games.push({name:name, source:'public', id:meta.gist_id, meta:meta});
                 });
+
+                deferred.resolve();
             });
 
             // Locals
@@ -40,6 +46,10 @@ angular.module('ri.gameStore', ['ngResource'])
             angular.forEach(localGames, function(meta) {
                 store.games.push({name:meta.name, source:'local', id:1, meta:meta });
             });
+
+            store.loaded = true;
+
+            return deferred.promise;
         },
 
         /*

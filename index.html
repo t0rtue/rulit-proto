@@ -49,14 +49,7 @@
     </script>
 
 </head>
-<body ng-controller="rulit.controller as rulit">
-
-    <!-- Dynamically load bootstrap theme depending on user choice -->
-    <link
-        ng-if="rulit.bootstrapTheme != 'standard'"
-        ng-attr-href="http://maxcdn.bootstrapcdn.com/bootswatch/3.3.0/{{rulit.bootstrapTheme}}/bootstrap.min.css"
-        rel="stylesheet"
-    />
+<body>
 
     <section ui-view></section>
 

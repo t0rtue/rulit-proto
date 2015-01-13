@@ -10,15 +10,19 @@ angular.module('rulit', ['ui.bootstrap', 'ui.router', 'ri.gameStore', 'ri.module
     $stateProvider
         .state('main', {
             url : "/",
-            templateUrl : 'partials/home.html'
+            templateUrl  : 'partials/home.html',
+            controller   : 'rulit.controller',
+            controllerAs : 'rulit'
         })
         .state('game', {
             url : "/:name",
             abstract: true,
             templateUrl: 'module/game/gameView.html',
             resolve: {
-                riGame : function($stateParams, gameStore) {
-                    return gameStore.get($stateParams.name).then(function(g) {
+                riGame : function($stateParams, gameStore, gameListGistID) {
+
+                    function _loadGame() {
+                        return gameStore.get($stateParams.name).then(function(g) {
                                 // Retro compatibility
                                 // i.e update loaded game data with newly needed properties
                                 g.goal = g.goal || {end:[], win:[], lose:[]};
@@ -27,6 +31,12 @@ angular.module('rulit', ['ui.bootstrap', 'ui.router', 'ri.gameStore', 'ri.module
 
                                 return g;
                             })
+                    }
+
+                    // If direct url access to a specific game we load the games list first
+                    return gameStore.loaded ? _loadGame()
+                                            : gameStore.loadGamesList(gameListGistID).then(_loadGame);
+
                 }
             },
             controller : function($scope, $stateParams) {
@@ -71,8 +81,6 @@ angular.module('rulit', ['ui.bootstrap', 'ui.router', 'ri.gameStore', 'ri.module
     this.layout = {
         mode : 2
     };
-
-    this.bootstrapTheme='standard';
 
     this.games = gameStore.games;
     gameStore.loadGamesList(gameListGistID);
