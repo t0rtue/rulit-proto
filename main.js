@@ -2,6 +2,12 @@ angular.module('rulit', ['ui.bootstrap', 'ui.router', 'ri.gameStore', 'ri.module
 
 .value('gameListGistID', 'a4fad8d36b6acfb39835')
 
+// Disable debug (production) allow better performance. Need anuglar 1.3
+// .config(['$compileProvider', function ($compileProvider) {
+//     // disable debug info
+//     $compileProvider.debugInfoEnabled(false);
+// }])
+
 .config(function($stateProvider, $urlRouterProvider, $locationProvider) {
 
     // $locationProvider.html5Mode(true);
@@ -83,7 +89,7 @@ angular.module('rulit', ['ui.bootstrap', 'ui.router', 'ri.gameStore', 'ri.module
     };
 
     this.games = gameStore.games;
-    gameStore.loadGamesList(gameListGistID);
+    gameStore.loaded || gameStore.loadGamesList(gameListGistID);
 
     this.createGame = function(name) {
         gameStore.save(name, {
