@@ -10,6 +10,30 @@
             }
           });
       })
+
+      /*
+        Minimalist scrollspy
+        Activate menu item according to scroll position
+      */
+      var anchors = $("span.anchor");
+      var menuItems = $("#sidebar > li");
+      $(window).scroll(function(){
+          var fromTop = $(this).scrollTop() + 50;
+
+         var cur = anchors.map(function(){
+              if ($(this).offset().top < fromTop) {
+                return this;
+              }
+          });
+
+          // Get the id of the current element
+          var id = cur && cur.length ? cur[cur.length-1].id : "";
+
+          // Add/remove active class
+          menuItems.removeClass("active").find("a").blur();
+          menuItems.find('[ui-sref=".' + id + '"]').parent().addClass("active");
+
+      });
   </script>
 
 
