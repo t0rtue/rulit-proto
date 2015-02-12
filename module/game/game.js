@@ -87,8 +87,11 @@ angular.module('ri.module.game', ['ri.module.action', 'ri.module.board', 'ri.mod
             for (p in state.players.all) {
                 var player = state.players.all[p];
                 player.lose = player.win = false;
-                for (prop in player.properties) {
-                    player.properties[prop] = 0;
+                // Init player properties
+                player.properties = {};
+                for (p in gameDesc.init.playerProps) {
+                    var prop = gameDesc.init.playerProps[p];
+                    player.properties[prop.name] = prop.value;
                 }
             }
             state.players.idx = 0;

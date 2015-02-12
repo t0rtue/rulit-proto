@@ -34,7 +34,7 @@ angular.module('rulit', ['ui.bootstrap', 'ui.router', 'ri.gameStore', 'ri.module
                                 g.goal = g.goal || {end:[], win:[], lose:[]};
                                 g.minPlayer = g.minPlayer || 1;
                                 g.maxPlayer = g.maxPlayer || 1;
-
+                                g.init = g.init || {playerProps : []}
                                 return g;
                             })
                     }
@@ -121,6 +121,9 @@ angular.module('rulit', ['ui.bootstrap', 'ui.router', 'ri.gameStore', 'ri.module
             turnPhases : [],
             theme : {
                 background : '#002'
+            },
+            init : {
+                playerProps : []
             }
         });
     }
