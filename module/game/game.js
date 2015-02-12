@@ -41,6 +41,7 @@ angular.module('ri.module.game', ['ri.module.action', 'ri.module.board', 'ri.mod
                 {
                     name:'Player1',
                     color:'green',
+                    properties : {},
                     // properties : {
                     //     'gold' : 0,
                     //     'victory point' : 0,
@@ -136,15 +137,23 @@ angular.module('ri.module.game', ['ri.module.action', 'ri.module.board', 'ri.mod
         }
     }
 
-   startGame();
-
-    function startGame() {
-        gameState.init(game);
-         // Auto select the first action
-        var phaseActions = game.turnPhases[0] && game.turnPhases[0].actions;
+    this.initActionsState = function() {
+        var phaseIdx = gameState.currentPhaseIdx;
+        var phaseActions = game.turnPhases[phaseIdx] && game.turnPhases[phaseIdx].actions;
+        // Trick to unselect actions due to save/load selected state (TODO clean)
+        for (a in phaseActions) {
+            phaseActions[a].selected = false;
+        }
+        // Auto select the first action
         phaseActions && actions.select(phaseActions[0]);
+        // Disable unpayable actions
+        this.updateActionsState();
     }
 
+    this.startGame = function() {
+        gameState.init(game);
+        this.initActionsState();
+    }
 
     this.nextTurn = function() {
 
@@ -158,9 +167,7 @@ angular.module('ri.module.game', ['ri.module.action', 'ri.module.board', 'ri.mod
             gameState.turnStart=0;
         }, 1000);
 
-        // Auto select the first action
-        var phaseActions = game.turnPhases[gameState.currentPhaseIdx].actions;
-        phaseActions && actions.select(phaseActions[0]);
+        this.initActionsState();
 
         this.selectElem(null,null);
     }
@@ -262,11 +269,60 @@ angular.module('ri.module.game', ['ri.module.action', 'ri.module.board', 'ri.mod
     }
 
     /*
+        Deactivate not payable actions
+    */
+    this.updateActionsState = function() {
+        // Disable action if cost > player resources
+        var phaseActions = game.turnPhases[gameState.currentPhaseIdx].actions;
+        for (a in phaseActions) {
+            var action = phaseActions[a];
+            action.payable = true;
+            for (t in action.cost) {
+                var transac = action.cost[t];
+                if (transac.source == "player") {
+                    if ( !player().properties[transac.property] || (player().properties[transac.property] < transac.quantity)) {
+                        transac.over = true;
+                        action.payable = false;
+                        action.selected && actions.cancel();
+                    } else {
+                        transac.over = false;
+                    }
+                }
+            }
+        }
+    }
+
+    /*
         Check and manage current player state.
         Is the player over ?
         Is the player turn finished ?
     */
     this.manageEnd = function() {
+
+        // Decrease resources according to played action cost
+        for (t in actions.current.cost) {
+            var transac = actions.current.cost[t];
+
+            if (transac.source == "player") {
+                // Player level
+                player().properties[transac.property] ?
+                    player().properties[transac.property]-= transac.quantity :
+                    player().properties[transac.property] = -transac.quantity;
+            } else {
+                // Selected token level
+                this.selectedElem.token.properties || (this.selectedElem.token.properties = []);
+                var prop = $.grep(this.selectedElem.token.properties, function(e) {return e.name == transac.property})[0];
+                if (prop) {
+                    prop.value -= transac.quantity;
+                } else {
+                    this.selectedElem.token.properties.push({name:transac.property, value:-transac.quantity});
+                }
+            }
+        }
+
+        // Deactivate not more payable actions
+        this.updateActionsState();
+
         // Manage end game
         this.playerOver = this.updatePlayerState();
 
@@ -403,6 +459,12 @@ angular.module('ri.module.game', ['ri.module.action', 'ri.module.board', 'ri.mod
     }
 
     this.selectAction = function(action) {
+
+        if (!action.payable) {
+            this.message = "Not enough resources for this action";
+            return;
+        }
+
         actions.select(action);
 
         if (action.type == "get") {
@@ -442,6 +504,11 @@ angular.module('ri.module.game', ['ri.module.action', 'ri.module.board', 'ri.mod
         return ['toto','pawn'];
     }
 
+    /*
+        Start game
+    */
+    this.startGame();
+
 }])
 
 .controller(
@@ -457,7 +524,8 @@ angular.module('ri.module.game', ['ri.module.action', 'ri.module.board', 'ri.mod
     this.addPlayer = function() {
         players.push({
             name : 'Player' + (players.length+1),
-            color: ['green', 'yellow', 'blue', 'red', 'pink', 'white', 'black'][players.length]
+            color: ['green', 'yellow', 'blue', 'red', 'pink', 'white', 'black'][players.length],
+            properties : {}
         });
     }
 

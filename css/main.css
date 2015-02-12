@@ -240,6 +240,11 @@ body {
     background: #003;
 }
 
+#game-view .list-group-item.disabled {
+    background: #222;
+    color: #444;
+}
+
 #game-view hr {
     /*color: #113;*/
     border: solid 1px #333;
@@ -398,4 +403,8 @@ body {
 div {
     -webkit-transition: width 350 ease;
     transition: width 350ms ease;
+}
+
+.transac .over {
+    color : red;
 }

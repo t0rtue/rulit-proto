@@ -16,7 +16,7 @@
 
     <div class="clearfix">
         <div ng-repeat="(prop, value) in game.players.current.properties">
-                <div class="pull-left" >
+                <div ng-if="game.propertyView[prop]" class="pull-left" >
                     <svg
                         width="30" height="30"
                         viewBox="-50 -50 100 100">
@@ -28,10 +28,18 @@
                             </ri-token>
                         </g>
                     </svg>
-
-                    {{value}}
-
                 </div>
+
+                <div
+                    ng-if="!game.propertyView[prop]" class="pull-left"
+                    style="line-height:30px;margin-left:10px;margin-right:5px">
+                    {{prop}}
+                </div>
+
+                <div class="pull-left" style="line-height:30px">
+                    {{value}}
+                </div>
+
         </div>
     </div>
 
