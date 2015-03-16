@@ -91,7 +91,7 @@ angular.module('ri.module.game', ['ri.module.action', 'ri.module.board', 'ri.mod
                 player.properties = {};
                 for (p in gameDesc.init.playerProps) {
                     var prop = gameDesc.init.playerProps[p];
-                    player.properties[prop.name] = prop.value;
+                    player.properties[prop.name] = parseInt(prop.value);
                 }
             }
             state.players.idx = 0;
