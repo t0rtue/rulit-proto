@@ -1,6 +1,14 @@
 <div class="list-group">
     <a ng-repeat="game in games | filter:{source:source}"
-       class="list-group-item game-item show-on-hover">
+       class="list-group-item game-item show-on-hover clearfix">
+
+       <div ng-if="game.meta.thumb" class="pull-left" style="padding-right:10px">
+            <img
+                height="100px"
+                ng-attr-src="https://gist.githubusercontent.com/t0rtue/{{game.id}}/raw/{{game.meta.thumb}}/thumbnail.png">
+            </img>
+       </div>
+
         <p>
             <span class="game-name">{{game.name}}</span>
 
@@ -17,5 +25,6 @@
 
             <span ng-if="game.meta.time" class="glyphicon glyphicon-time" title="time" style="margin-left: 15px"></span> {{game.meta.time}}
         </div>
+
     </a>
 </div>
