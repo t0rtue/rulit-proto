@@ -81,6 +81,25 @@ angular.module('rulit', ['ui.bootstrap', 'ui.router', 'ri.gameStore', 'ri.module
                 $scope.game = game;
             }]
         })
+        .state('doc', {
+            url : "/doc",
+            templateUrl  : 'doc/index.html'
+        })
+        .state('doc.gameslist', {
+            url : "#gameslist"
+        })
+        .state('doc.gameview', {
+            url : "#gameview"
+        })
+        .state('doc.rulebook', {
+            url : "#rulebook"
+        })
+        .state('doc.helloworld', {
+            url : "#helloworld"
+        })
+        .state('doc.totry', {
+            url : "#totry"
+        })
 })
 
 .controller('rulit.controller', ['gameStore', 'gameListGistID', function(gameStore, gameListGistID) {

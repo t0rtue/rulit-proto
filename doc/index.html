@@ -1,0 +1,171 @@
+<div class="container" >
+    <div class="row centered">
+        <div id="" class="col-md-12">
+            <h1 class="product-name"><b>Rulit</b> <small>User documentation</small></h1>
+        </div>
+    </div>
+    <!-- <hr/> -->
+
+
+    <div class="row">
+        <div class="col-md-12 centered">
+            <ol class="">
+                <li><a ui-sref=".gameslist">The Games List</a></li>
+                <li><a ui-sref=".gameview">The Game View</a></li>
+                <li><a ui-sref=".rulebook">The Rulebook</a></li>
+                <li><a ui-sref=".helloworld">Hello World: Tic-Tac-Toe</a></li>
+                <li><a ui-sref=".totry">Things to try</a></li>
+            </ol>
+        </div>
+    </div>
+    <div class="row centered">
+        <div class="col-md-12 alert alert-info" role="alert">
+                <b>Any questions?</b>
+                Do not hesitate to <a href="mailto:turtlelab@free.fr" class="alert-link">email me</a>.
+        </div>
+    </div>
+
+    <!--
+        GAMES LIST
+    -->
+    <div class="row">
+        <div class="col-md-12">
+            <h2 id="gameslist">The list of games</h2>
+        </div>
+        <div class="col-md-5">
+            <h3>Public and Local</h3>
+            Public games are visible by everyone. Local games are your own games, stored on your computer.
+
+            <h3>Create a game (1)</h3>
+            You can create as many Local games as you want. To do so you have to enter a name and then click on "Create"<br/>
+            You can not yet share your Local game and make it Public.
+
+            <h3>Fork a Public game</h3>
+            If you edit and save a Public game, this will create a new Local game with the same name and rules.
+
+            <h3><span class="glyphicon glyphicon-play"></span> Play a game (2)</h3>
+            Mouse over a game and click on the "play" icon to access the <a ui-sref=".gameview">Game view</a>.
+
+            <h3><span class="glyphicon glyphicon-cog"></span> View and edit rules (2)</h3>
+            Mouse over a game and click on the "gears" icon to access the <a ui-sref=".rulebook">Rulebook</a>.
+
+        </div>
+        <div class="col-md-7">
+            <img class="img-thumbnail" src="doc/img/games_list.png" width="100%" height="100%"></img>
+        </div>
+    </div>
+
+    <!--
+        GAME VIEW
+    -->
+    <div class="row">
+        <div class="col-md-12">
+            <h2 id="gameview">The Game view</h2>
+        </div>
+        <div class="col-md-12">
+            <h3>Navigation</h3>
+        </div>
+        <div class="col-md-5">
+            At the top of the page, the navigation menu allows to switch between the Rulebook <span class="glyphicon glyphicon-cog"></span> and the Game <span class="glyphicon glyphicon-play"></span>. You can also go back to the Games List by clicking on "<b>Rulit</b>" at the right. <br/>
+            At any moment during the game, if you click on <span class="glyphicon glyphicon-play"></span> then the game ends and you return to the game menu.
+        </div>
+        <div class="col-md-7">
+            <img class="img-thumbnail" src="doc/img/game_nav.png" width="100%" height="100%"></img>
+        </div>
+
+        <div class="col-md-12">
+            <h3>Game Menu</h3>
+        </div>
+        <div class="col-md-5">
+            Game information according to defined rules: name, description and a reminder of the end conditions.
+            <h4>Players management</h4>
+            You can add and remove players according to the limits (min and max) set by the rules. You can modify the name of each player, limited to 8 characters.
+            <h4>Launch game</h4>
+            To launch the game, just click on the big green play button.
+        </div>
+        <div class="col-md-7">
+            <img class="img-thumbnail" src="doc/img/game_menu.png" width="100%" height="100%"></img>
+        </div>
+
+        <div class="col-md-12">
+            <h3>Game Interface</h3>
+        </div>
+        <div class="col-md-5">
+            You can play the game, according to rules. All the necessary elements are present:
+            <ul>
+                <li>Player informations</li>
+                <li>Turn informations and controls</li>
+                <li>Board</li>
+                <li>Allowed actions</li>
+                <li>Message box</li>
+            </ul>
+        </div>
+        <div class="col-md-7">
+            <img class="img-thumbnail" src="doc/img/game_play.png" width="100%" height="100%"></img>
+        </div>
+    </div>
+
+    <!--
+        RULEBOOK
+    -->
+    <div class="row">
+        <div class="col-md-12">
+            <h2 id="rulebook">The Rulebook</h2>
+        </div>
+
+        <div class="col-md-12">
+            <h3>Navigation</h3>
+        </div>
+        <div class="col-md-5">
+            At the top of the page, the navigation menu allows to switch between the Rulebook <span class="glyphicon glyphicon-cog"></span> and the Game <span class="glyphicon glyphicon-play"></span>. You can also go back to the Games List by clicking on "<b>Rulit</b>" at the right.
+            <h4>Save</h4>
+            To save your modifications you can click on the save icon : <span class="glyphicon glyphicon-save"></span> / <span class="glyphicon glyphicon-saved"></span> <br/>
+            The game will be locally saved. If it is a Public game then a fork will be done and locally saved.
+        </div>
+        <div class="col-md-7">
+            <img class="img-thumbnail" src="doc/img/rulebook_nav.png" width="100%" height="100%"></img>
+        </div>
+
+        <div class="col-md-12">
+            <h3>View and edit</h3>
+        </div>
+        <div class="col-md-5">
+            The rulebook is fully editable, allowing to define the rules of your game or make variants of an existing game. <br/>
+            You can navigate in the rulebook using the left menu. There are 3 main parts:
+            <ul>
+                <li>The effective game rules</li>
+                <li>Help and game tips</li>
+                <li>Style and theme of the game</li>
+            </ul>
+        </div>
+        <div class="col-md-7">
+            <img class="img-thumbnail" src="doc/img/rulebook.png" width="100%" height="100%"></img>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <h2 id="helloworld">The "Hello World" game: Tic-tac-Toe</h2>
+        </div>
+         <div class="col-md-5">
+            Coming really soon, but you can try to do it yourself ;)
+         </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <h2 id="totry">Things to try</h2>
+        </div>
+        <div class="col-md-12">
+            <ul>
+                <li>Edit one of the demo games and change the board type: square / hexa. Then launch the game and experiment the various actions (put, move) on this new grid.</li>
+                <li>Edit Yavalath game and change the board type and size. You have now a new game with maybe interesting strategies.</li>
+                <li>Edit Yavalath game and change the win and lose conditions. You have now a new game with maybe interesting strategies.</li>
+                <li>Edit Yavalath game and add a phase during which the player can move one of his pawns. You get it.</li>
+                <li>Try to reproduce an existing game you like.</li>
+                <li>Change the rules of an existing game in order to create an interesting variant.</li>
+                <li>Create your own incredible game!</li>
+            </ul>
+        </div>
+    </div>
+</div>
