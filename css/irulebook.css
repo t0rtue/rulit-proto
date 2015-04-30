@@ -42,6 +42,9 @@ body {
     border-right-width:5px;
 }*/
 
+#leftCol {
+    font-size: 20px;
+}
 
 #rulebookWrap {
     background: #4D4D4D;

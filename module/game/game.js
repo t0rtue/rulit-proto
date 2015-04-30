@@ -32,6 +32,7 @@ angular.module('ri.module.game', ['ri.module.action', 'ri.module.board', 'ri.mod
     };
 })
 
+// It looks like a factory not a service. TODO clarify
 .service('ri.game.state', function() {
 
     var state = {
