@@ -185,6 +185,13 @@
             <h1>Turn</h1>
             <div class="row">
                 <div class="col-md-10">
+                    <div ng-show="game.updateActivated">
+                      <h2>Update</h2>
+                      <ng-include src="'module/irulebook/partials/update.html'"></ng-include>
+                    </div>
+                    <span ng-hide="game.updateActivated" class="control-add" ng-click="game.updateActivated=true">Activate update...</span>
+
+                    <h2>Phases</h2>
                     <rb-turn phases="rulebook.game.turnPhases" tokens="rulebook.game.tokens.all"></rb-turn>
                 </div>
                 <rb-info layout="col-md-2">
