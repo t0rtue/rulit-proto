@@ -1,0 +1,60 @@
+<div>
+  Do the following actions at the beginning of the turn.
+  <h4>For current player :</h4>
+  <ul class="list-group form-inline" >
+      <li ng-repeat="transac in rulebook.game.turnUpdate.player"
+          class="list-group-item no-border show-on-hover"
+          >
+          <ri-remove-button data="rulebook.game.turnUpdate.player" index="$index"></ri-remove-button>
+          <div class="row">
+              <div class="col-md-12">
+                  Transfer a quantity of
+                  <input ng-model="transac.prop" type="text" class="form-control input-sm" placeholder="property name"></input>
+                  equal to
+                  <input ng-model="transac.quantity" class="form-control input-sm" type="text" placeholder="value or property"></input>
+                  from
+                  <select ng-model="transac.from" class="form-control input-sm" ng-options="source for source in ['player', 'reserve']"></select>
+                  to
+                  <select ng-model="transac.to" class="form-control input-sm" ng-options="source for source in ['player', 'reserve']"></select>
+              </div>
+           </div>
+      </li>
+      <li class="list-group-item no-border">
+          <span class="control-add" ng-click="rulebook.game.turnUpdate.player.push({})">Add player update...</span>
+      </li>
+  </ul>
+
+    <div ng-repeat="(token,transacs) in rulebook.game.turnUpdate.tokens" class="show-on-hover">
+      <ri-remove-button data="rulebook.game.turnUpdate.tokens" key="token"></ri-remove-button>
+      <h4>For each <b>{{token}}</b> : </h4>
+      <ul class="list-group form-inline" >
+        <li ng-repeat="transac in transacs"
+            class="list-group-item no-border show-on-hover"
+            >
+            <ri-remove-button data="transacs" index="$index"></ri-remove-button>
+            <div class="row">
+                <div class="col-md-12">
+                    Transfer a quantity of
+                    <input ng-model="transac.prop" type="text" class="form-control input-sm" placeholder="property name"></input>
+                    equal to
+                    <input ng-model="transac.quantity" class="form-control input-sm" type="text" placeholder="value or property"></input>
+                    from
+                    <select ng-model="transac.from" class="form-control input-sm" ng-options="source for source in ['player', '{{token}}', 'reserve']"></select>
+                    to
+                    <select ng-model="transac.to" class="form-control input-sm" ng-options="source for source in ['player', '{{token}}', 'reserve']"></select>
+                </div>
+             </div>
+        </li>
+        <li class="list-group-item no-border">
+            <span class="control-add" ng-click="transacs.push({})">Add {{token}} update...</span>
+        </li>
+    </ul>
+    </div>
+
+    <div class="form-inline">
+      <span class="control-add" ng-click="updateTokenType&&(rulebook.game.turnUpdate.tokens[updateTokenType]=[])">
+        Add update for
+      </span>
+      <rb-token-select model="updateTokenType" tokens="game.tokens.all"></rb-token-select>
+    </div>
+</div>

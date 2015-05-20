@@ -1,6 +1,7 @@
 <div >
     <form role="form">
 
+    <div class="row">
         <div class="col-md-3 form-group form-inline">
             Player
             <select
@@ -21,6 +22,34 @@
             </div>
 
         </div>
+    </div>
+
+    <!--
+        Action cost
+    -->
+    <div class="row" ng-init="action.cost ? 1 : (action.cost = [])">
+        <hr/>
+        <div class="col-md-3">
+            <h4 ng-if="action.cost.length > 0">Cost</h4>
+        </div>
+        <div class="col-md-9">
+            <ul class="list-group" >
+                <li ng-repeat="transac in action.cost"
+                    class="list-group-item"
+                    >
+                    <div class="form-group form-inline">
+                        <input ng-model="transac.quantity" type="number" class="form-control input-sm" placeholder="quantity"></input>
+                        <input ng-model="transac.property" class="form-control input-sm" type="text" placeholder="property name"></input>
+                        from <select ng-model="transac.source" ng-options="source for source in ['player', 'token']" class="form-control input-sm" placeholder="player"></select>
+                     </div>
+                </li>
+                <li class="list-group-item">
+                    <span class="control-add" ng-click="action.cost.push({})">Add cost...</span>
+                </li>
+            </ul>
+        </div>
+    </div>
+
     </form>
 
 </div>

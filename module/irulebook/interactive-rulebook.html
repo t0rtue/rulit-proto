@@ -185,6 +185,13 @@
             <h1>Turn</h1>
             <div class="row">
                 <div class="col-md-10">
+                    <div ng-show="game.updateActivated">
+                      <h2>Update</h2>
+                      <ng-include src="'module/irulebook/partials/update.html'"></ng-include>
+                    </div>
+                    <span ng-hide="game.updateActivated" class="control-add" ng-click="game.updateActivated=true">Activate update...</span>
+
+                    <h2>Phases</h2>
                     <rb-turn phases="rulebook.game.turnPhases" tokens="rulebook.game.tokens.all"></rb-turn>
                 </div>
                 <rb-info layout="col-md-2">
@@ -197,7 +204,28 @@
             <h1>Setup</h1>
             <div class="row">
                 <div class="col-md-10">
+                    <h3>Board setup</h3>
                     Initially, the board is empty.
+
+                    <h3>Player's resources</h3>
+                    <ul class="list-group" >
+                        <li ng-repeat="prop in rulebook.game.init.playerProps"
+                            class="list-group-item no-border show-on-hover"
+                            >
+                            <div class="row">
+                               <ri-remove-button data="rulebook.game.init.playerProps" index="$index"></ri-remove-button>
+                                <div class="col-md-3">
+                                    <input ng-model="prop.name" type="text" class="form-control input-sm" placeholder="property name"></input>
+                                </div>
+                                <div class="col-md-3">
+                                    <input ng-model="prop.value" class="form-control input-sm" type="text" placeholder="default value"></input>
+                                </div>
+                             </div>
+                        </li>
+                        <li class="list-group-item no-border">
+                            <span class="control-add" ng-click="rulebook.game.init.playerProps.push({})">Add a property...</span>
+                        </li>
+                    </ul>
                     <!-- <h3>Player resources</h3>
                     <div ng-repeat="(prop, value) in game.player.properties">
                         <div >
@@ -218,7 +246,7 @@
 
                         </div>
                     </div>
-                    <h3>Board setup</h3>
+
                     <h3>Reserve</h3> -->
                 </div>
                 <rb-info layout="col-md-2">

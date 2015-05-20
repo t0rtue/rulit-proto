@@ -198,4 +198,21 @@ angular.module('ri.module.irulebook', ['ui.router'])
     }
 }])
 
+.directive('rbTokenSelect', [function() {
+    return {
+        restrict : 'E',
+        scope : {
+            'tokens' : '=',
+            'model' : '='
+        },
+        template : '<select ng-model="model" class="form-control input-sm" ng-options="type for type in tokenTypes" class="form-control"></select>',
+        link: function (scope, element) {
+            scope.$watch('tokens', function(tok) {
+                scope.tokenTypes = tok.map(function(e){return e.type});
+                scope.model = scope.tokenTypes[0];
+              }, true);
+        }
+    }
+}])
+
 ;

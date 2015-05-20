@@ -41,6 +41,7 @@ angular.module('ri.module.game', ['ri.module.action', 'ri.module.board', 'ri.mod
                 {
                     name:'Player1',
                     color:'green',
+                    properties : {},
                     // properties : {
                     //     'gold' : 0,
                     //     'victory point' : 0,
@@ -52,8 +53,112 @@ angular.module('ri.module.game', ['ri.module.action', 'ri.module.board', 'ri.mod
         },
         turn : 1,
         currentPhaseIdx : 0,
+        gameDesc : null,
 
+        /*
+            Pass to the next phase of the turn
+            If it was the last phase then pass to the next turn and trigger the update
+        */
         nextTurn : function() {
+
+            /*
+            Update properties values according to defined update transactions.
+            Enabled for current player and for each tokens of a specific type.
+
+                take    : *to* player
+                give    : *from* player
+                add     : *to* token
+                remove  : *from* token
+                transfer: *from* token *to* player || *from* player *to* token
+
+             UPDATE DEFINITION SAMPLE
+                {
+                    'player' : [
+                        {prop :'AP', quantity : '1', to : 'player'},
+                        {prop :'food', quantity : '1', from : 'player'},
+                    ],
+                    'tokens' : {
+                        'town' : [
+                            {prop :'gold', quantity : '3', to : 'town'},
+                            {prop :'metal', quantity : '5', from : 'town', to : 'player'},
+                            {prop :'gold', quantity : 'income', to : 'player'},
+                        ],
+                        'knight' : [
+                            {prop : 'motivation', quantity : '1', from : 'knight'},
+                            {prop : 'AP', quantity : '1', to : 'knight'}
+                        ]
+                    }
+                }
+            */
+            function update() {
+
+                var updateDef = state.gameDesc.turnUpdate;
+
+                function _getTokenProp(token, propName) {
+                    return $.grep(token.properties, function(e) {return e.name == propName})[0];
+                }
+
+                function _updateTokenProp(token, name, value) {
+                    var prop = _getTokenProp(token, name);
+                    if (prop) {
+                        prop.value = parseInt(prop.value) + value;
+                    } else {
+                        token.properties.push({name:name, value:value});
+                    }
+                }
+
+                function _updatePlayerProp(player, name, value) {
+                    player.properties[name] = player.properties[name] || 0;
+                    player.properties[name] += value;
+                }
+
+                // UPDATE for tokens
+                for (type in updateDef['tokens']) {
+                    // List of properties to update for this token type
+                    var propsUpdate = updateDef['tokens'][type];
+                    // Tokens of the current type
+                    var tokens = $.grep(state.players.current.tokens, function(t){return t.type == type});
+
+                    for (i=0; i < tokens.length; i++) { // for each token of the current type
+                        for (j=0; j < propsUpdate.length; j++) { // for each updated prop of the token
+                            var quantity = parseInt(propsUpdate[j].quantity);
+                            if (!quantity) { // Quantity is not a number, it is the name of property
+                                var prop = _getTokenProp(tokens[i], propsUpdate[j].quantity);
+                                quantity = (prop && parseInt(prop.value)) || 0;
+                            }
+
+                            // GET from
+                            if (propsUpdate[j].from == 'player') {
+                                _updatePlayerProp(state.players.current, propsUpdate[j].prop, -quantity);
+                            } else if (propsUpdate[j].from == type) {
+                                _updateTokenProp(tokens[i], propsUpdate[j].prop, -quantity);
+                            }
+
+                            // TODO only add quantity we can get (for transfer case)
+
+                            // ADD to
+                            if (propsUpdate[j].to == 'player') {
+                                _updatePlayerProp(state.players.current, propsUpdate[j].prop, quantity);
+                            } else if (propsUpdate[j].to == type) {
+                                _updateTokenProp(tokens[i], propsUpdate[j].prop, quantity);
+                            }
+
+                        }
+                    }
+                }
+
+                // UPDATE for player
+                for (i=0; i < updateDef['player'].length; i++) {
+                    var propUpdate = updateDef['player'][i];
+                    var quantity = parseInt(propUpdate.quantity);
+                    if (propUpdate.from == 'player') {
+                        quantity = -quantity;
+                    }
+                    _updatePlayerProp(state.players.current, propUpdate.prop, quantity);
+                }
+            }
+
+            // Next phase and next turn
             state.currentPhaseIdx++;
             state.currentPhaseIdx %= state.gameDesc.turnPhases.length;
             if (state.currentPhaseIdx == 0) {
@@ -62,6 +167,7 @@ angular.module('ri.module.game', ['ri.module.action', 'ri.module.board', 'ri.mod
                     state.turn++;
                 }
                 state.turnStart = 1;
+                update();
             }
             state.phaseStart = 1;
         },
@@ -86,9 +192,13 @@ angular.module('ri.module.game', ['ri.module.action', 'ri.module.board', 'ri.mod
             for (p in state.players.all) {
                 var player = state.players.all[p];
                 player.lose = player.win = false;
-                for (prop in player.properties) {
-                    player.properties[prop] = 0;
+                // Init player properties
+                player.properties = {};
+                for (p in gameDesc.init.playerProps) {
+                    var prop = gameDesc.init.playerProps[p];
+                    player.properties[prop.name] = parseInt(prop.value);
                 }
+                player.tokens = [];
             }
             state.players.idx = 0;
             state.players.current = state.players.all[0];
@@ -136,20 +246,27 @@ angular.module('ri.module.game', ['ri.module.action', 'ri.module.board', 'ri.mod
         }
     }
 
-   startGame();
-
-    function startGame() {
-        gameState.init(game);
-         // Auto select the first action
-        var phaseActions = game.turnPhases[0] && game.turnPhases[0].actions;
+    this.initActionsState = function() {
+        var phaseIdx = gameState.currentPhaseIdx;
+        var phaseActions = game.turnPhases[phaseIdx] && game.turnPhases[phaseIdx].actions;
+        // Trick to unselect actions due to save/load selected state (TODO clean)
+        for (a in phaseActions) {
+            phaseActions[a].selected = false;
+        }
+        // Auto select the first action
         phaseActions && actions.select(phaseActions[0]);
+        // Disable unpayable actions
+        this.updateActionsState();
     }
 
+    this.startGame = function() {
+        gameState.init(game);
+        this.initActionsState();
+    }
 
     this.nextTurn = function() {
 
-        actions.cancel();
-        setProp(this.targets, 'highlight', false);
+        this.cancelAction();
 
         gameState.nextTurn();
 
@@ -158,9 +275,7 @@ angular.module('ri.module.game', ['ri.module.action', 'ri.module.board', 'ri.mod
             gameState.turnStart=0;
         }, 1000);
 
-        // Auto select the first action
-        var phaseActions = game.turnPhases[gameState.currentPhaseIdx].actions;
-        phaseActions && actions.select(phaseActions[0]);
+        this.initActionsState();
 
         this.selectElem(null,null);
     }
@@ -262,11 +377,69 @@ angular.module('ri.module.game', ['ri.module.action', 'ri.module.board', 'ri.mod
     }
 
     /*
+        Deactivate not payable actions
+    */
+    this.updateActionsState = function() {
+        // Disable action if cost > player resources
+        var phaseActions = game.turnPhases[gameState.currentPhaseIdx].actions;
+        for (a in phaseActions) {
+            var action = phaseActions[a];
+            action.payable = true;
+            for (t in action.cost) {
+                var transac = action.cost[t];
+                if (transac.source == "player") {
+                    if ( !player().properties[transac.property] || (player().properties[transac.property] < transac.quantity)) {
+                        transac.over = true;
+                        action.payable = false;
+                        action.selected && this.cancelAction();
+                    } else {
+                        transac.over = false;
+                    }
+                } else if (transac.source == "token") {
+                    action.payable = false;
+                    if (this.selectedElem && this.selectedElem.token) {
+                        var prop = $.grep(this.selectedElem.token.properties, function(e) {return e.name == transac.property})[0];
+                        if (prop && prop.value >= transac.quantity) {
+                            action.payable = true;
+                        }
+                    }
+                    !action.payable && action.selected && this.cancelAction();
+                }
+            }
+        }
+    }
+
+    /*
         Check and manage current player state.
         Is the player over ?
         Is the player turn finished ?
     */
     this.manageEnd = function() {
+
+        // Decrease resources according to played action cost
+        for (t in actions.current.cost) {
+            var transac = actions.current.cost[t];
+
+            if (transac.source == "player") {
+                // Player level
+                player().properties[transac.property] ?
+                    player().properties[transac.property]-= transac.quantity :
+                    player().properties[transac.property] = -transac.quantity;
+            } else {
+                // Selected token level
+                this.selectedElem.token.properties || (this.selectedElem.token.properties = []);
+                var prop = $.grep(this.selectedElem.token.properties, function(e) {return e.name == transac.property})[0];
+                if (prop) {
+                    prop.value -= transac.quantity;
+                } else {
+                    this.selectedElem.token.properties.push({name:transac.property, value:-transac.quantity});
+                }
+            }
+        }
+
+        // Deactivate not more payable actions
+        this.updateActionsState();
+
         // Manage end game
         this.playerOver = this.updatePlayerState();
 
@@ -305,6 +478,12 @@ angular.module('ri.module.game', ['ri.module.action', 'ri.module.board', 'ri.mod
         this.message = msg;
     }
 
+    this.cancelAction = function(msg) {
+        actions.cancel();
+        setProp(this.targets, 'highlight', false);
+        msg && this.setMessage(msg);
+    }
+
     this.selectBoardElem = function(elem, type) {
 
 
@@ -315,6 +494,12 @@ angular.module('ri.module.game', ['ri.module.action', 'ri.module.board', 'ri.mod
                 }
             }
             console.log("No token of type '" + type + "'");
+        }
+
+        // Add a token to the tokens list of current player
+        function addToken(token) {
+            player().tokens = player().tokens || [];
+            player().tokens.push(token);
         }
 
         this.setMessage("");
@@ -333,8 +518,13 @@ angular.module('ri.module.game', ['ri.module.action', 'ri.module.board', 'ri.mod
                         )[0];
 
                         elem.token = angular.copy(model);
-                        elem.token.player = player();
+                        elem.token.player = {
+                            name : player().name,
+                            color: player().color
+                        };
                         //elem.token.view = model.view;
+
+                        addToken(elem.token);
 
                         this.selectElem(elem, type);
                         this.manageEnd();
@@ -352,9 +542,7 @@ angular.module('ri.module.game', ['ri.module.action', 'ri.module.board', 'ri.mod
                         setProp(this.targets, 'highlight', true);
                         this.setMessage("Select destination");
                     } else {
-                        setProp(this.targets, 'highlight', false);
-                        actions.cancel();
-                        this.message = "Action not possible with the selected token";
+                        this.cancelAction("Action not possible with the selected token");
                     }
                     this.selectElem(elem, type);
                 } else if (elem.highlight && this.selectedElem && this.selectedElem.token) {
@@ -377,9 +565,7 @@ angular.module('ri.module.game', ['ri.module.action', 'ri.module.board', 'ri.mod
                         );
                         setProp(this.targets, 'highlight', true);
                     } else {
-                        setProp(this.targets, 'highlight', false);
-                        actions.cancel();
-                        this.message = "Action not possible with the selected token";
+                        this.cancelAction("Action not possible with the selected token");
                     }
                     this.selectElem(elem, type);
                 } else if (elem.highlight && this.selectedElem && this.selectedElem.token) {
@@ -394,6 +580,8 @@ angular.module('ri.module.game', ['ri.module.action', 'ri.module.board', 'ri.mod
             this.selectElem(elem, type);
         }
 
+        this.updateActionsState();
+
     }
 
     this.overBoardElem = function(elem) {
@@ -403,6 +591,12 @@ angular.module('ri.module.game', ['ri.module.action', 'ri.module.board', 'ri.mod
     }
 
     this.selectAction = function(action) {
+
+        if (!action.payable) {
+            this.message = "Not enough resources for this action";
+            return;
+        }
+
         actions.select(action);
 
         if (action.type == "get") {
@@ -442,6 +636,11 @@ angular.module('ri.module.game', ['ri.module.action', 'ri.module.board', 'ri.mod
         return ['toto','pawn'];
     }
 
+    /*
+        Start game
+    */
+    this.startGame();
+
 }])
 
 .controller(
@@ -457,7 +656,8 @@ angular.module('ri.module.game', ['ri.module.action', 'ri.module.board', 'ri.mod
     this.addPlayer = function() {
         players.push({
             name : 'Player' + (players.length+1),
-            color: ['green', 'yellow', 'blue', 'red', 'pink', 'white', 'black'][players.length]
+            color: ['green', 'yellow', 'blue', 'red', 'pink', 'white', 'black'][players.length],
+            properties : {}
         });
     }
 

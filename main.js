@@ -34,7 +34,8 @@ angular.module('rulit', ['ui.bootstrap', 'ui.router', 'ri.gameStore', 'ri.module
                                 g.goal = g.goal || {end:[], win:[], lose:[]};
                                 g.minPlayer = g.minPlayer || 1;
                                 g.maxPlayer = g.maxPlayer || 1;
-
+                                g.init = g.init || {playerProps : []}
+                                g.turnUpdate = g.turnUpdate || {player:[], tokens:{}}
                                 return g;
                             })
                     }
@@ -119,8 +120,15 @@ angular.module('rulit', ['ui.bootstrap', 'ui.router', 'ri.gameStore', 'ri.module
                 all: []
             },
             turnPhases : [],
+            turnUpdate : {
+                player : [],
+                tokens : {}
+            },
             theme : {
                 background : '#002'
+            },
+            init : {
+                playerProps : []
             }
         });
     }
@@ -147,12 +155,35 @@ angular.module('rulit', ['ui.bootstrap', 'ui.router', 'ri.gameStore', 'ri.module
 .directive('riRemoveButton', [function() {
     return {
         restrict : 'E',
-        scope : {},
+        scope : {
+            data : '=',
+            key  : '=',
+            index : '=',
+        },
         template : '\
             <button  type="button" class="pull-right close"> \
                 <span aria-hidden="true">&#215;</span> \
                 <span class="sr-only">Close</span> \
-            </button>'
+            </button>',
+        link : function(scope, elem) {
+
+            function remove() {
+                if (scope.data) {
+                    if (scope.key) {
+                        // Remove from hash
+                        scope.$apply(function() {
+                            delete scope.data[scope.key];
+                        })
+                    } else if (scope.index != undefined) {
+                        // Remove from array
+                        scope.$apply(function() {
+                            scope.data.splice(scope.index, 1);
+                        })
+                    }
+                }
+            }
+            elem.bind('click', remove);
+        }
     }
 }])
 ;
