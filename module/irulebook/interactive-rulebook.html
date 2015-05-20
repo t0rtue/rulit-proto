@@ -210,9 +210,10 @@
                     <h3>Player's resources</h3>
                     <ul class="list-group" >
                         <li ng-repeat="prop in rulebook.game.init.playerProps"
-                            class="list-group-item no-border"
+                            class="list-group-item no-border show-on-hover"
                             >
                             <div class="row">
+                               <ri-remove-button data="rulebook.game.init.playerProps" index="$index"></ri-remove-button>
                                 <div class="col-md-3">
                                     <input ng-model="prop.name" type="text" class="form-control input-sm" placeholder="property name"></input>
                                 </div>
