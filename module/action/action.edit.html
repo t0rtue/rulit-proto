@@ -13,6 +13,9 @@
             <h1 >
                 <span class="glyphicon glyphicon-{{ {'put':'log-in', 'get':'new-window','move':'share','interact':'resize-small','link':'transfer'}[action.type] }}"></span>
             </h1>
+
+            <span ng-hide="action.cost.length" class="control-add" ng-click="action.cost=[{}]">+ cost</span>
+
         </div>
 
         <div class="col-md-9">
@@ -27,7 +30,7 @@
     <!--
         Action cost
     -->
-    <div class="row" ng-init="action.cost ? 1 : (action.cost = [])">
+    <div ng-show="action.cost.length" class="row">
         <hr/>
         <div class="col-md-3">
             <h4 ng-if="action.cost.length > 0">Cost</h4>
@@ -35,8 +38,9 @@
         <div class="col-md-9">
             <ul class="list-group" >
                 <li ng-repeat="transac in action.cost"
-                    class="list-group-item"
+                    class="list-group-item show-on-hover"
                     >
+                    <ri-remove-button data="action.cost" index="$index"></ri-remove-button>
                     <div class="form-group form-inline">
                         <input ng-model="transac.quantity" type="number" class="form-control input-sm" placeholder="quantity"></input>
                         <input ng-model="transac.property" class="form-control input-sm" type="text" placeholder="property name"></input>
