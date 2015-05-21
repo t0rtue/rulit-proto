@@ -254,7 +254,7 @@ angular.module('ri.module.game', ['ri.module.action', 'ri.module.board', 'ri.mod
             phaseActions[a].selected = false;
         }
         // Auto select the first action
-        phaseActions && actions.select(phaseActions[0]);
+        phaseActions && phaseActions.length && actions.select(phaseActions[0]);
         // Disable unpayable actions
         this.updateActionsState();
     }
@@ -381,7 +381,7 @@ angular.module('ri.module.game', ['ri.module.action', 'ri.module.board', 'ri.mod
     */
     this.updateActionsState = function() {
         // Disable action if cost > player resources
-        var phaseActions = game.turnPhases[gameState.currentPhaseIdx].actions;
+        var phaseActions = game.turnPhases[gameState.currentPhaseIdx] && game.turnPhases[gameState.currentPhaseIdx].actions;
         for (a in phaseActions) {
             var action = phaseActions[a];
             action.payable = true;
