@@ -196,3 +196,8 @@ rb-goal .conditions-container {
 #players-number-section:hover #players-number-edit {
     visibility: visible;
 }
+
+.action-form .input-group-addon:hover {
+    cursor: pointer;
+    font-size : 18px;
+}

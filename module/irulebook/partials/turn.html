@@ -47,21 +47,30 @@
             </form>
 
             <div class="row">
-                <div class="col-md-4">
+                <div class="col-md-10">
                     <p>
                         <ul class="list-group">
-                            <li ng-repeat="action in phase.actions" class="list-group-item show-on-hover">
+                            <li ng-repeat="action in phase.actions" class="list-group-item show-on-hover action-form" ng-init="showDetails=false">
                                 <ri-remove-button ng-click="phase.actions.splice($index,1)"></ri-remove-button>
                                 <div class="input-group">
-                                    <div class="input-group-addon">
-                                        <span class="glyphicon glyphicon-arrow-right"></span>
+                                    <div class="input-group-addon" data-toggle="collapse" data-target="#details-{{$index}}" ng-click="showDetails=!showDetails">
+                                        <span class="glyphicon" ng-class="'glyphicon-arrow-' + (showDetails?'down':'right')"></span>
                                     </div>
                                     <input
                                         ng-model="action.name"
                                         type="text"
                                         class="form-control"
+                                        style="font-size:20px"
                                         placeholder="action name">
                                     </input>
+                                </div>
+                                <!-- Action details -->
+                                <div id="details-{{$index}}" class="collapse">
+                                    <div class="panel panel-default" style="margin-top:10px">
+                                        <div class="panel-body">
+                                            <ri-action-edit action="action" tokens="tokens"></ri-action-edit>
+                                        </div>
+                                    </div>
                                 </div>
                             </li>
                         </ul>
@@ -72,7 +81,7 @@
         </div>
 
         <!-- <h4>Actions details</h4> -->
-        <div ng-repeat="action in phase.actions">
+<!--         <div ng-repeat="action in phase.actions">
             <div class="panel panel-default">
                 <div class="panel-heading clearfix">
                     <span class="panel-title text-capitalize">{{action.name}}</span><b class="pull-right">Action</b>
@@ -81,7 +90,7 @@
                     <ri-action-edit action="action" tokens="tokens"></ri-action-edit>
                 </div>
             </div>
-        </div>
+        </div> -->
 
     </div>
 
