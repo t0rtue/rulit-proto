@@ -26,7 +26,7 @@
                         </div>
                     </li>
                 </ol>
-                <span class="control-add" ng-click="phases.push({type:'can', limit:'0' , actions:[]})">Add a phase...</span>
+                <span class="control-add" ng-click="phases.push({name:'Phase '+ (phases.length+1), type:'can', limit:'0' , actions:[]})">Add a phase...</span>
             </p>
         </div>
     </div>
@@ -74,7 +74,7 @@
                                 </div>
                             </li>
                         </ul>
-                        <span class="control-add" ng-click="phase.actions.push({})">Add an action...</span>
+                        <span class="control-add" ng-click="phase.actions.push({name:'Action ' + (phase.actions.length+1)})">Add an action...</span>
                     </p>
                 </div>
             </div>

@@ -183,12 +183,17 @@ angular.module('ri.module.game', ['ri.module.action', 'ri.module.board', 'ri.mod
             }
         },
 
+        /*
+            Reset state variables
+            Setup players
+        */
         init : function(gameDesc) {
             state.gameDesc = gameDesc;
 
             state.turn = 1;
             state.currentPhaseIdx = 0;
 
+            // Player setup
             for (p in state.players.all) {
                 var player = state.players.all[p];
                 player.lose = player.win = false;

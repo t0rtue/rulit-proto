@@ -92,10 +92,6 @@ body {
     -webkit-transition: fill 250ms linear;
     transition: fill 250ms linear;
 
-/*    filter : none;
-
-    -webkit-transition: filter 250ms linear;
-    transition: filter 250ms linear;*/
 }
 
 .tile, .corner, .border {
@@ -110,7 +106,6 @@ body {
 /*    -webkit-transition: fill 250 linear;
     transition: fill 250ms linear;*/
 
-    /*fill : #003;*/
     /*opacity : 1;*/
 
 }
@@ -146,7 +141,6 @@ body {
 
 .selected {
     opacity: 1;
-    /*fill : #004;*/
 }
 
 .highlight {
