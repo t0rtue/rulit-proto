@@ -1,33 +1,38 @@
 
-<div ng-if="elem.token" class="clearfix">
+<div>
+    <div ng-if="elem.token" class="clearfix">
 
-    <div class="media">
+        <div class="media">
 
-            <div class="media-object pull-left">
-                <svg width="50" height="50" viewBox="-50 -50 100 100">
-                    <g >
-                        <ri-token
-                            class="ri-token"
-                            data="elem.token"
-                            view="elem.token.view">
-                        </ri-token>
-                    </g>
-                </svg>
+                <div class="media-object pull-left">
+                    <svg width="50" height="50" viewBox="-50 -50 100 100">
+                        <g >
+                            <ri-token
+                                class="ri-token"
+                                data="elem.token"
+                                view="elem.token.view">
+                            </ri-token>
+                        </g>
+                    </svg>
+                </div>
+
+            <div class="media-body">
+                <h4 class="media-heading">{{elem.token.type}}</h4>
+                <ul class="list-group" >
+                  <!--   <li ng-repeat="(prop,value) in token.properties"
+                        class="action list-group-item"
+                        > -->
+                    <li ng-repeat="prop in elem.token.properties">
+                        {{prop.name}}<span class="pull-right">{{prop.value}}</span>
+                    </li>
+
+                </ul>
             </div>
-
-        <div class="media-body">
-            <h4 class="media-heading">{{elem.token.type}}</h4>
-            <ul class="list-group" >
-              <!--   <li ng-repeat="(prop,value) in token.properties"
-                    class="action list-group-item"
-                    > -->
-                <li ng-repeat="prop in elem.token.properties">
-                    {{prop.name}}<span class="pull-right">{{prop.value}}</span>
-                </li>
-
-            </ul>
         </div>
     </div>
 
+    <div ng-if="elem.type" class="clearfix">
+        Tile : {{elem.type}}
+    </div>
 
 </div>
