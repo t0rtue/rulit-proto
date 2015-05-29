@@ -1,0 +1,55 @@
+<div>
+    <h3>Board setup</h3>
+    <span ng-hide="rulebook.game.init.boardTiles.length">
+        Initially, the board is empty.
+    </span>
+    <span ng-show="rulebook.game.init.boardTiles.length">
+        Randomly build the board using following tiles :
+    </span>
+    <rb-token-quantity-list data="rulebook.game.init.boardTiles" tokens="game.tiles" type="tile"></rb-token-quantity-list>
+
+    <span ng-show="rulebook.game.init.boardTokens.length">
+        Randomly add tokens on the board :
+    </span>
+    <rb-token-quantity-list data="rulebook.game.init.boardTokens" tokens="game.tokens.all" type="token"></rb-token-quantity-list>
+
+    <h3>Player's resources</h3>
+    <ul class="list-group form-inline" >
+        <li ng-repeat="prop in rulebook.game.init.playerProps"
+            class="list-group-item no-border show-on-hover"
+            >
+            <div class="row">
+                <div class="col-md-6">
+                    <ri-remove-button data="rulebook.game.init.playerProps" index="$index"></ri-remove-button>
+                    <input ng-model="prop.value" class="form-control input-sm" type="text" placeholder="default value"></input>
+                    <input ng-model="prop.name" type="text" class="form-control input-sm" placeholder="property name"></input>
+                </div>
+             </div>
+        </li>
+        <li class="list-group-item no-border">
+            <span class="control-add" ng-click="rulebook.game.init.playerProps.push({})">Add a property...</span>
+        </li>
+    </ul>
+    <!-- <h3>Player resources</h3>
+    <div ng-repeat="(prop, value) in game.player.properties">
+        <div >
+            <svg
+                width="30" height="30"
+                viewBox="-50 -50 100 100">
+                <g >
+                    <ri-token
+                        class="ri-token"
+                        data='{}'
+                        view="game.propertyView[prop]">
+                    </ri-token>
+                </g>
+            </svg>
+
+            {{prop}}
+            {{value}}
+
+        </div>
+    </div>
+
+    <h3>Reserve</h3> -->
+</div>

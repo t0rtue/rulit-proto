@@ -164,6 +164,58 @@ angular.module('ri.module.irulebook', ['ui.router'])
     }
 }])
 
+/* rbList
+    Not working as expected.
+    Objective is to Transclude custom list item
+    TODO change to a version of angular > 1.2
+    Will allow to create a clean and customizable rb-list directive
+*/
+.directive('rbList', [function() {
+    return {
+        restrict : 'E',
+        // bindToController: false,
+        controllerAs : 'list',
+        controller : function($scope) {
+            this.data = $scope.data;
+        },
+        transclude : true,
+        scope : {
+            'data' : '=',
+        },
+        templateUrl : 'module/irulebook/partials/list.html'
+    }
+}])
+.directive('rbRow', [function() {
+      return {
+        // controllerAs : 'row',
+        // controller : ['$attrs', '$scope', function($attrs, $scope) {
+        //   this.elem = $scope.$eval($attrs.elem);
+        //   console.log(this.elem);
+        // }],
+        scope : {
+            elem : "="
+        },
+        link : function(scope, element, attrs, ctrl, transclude) {
+                    transclude(scope.$parent, function(clone, scope) {
+                        element.append(clone);
+                      });
+        }
+      }
+}])
+// END rbList
+
+.directive('rbTokenQuantityList', [function() {
+    return {
+        restrict : 'E',
+        scope : {
+            'data' : '=',
+            'tokens': '=',
+            'type' : '@'
+        },
+        templateUrl : 'module/irulebook/partials/tokenQuantityList.html'
+    }
+}])
+
 .directive('rbTokenList', [function() {
     return {
         restrict : 'E',
@@ -225,7 +277,7 @@ angular.module('ri.module.irulebook', ['ui.router'])
         link: function (scope, element) {
             scope.$watch('tokens', function(tok) {
                 scope.tokenTypes = tok.map(function(e){return e.type});
-                scope.model = scope.tokenTypes[0];
+                scope.model = scope.model || scope.tokenTypes[0];
               }, true);
         }
     }

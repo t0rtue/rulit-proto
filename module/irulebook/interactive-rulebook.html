@@ -213,50 +213,7 @@
             <h1>Setup</h1>
             <div class="row">
                 <div class="col-md-10">
-                    <h3>Board setup</h3>
-                    Initially, the board is empty.
-
-                    <h3>Player's resources</h3>
-                    <ul class="list-group" >
-                        <li ng-repeat="prop in rulebook.game.init.playerProps"
-                            class="list-group-item no-border show-on-hover"
-                            >
-                            <div class="row">
-                               <ri-remove-button data="rulebook.game.init.playerProps" index="$index"></ri-remove-button>
-                                <div class="col-md-3">
-                                    <input ng-model="prop.name" type="text" class="form-control input-sm" placeholder="property name"></input>
-                                </div>
-                                <div class="col-md-3">
-                                    <input ng-model="prop.value" class="form-control input-sm" type="text" placeholder="default value"></input>
-                                </div>
-                             </div>
-                        </li>
-                        <li class="list-group-item no-border">
-                            <span class="control-add" ng-click="rulebook.game.init.playerProps.push({})">Add a property...</span>
-                        </li>
-                    </ul>
-                    <!-- <h3>Player resources</h3>
-                    <div ng-repeat="(prop, value) in game.player.properties">
-                        <div >
-                            <svg
-                                width="30" height="30"
-                                viewBox="-50 -50 100 100">
-                                <g >
-                                    <ri-token
-                                        class="ri-token"
-                                        data='{}'
-                                        view="game.propertyView[prop]">
-                                    </ri-token>
-                                </g>
-                            </svg>
-
-                            {{prop}}
-                            {{value}}
-
-                        </div>
-                    </div>
-
-                    <h3>Reserve</h3> -->
+                    <ng-include src="'module/irulebook/partials/setup.html'"></ng-include>
                 </div>
                 <rb-info layout="col-md-2">
                     Describe initial configuration.
