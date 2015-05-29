@@ -1,10 +1,10 @@
 <div>
     <div class="row" ng-controller="TokenEditModalCtrl">
-        <div class="rb-token col-md-6 show-on-hover" ng-repeat="token in tokens.all">
+        <div class="rb-token col-md-{{size}} show-on-hover" ng-repeat="token in tokens">
 
-            <ri-remove-button ng-click="tokens.all.splice($index,1)"></ri-remove-button>
+            <ri-remove-button ng-click="tokens.splice($index,1)"></ri-remove-button>
 
-            <div class="pull-left clickable" ng-click="openModal(token)">
+            <div ng-if="!shape" class="pull-left clickable" ng-click="openModal(token)">
                 <div class="media-object">
                     <svg width="80" height="80" viewBox="-50 -50 100 100">
                         <g >
@@ -18,10 +18,36 @@
                 </div>
             </div>
 
+            <!-- Fixed shape
+                Can not edit the token view
+                Can only edit the color of the shape
+             -->
+            <div ng-if="shape" class="pull-left">
+                <!--
+                    Make the token view act like a color picker
+                    Using an hidden color input inside the same label tag than the view
+                 -->
+                <label>
+                    <input class="hidden" type="color" ng-model="token.color"></input>
+                    <div class="media-object clickable">
+                        <svg width="80" height="80" viewBox="-50 -50 100 100">
+                            <g >
+                                <ri-token
+                                    class="ri-token"
+                                    data="token"
+                                    view="{layers:[{size:1, width:1,shape:shape,fill:token.color}]}">
+                                </ri-token>
+                            </g>
+                        </svg>
+                    </div>
+                </label>
+            </div>
+
             <div class="media-body">
                 <h3 class='text-capitalize'>
-                    <input ng-model="token.type" type="text" class="form-control" placeholder="token type"></input>
+                    <input ng-model="token.type" type="text" class="form-control" placeholder="{{parent}} type"></input>
                 </h3>
+
                 <ul class="list-group" >
                     <li ng-repeat="prop in token.properties"
                         class="list-group-item no-border"
@@ -47,7 +73,7 @@
     <br/>
     <div class="row">
         <div class="col-md-12">
-            <span class="control-add" ng-click="add({type:model.type})">Add a token...</span>
+            <span class="control-add" ng-click="add({type:'type'})">Add a {{parent}}...</span>
         </div>
     </div>
 

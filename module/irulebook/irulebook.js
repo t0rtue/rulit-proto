@@ -49,7 +49,20 @@ angular.module('ri.module.irulebook', ['ui.router'])
     }
 
     this.addToken = function(type) {
+        type = "Type " + (game.tokens.all.length + 1);
         game.tokens.all.push({
+            'type'       : type,
+            'properties' : [],
+            'view':{
+                    layers:[{size:0.5}],
+                    kernel:{}
+                }
+        });
+    }
+
+    this.addTile = function(type) {
+        type = "Type " + (game.tiles.length + 1);
+        game.tiles.push({
             'type'       : type,
             'properties' : [],
             'view':{
@@ -156,7 +169,10 @@ angular.module('ri.module.irulebook', ['ui.router'])
         restrict : 'E',
         scope : {
             'tokens' : '=',
-            'add' : '&'
+            'add' : '&',
+            'parent' : '@',
+            'size' : '@',
+            'shape' : '='
         },
         templateUrl : 'module/irulebook/partials/tokenList.html'
     }
