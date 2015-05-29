@@ -1,0 +1,16 @@
+<ul class="list-group form-inline" style="margin-bottom:0">
+    <li ng-repeat="elem in data"
+        class="list-group-item no-border show-on-hover"
+        >
+        <div class="row">
+            <div class="col-md-6">
+                <ri-remove-button data="data" index="$index"></ri-remove-button>
+                <rb-token-select model="elem.type" tokens="tokens"></rb-token-select>
+                x <input ng-model="elem.quantity" class="form-control input-sm" type="text" placeholder="quantity"></input>
+            </div>
+        </div>
+    </li>
+    <li class="list-group-item no-border">
+        <span class="control-add" ng-click="data.push({})">Add {{type}}s...</span>
+    </li>
+</ul>
