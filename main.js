@@ -8,6 +8,36 @@ angular.module('rulit', ['ui.bootstrap', 'ui.router', 'ri.gameStore', 'ri.module
 //     $compileProvider.debugInfoEnabled(false);
 // }])
 
+.value('gameDefaultData', {
+            introduction : "This game will be a fantastic game soon!",
+            minPlayer : 1,
+            maxPlayer : 1,
+            gridType : 'square',
+            gridSize : 10,
+            tokens : {
+                all: []
+            },
+            tiles : [],
+            goal : {
+                end:[],
+                win:[],
+                lose:[]
+            },
+            turnPhases : [],
+            turnUpdate : {
+                player : [],
+                tokens : {}
+            },
+            theme : {
+                background : '#002'
+            },
+            init : {
+                playerProps : [],
+                boardTiles : [],
+                boardTokens : []
+            }
+        })
+
 .config(function($stateProvider, $urlRouterProvider, $locationProvider) {
 
     // $locationProvider.html5Mode(true);
@@ -25,17 +55,16 @@ angular.module('rulit', ['ui.bootstrap', 'ui.router', 'ri.gameStore', 'ri.module
             abstract: true,
             templateUrl: 'module/game/gameView.html',
             resolve: {
-                riGame : function($stateParams, gameStore, gameListGistID) {
+                riGame : function($stateParams, gameStore, gameListGistID, gameDefaultData) {
 
                     function _loadGame() {
                         return gameStore.get($stateParams.name).then(function(g) {
-                                // Retro compatibility
-                                // i.e update loaded game data with newly needed properties
-                                g.goal = g.goal || {end:[], win:[], lose:[]};
-                                g.minPlayer = g.minPlayer || 1;
-                                g.maxPlayer = g.maxPlayer || 1;
-                                g.init = g.init || {playerProps : []}
-                                g.turnUpdate = g.turnUpdate || {player:[], tokens:{}}
+                                /* Init game data
+                                    New game : default values and needed properties
+                                    Retro compatibility : update loaded game data with newly needed properties
+                                */
+                                g = $.extend(true, {}, gameDefaultData, g);
+
                                 return g;
                             })
                     }
@@ -112,25 +141,7 @@ angular.module('rulit', ['ui.bootstrap', 'ui.router', 'ri.gameStore', 'ri.module
     gameStore.loaded || gameStore.loadGamesList(gameListGistID);
 
     this.createGame = function(name) {
-        gameStore.save(name, {
-            introduction : "This game will be a fantastic game soon!",
-            gridType : 'square',
-            gridSize : 10,
-            tokens : {
-                all: []
-            },
-            turnPhases : [],
-            turnUpdate : {
-                player : [],
-                tokens : {}
-            },
-            theme : {
-                background : '#002'
-            },
-            init : {
-                playerProps : []
-            }
-        });
+        gameStore.save(name, {});
     }
 
     this.removeGame = function(name) {
