@@ -238,6 +238,19 @@ angular.module('ri.module.game', ['ri.module.action', 'ri.module.board', 'ri.mod
         }
     };
 
+    /* Build tile view table
+        type => view
+        sample : {
+            'forest' : {color:'green'},
+            'field'  : {color:'red'}
+        }
+    */
+    this.tileView = (function() {
+        var view = {};
+        $.each(game.tiles, function(i,t) {view[t.type] = {color:t.color}});
+        return view;
+    })();
+
     this.message = "Select an action";
 
     function setProp(elems, attr, value) {
