@@ -183,12 +183,17 @@ angular.module('ri.module.game', ['ri.module.action', 'ri.module.board', 'ri.mod
             }
         },
 
+        /*
+            Reset state variables
+            Setup players
+        */
         init : function(gameDesc) {
             state.gameDesc = gameDesc;
 
             state.turn = 1;
             state.currentPhaseIdx = 0;
 
+            // Player setup
             for (p in state.players.all) {
                 var player = state.players.all[p];
                 player.lose = player.win = false;
@@ -238,6 +243,19 @@ angular.module('ri.module.game', ['ri.module.action', 'ri.module.board', 'ri.mod
         }
     };
 
+    /* Build tile view table
+        type => view
+        sample : {
+            'forest' : {color:'green'},
+            'field'  : {color:'red'}
+        }
+    */
+    this.tileView = (function() {
+        var view = {};
+        $.each(game.tiles, function(i,t) {view[t.type] = {color:t.color}});
+        return view;
+    })();
+
     this.message = "Select an action";
 
     function setProp(elems, attr, value) {
@@ -259,8 +277,94 @@ angular.module('ri.module.game', ['ri.module.action', 'ri.module.board', 'ri.mod
         this.updateActionsState();
     }
 
+    /* Setup board
+
+        Randomly put tiles and tokens on the game grid
+        According to <init.boardTiles> and <init.boardTokens>
+
+        boardTiles sample :  [
+            {
+                type : 'forest',
+                quantity : 100
+            },
+            {
+                type : 'field',
+                quantity : 10
+            },
+        ];
+    */
+    this.setupBoard = function() {
+
+        function getTiles() {
+            var tiles = [];
+            var tileGrid = grid.maps['tile'];
+            for (u in tileGrid) {
+                for (v in tileGrid[u]) {
+                    tiles.push(tileGrid[u][v]['X']);
+                }
+            }
+            return tiles;
+        }
+
+        var draw = {
+            content : null,
+            total : 0,
+            init : function(setup) {
+                this.content = angular.copy(setup);
+                this.total = 0;
+                for (d in this.content) {
+                    var group = this.content[d];
+                    group.quantity = parseInt(group.quantity)
+                    this.total += group.quantity;
+                }
+            },
+            /*
+            Get a random type from the draw
+            */
+            pickup : function() {
+                var r = Math.floor(Math.random() * this.total)
+                var thresh = 0;
+                for (var d in this.content) {
+                    var def = this.content[d];
+                    thresh += def.quantity;
+                    if (r < thresh) {
+                        def.quantity--;
+                        this.total--;
+                        return def.type;
+                    }
+                }
+                return null;
+            }
+        }
+
+        // Get board tiles
+        var tiles = getTiles();
+        // Shuffle tiles
+        tiles.sort(function() { return 0.5 - Math.random() });
+
+        // TILES init
+        draw.init(game.init.boardTiles);
+        // Randomly set the tile type
+        for (t in tiles) {
+            tiles[t].type = draw.pickup();
+        }
+
+        // TOKENS init
+        draw.init(game.init.boardTokens);
+        // Randomly set token on tile
+        for (t in tiles) {
+            var type = draw.pickup();
+            if (!type) { break; }
+            var model = this.getTokenDefinition(type);
+            var token = angular.copy(model);
+            tiles[t].token = token;
+        }
+
+    }
+
     this.startGame = function() {
         gameState.init(game);
+        this.setupBoard();
         this.initActionsState();
     }
 
@@ -484,6 +588,13 @@ angular.module('ri.module.game', ['ri.module.action', 'ri.module.board', 'ri.mod
         msg && this.setMessage(msg);
     }
 
+    this.getTokenDefinition = function(type) {
+        return $.grep(
+                    this.tokens.all,
+                    function(e) {return type == e.type}
+                )[0];
+    }
+
     this.selectBoardElem = function(elem, type) {
 
 
@@ -512,11 +623,7 @@ angular.module('ri.module.game', ['ri.module.action', 'ri.module.board', 'ri.mod
                 if (!elem.token) {
                     if (type == action.dest.type) {
 
-                        var model = $.grep(
-                            this.tokens.all,
-                            function(e) {return action.token.type == e.type}
-                        )[0];
-
+                        var model = this.getTokenDefinition(action.token.type);
                         elem.token = angular.copy(model);
                         elem.token.player = {
                             name : player().name,
@@ -536,7 +643,7 @@ angular.module('ri.module.game', ['ri.module.action', 'ri.module.board', 'ri.mod
 
             if (action.type == "move") {
                 if (elem.token) {
-                    if ((elem.token.player.name == player().name) && match(elem.token, action.token)) {
+                    if ((elem.token.player && elem.token.player.name == player().name) && match(elem.token, action.token)) {
                         setProp(this.targets, 'highlight', false);
                         this.targets = selection(elem, type, action.dest);
                         setProp(this.targets, 'highlight', true);

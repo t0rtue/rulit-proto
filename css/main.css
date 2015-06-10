@@ -86,6 +86,7 @@ body {
     /*fill:lightgrey;stroke:black;*/
 
     stroke-width:1;
+
     /*fill:linear-gradient(60deg, white, black);*/
 
     -webkit-transition: fill 250ms linear;
@@ -98,27 +99,27 @@ body {
     stroke : #444;
 }
 
+
 .tile:hover {
     /*stroke-width:3;*/
     /*stroke : white;*/
 /*    -webkit-transition: fill 250 linear;
     transition: fill 250ms linear;*/
-    fill : #003;
-    opacity : 1;
+
+    /*opacity : 1;*/
+
 }
 
 .corner:hover,
 .border:hover {
     opacity:1;
-    fill : #003;
+    fill : #444;
 
     -webkit-transition: opacity 250ms linear;
     transition: opacity 250ms linear;
 }
 
 .corner {
-    fill:#002;
-    /*stroke:darkblue;*/
     stroke-width:2;
     opacity: 0;
 }
@@ -135,12 +136,11 @@ body {
 }
 
 .border.selected {
-    stroke : pink;
+    opacity: 1;
 }
 
 .selected {
     opacity: 1;
-    fill : #004;
 }
 
 .highlight {
@@ -148,6 +148,7 @@ body {
     fill : lightgreen;
     /*-webkit-transition: none;
     transition: none;*/
+    /*filter : url(#lighterPulseFilter);*/
 }
 
 
@@ -237,7 +238,7 @@ body {
 #game-view button:hover,
 #game-view .list-group-item:hover,
 #game-view .clickable-item:hover svg {
-    background: #003;
+    background: #EEE;
 }
 
 #game-view .list-group-item.disabled {
@@ -251,7 +252,7 @@ body {
 }
 
 #game-view .selected {
-    background: #001;
+    background: #EEE;
 }
 /*#game-view {
     border-color: #AAA!important;

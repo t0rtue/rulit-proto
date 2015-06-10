@@ -419,9 +419,12 @@ angular.module('ri.module.board', [])
         if (conditions) {
             if (conditions.token) {
                 if (
+                    // No token
                     !elem.token ||
+                    // Token not of the valid type
                     (conditions.token.type && conditions.token.type != elem.token.type) ||
-                    (elemOrig.token.player != elem.token.player)
+                    // Not a token of the current player
+                    (elem.token.player && elemOrig.token.player.name != elem.token.player.name)
                 ) {
                     return [];
                 }
@@ -469,6 +472,7 @@ angular.module('ri.module.board', [])
         restrict : 'E',
         scope : {
             'data' : '=',
+            'view' : '=',
             'onClickElem' : '&',
             'onOverElem' : '&'
         },
