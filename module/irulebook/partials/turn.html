@@ -47,14 +47,14 @@
             </form>
 
             <div class="row">
-                <div class="col-md-10">
+                <div class="col-md-12">
                     <p>
                         <ul class="list-group">
-                            <li ng-repeat="action in phase.actions" class="list-group-item show-on-hover action-form" ng-init="showDetails=false">
+                            <li ng-repeat="action in phase.actions" class="list-group-item action-form" ng-init="showDetails=false">
                                 <ri-remove-button ng-click="phase.actions.splice($index,1)"></ri-remove-button>
                                 <div class="input-group">
                                     <div class="input-group-addon" data-toggle="collapse" data-target="#{{phaseIdx}}-action-details-{{$index}}" ng-click="showDetails=!showDetails">
-                                        <span class="glyphicon" ng-class="'glyphicon-arrow-' + (showDetails?'down':'right')"></span>
+                                        <span class="glyphicon" ng-class="'glyphicon-chevron-' + (showDetails?'down':'right')"></span>
                                     </div>
                                     <input
                                         ng-model="action.name"
@@ -68,7 +68,7 @@
                                 <div id="{{phaseIdx}}-action-details-{{$index}}" class="collapse">
                                     <div class="panel panel-default" style="margin-top:10px">
                                         <div class="panel-body">
-                                            <ri-action-edit action="action" tokens="tokens"></ri-action-edit>
+                                            <ri-action-edit action="action" tokens="tokens" tiles="tiles"></ri-action-edit>
                                         </div>
                                     </div>
                                 </div>

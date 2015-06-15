@@ -1,0 +1,45 @@
+<form style="display:inline">
+
+    <!-- INIT -->
+    <span
+        ng-init="
+            selector.conditions=selector.conditions||[];
+            conditionTypes={'token':'with a token','type':'of type','area':'in an area of', 'lines':'aligned with'}">
+    </span>
+
+    <!-- position type -->
+    <select
+        ng-model="selector.type"
+        ng-options="type for type in ['tile','corner','border']"
+        class="form-control">
+    </select>
+
+
+    <!-- CONDITIONS -->
+    <span class="control-add" ng-click="selector.conditions.push({operator:'and', type:'type'})"> + condition...</span>
+    <ul class="list-group form-inline" style="margin-bottom:0">
+        <li ng-repeat="condition in selector.conditions"
+            class="list-group-item no-border"
+            style="border-left:3px solid #DDD;margin-top:10px"
+            >
+                    <ri-remove-button ng-click="selector.conditions.splice($index,1)"></ri-remove-button>
+
+                    <span ng-if="$index">
+                        <select ng-model="condition.operator" ng-options="op for op in ['and', 'or', 'xor']" class="form-control"></select>
+                        <br/>
+                    </span>
+
+
+                    <span class="condition-icon glyphicon" ng-class="condition.not?'glyphicon-ban-circle':'glyphicon-hand-right'" ng-click="condition.not=!condition.not" aria-hidden="true"></span>
+
+                    <span ng-if="condition.not">not</span>
+
+                    <select ng-model="condition.type" ng-options="type as label for (type,label) in conditionTypes" class="form-control"></select>
+
+                    <!-- <ri-selector-condition type="condition.type" ></ri-selector-condition> -->
+                    <ng-include ng-if="condition.type" src="'module/action/input/condition/'+condition.type+'.html'"></ng-include>
+
+        </li>
+    </ul>
+
+</form>

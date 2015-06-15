@@ -235,7 +235,8 @@ angular.module('ri.module.irulebook', ['ui.router'])
         restrict : 'E',
         scope : {
             'phases' : '=',
-            'tokens' : '='
+            'tokens' : '=',
+            'tiles'  : '='
         },
         templateUrl : 'module/irulebook/partials/turn.html'
     }

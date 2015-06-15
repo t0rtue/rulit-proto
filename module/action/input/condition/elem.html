@@ -1,0 +1,30 @@
+<!-- INPUT ELEM -->
+<form>
+    <!-- Switch between elem selector (indefinite article) or contextual elem (definite article) -->
+    <span ng-if="context" ng-init="condition.params.neighbor.mode=condition.params.neighbor.mode||'selection'">
+        <select
+            ng-model="condition.params.neighbor.mode"
+            ng-options="type as label for (type,label) in {'selection':'a','context':'the'}"
+            class="form-control">
+        </select>
+
+        <select
+            ng-if="condition.params.neighbor.mode=='context'"
+            ng-model="condition.params.neighbor.name"
+            ng-options="type as label for (type,label) in context"
+            class="form-control">
+        </select>
+    </span>
+    <span ng-if="!context" ng-init="condition.params.neighbor.mode='selection'">
+        a
+    </span>
+
+    <ri-input-elem-selector
+        ng-if="condition.params.neighbor.mode!='context'"
+        selector="condition.params.neighbor"
+        tile-types="tileTypes"
+        tile-type-map='tileByType'
+        token-types="tokenTypes"
+        context="context">
+    </ri-input-elem-selector>
+</form>

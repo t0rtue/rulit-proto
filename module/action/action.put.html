@@ -1,6 +1,11 @@
 <div>
     1
-    <ri-input-token token='action.token' types='tokenTypes'></ri-input-token>
+    <ri-input-token token='action.token' types='tokenTypes' type-map='tokenByType'></ri-input-token>
     on a
-    <select ng-model="action.dest.type" ng-options="type for type in ['tile','corner','border']" class="form-control"></select> 
+     <ri-input-elem-selector
+        selector="action.dest"
+        tile-types="tileTypes"
+        tile-type-map='tileByType'
+        token-types="tokenTypes">
+    </ri-input-elem-selector>
 </div>

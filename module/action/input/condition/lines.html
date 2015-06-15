@@ -1,0 +1,40 @@
+<form>
+
+    <ng-include src="'module/action/input/condition/elem.html'"></ng-include>
+
+    <!-- LINES -->
+    in the same
+    <select multiple="true"
+            size="3"
+            ng-model="condition.params.lines"
+            ng-options="direction as label for (direction,label) in {'row':'row', 'col':'column', 'diag':'diagonal'}"
+            class="form-control no-scrollbar">
+    </select>
+
+    <!-- OPTIONS section -->
+    <br/>
+
+    <!-- DIST opt -->
+    <div ng-show="condition.params.dist">
+        at a maximum distance of
+        <input
+            ng-model="condition.params.dist"
+            type="text"
+            class="form-control"
+            size="4"
+            placeholder="value">
+        </input>
+        <ri-remove-button ng-click="condition.params.dist=null"></ri-remove-button>
+    </div>
+    <!-- PATH opt -->
+    <div ng-show="condition.params.path_conditions">
+        passing by
+        <ri-input-token token='condition.params.path_conditions.tile' types='tileTypes'></ri-input-token>
+        <ri-remove-button ng-click="condition.params.path_conditions=null"></ri-remove-button>
+    </div>
+
+    <span ng-hide="condition.params.dist" class="control-add" ng-click="condition.params.dist=1">+ distance</span>
+    <span ng-hide="condition.params.path_conditions" class="control-add" ng-click="condition.params.path_conditions={}">+ path</span>
+
+
+</form>
