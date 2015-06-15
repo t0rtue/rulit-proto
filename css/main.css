@@ -33,11 +33,11 @@ body {
     Generic
 */
 
-.show-on-hover .close {
+.show-on-hover > ri-remove-button {
     visibility: hidden;
 }
 
-.show-on-hover:hover .close {
+.show-on-hover:hover > ri-remove-button {
     visibility: visible;
 }
 
@@ -78,41 +78,29 @@ body {
 }
 
 .tile {
-    /*fill:white;stroke:lightgrey;stroke-width:1;opacity:1;*/
 
     fill:inherit;
-    /*stroke:darkblue;*/
-
-    /*fill:lightgrey;stroke:black;*/
 
     stroke-width:1;
-
-    /*fill:linear-gradient(60deg, white, black);*/
 
     -webkit-transition: fill 250ms linear;
     transition: fill 250ms linear;
 
+    -webkit-transition: opacity 500ms linear;
+    transition: opacity 500ms linear;
 }
 
 .tile, .corner, .border {
-    /*stroke : #002; fill : #333; stroke-width : 10;*/
     stroke : #444;
 }
 
-
 .tile:hover {
-    /*stroke-width:3;*/
-    /*stroke : white;*/
-/*    -webkit-transition: fill 250 linear;
-    transition: fill 250ms linear;*/
-
-    /*opacity : 1;*/
 
 }
 
 .corner:hover,
 .border:hover {
-    opacity:1;
+    opacity:0.8;
     fill : #444;
 
     -webkit-transition: opacity 250ms linear;
@@ -120,24 +108,21 @@ body {
 }
 
 .corner {
-    stroke-width:2;
+    stroke-width:0;
     opacity: 0;
-}
-
-.corner:hover {
-    stroke-width:1;
+    fill : #444;
 }
 
 .border {
     stroke-width : 10;
-    /*stroke:darkblue;*/
     opacity: 0;
     stroke-linecap:round;
 }
 
-.border.selected {
-    opacity: 1;
+.hexa-grid .border {
+    stroke-width : 16;
 }
+
 
 .selected {
     opacity: 1;
@@ -146,22 +131,21 @@ body {
 .highlight {
     opacity: 1;
     fill : lightgreen;
-    /*-webkit-transition: none;
-    transition: none;*/
     /*filter : url(#lighterPulseFilter);*/
 }
 
 
-.tile.highlight:hover {
-    fill : #BFB;
+.tile.highlight {
+    opacity: 1;
 }
 
 .border.highlight {
-    stroke-width : 6;
     stroke:lightgreen;
 }
 
-
+#game-view.highlighting ri-board .tile:not(.highlight) {
+    opacity: 0.2;
+}
 
 .token {
     stroke-width : 3;
@@ -238,7 +222,8 @@ body {
 #game-view button:hover,
 #game-view .list-group-item:hover,
 #game-view .clickable-item:hover svg {
-    background: #EEE;
+    background: #FFF;
+    font-weight: bold;
 }
 
 #game-view .list-group-item.disabled {
@@ -252,7 +237,9 @@ body {
 }
 
 #game-view .selected {
-    background: #EEE;
+    background: #FFF;
+    font-weight: bold;
+    border: solid 2px;
 }
 /*#game-view {
     border-color: #AAA!important;

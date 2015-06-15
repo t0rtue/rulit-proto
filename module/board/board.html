@@ -5,9 +5,9 @@
         viewBox="-20 -20 540 540"
     >
         <style type="text/css">
-            .tile.highlight {
-                filter : url(#lighterPulseFilter);
-            }
+            /*.tile {
+                mask : url(#gradMask);
+            }*/
             .tile.overed {
                 filter : url(#lighterFilter);
             }
@@ -16,7 +16,7 @@
             }
         </style>
 
-        <g ng-if="data.shape=='square'" ng-repeat="type in ['tile', 'border', 'corner']">
+        <g ng-if="data.shape=='square'" class="square-grid" ng-repeat="type in ['tile', 'border', 'corner']">
 
             <g ng-repeat="(u,col) in data[type]" ng-attr-transform="translate({{u*50}}, 0)">
                 <g ng-repeat="(v,cell) in col" ng-attr-transform="translate(0, {{v*50}})">
@@ -50,7 +50,7 @@
                                     ng-class="{selected:elem.selected, highlight:elem.highlight}"
                                 />
 
-                                <g  transform="translate(25, 0)scale(0.5)">
+                                <g  transform="translate(25, 0)scale(0.42)">
                                     <ri-token
                                         ng-if="elem.token"
                                         class="ri-token"
@@ -90,7 +90,7 @@
             </g>
         </g>
 
-        <g ng-if="data.shape=='hexa'" ng-repeat="type in ['tile', 'border', 'corner']" transform="scale(0.42)">
+        <g ng-if="data.shape=='hexa'" class="hexa-grid" ng-repeat="type in ['tile', 'border', 'corner']" transform="scale(0.42)">
 
            <!--  <g ng-repeat="(u,col) in data[type]" ng-attr-transform="translate({{u*32*3}}, {{(u%2)*54}})">
                 <g ng-repeat="(v,cell) in col" ng-attr-transform="translate(0, {{v*54*2}})">
@@ -191,14 +191,28 @@
 
 
         <defs>
-              <radialGradient id="Gradient1" r="1" cx="0.2" cy="0.2">
+
+            <!--
+                Gradient mask
+            -->
+            <radialGradient id="Gradient1" r="0.2" cx="0.2" cy="0.2">
                 <stop offset="0%" stop-opacity="0"/>
-                <stop offset="100%" stop-opacity="0"/>
-              </radialGradient>
-              <radialGradient id="Gradient2" r="0.7">
+                <stop offset="100%" stop-opacity="1"/>
+            </radialGradient>
+
+            <radialGradient id="Gradient2" r="0.7">
                 <stop offset="0%" stop-opacity="0"/>
                 <stop offset="100%" stop-opacity="0.5"/>
-              </radialGradient>
+            </radialGradient>
+
+            <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" style="stop-color:rgb(255,255,0);stop-opacity:1" />
+              <stop offset="100%" style="stop-color:rgb(255,0,0);stop-opacity:1" />
+            </linearGradient>
+
+            <mask id="gradMask" maskContentUnits="objectBoundingBox">
+              <rect width="1" height="1" fill="url(#grad1)"/>
+            </mask>
 
             <!--
                 Highlight filters
@@ -224,7 +238,7 @@
                 </feComponentTransfer>
             </filter>
 
-            <filter id="lighterFilter">
+            <filter id="lighterFilter" >
                 <feComponentTransfer>
                     <feFuncR type="gamma" amplitude="1" exponent="0.8"/>
                     <feFuncG type="gamma" amplitude="1" exponent="0.8"/>
@@ -239,6 +253,7 @@
                     <feFuncB type="gamma" amplitude="1" exponent="0.6"/>
                 </feComponentTransfer>
             </filter>
+
 
         </defs>
         <!-- <rect width="500" height="500" fill="url(#Gradient2)" style="pointer-events:none"/> -->
