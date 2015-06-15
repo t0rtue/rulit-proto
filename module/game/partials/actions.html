@@ -49,7 +49,7 @@
     <ul class="list-group" ng-mouseover="game.hover_window='actions'">
         <!-- <li ng-repeat="action in game.actions.all" -->
         <li ng-repeat="action in game.turnPhases[game.state.currentPhaseIdx].actions"
-            ng-click="game.selectAction(action)"
+            ng-click="game.onClickAction(action)"
             class="list-group-item"
             ng-class="{selected:action.selected, disabled:!action.payable}"
             >

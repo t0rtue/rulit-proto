@@ -259,8 +259,9 @@ angular.module('ri.module.game', ['ri.module.action', 'ri.module.board', 'ri.mod
     this.message = "Select an action";
 
     function setProp(elems, attr, value) {
-        for (e in elems) {
-            elems[e][attr] = value;
+        elems = elems || [];
+        for (i=0;i<elems.length;i++) {
+            elems[i][attr] = value;
         }
     }
 
@@ -271,11 +272,25 @@ angular.module('ri.module.game', ['ri.module.action', 'ri.module.board', 'ri.mod
         for (a in phaseActions) {
             phaseActions[a].selected = false;
         }
-        // Auto select the first action
-        phaseActions && phaseActions.length && actions.select(phaseActions[0]);
+        // Auto select the first action if only one action
+        phaseActions && (phaseActions.length==1) && this.selectAction(phaseActions[0]);
         // Disable unpayable actions
         this.updateActionsState();
     }
+
+    function getBoardElems(type) {
+        var elems = [];
+        var typeGrid = grid.maps[type];
+        for (u in typeGrid) {
+            for (v in typeGrid[u]) {
+                for (a in typeGrid[u][v]) {
+                    elems.push(typeGrid[u][v][a]);
+                }
+            }
+        }
+        return elems;
+    }
+
 
     /* Setup board
 
@@ -294,17 +309,6 @@ angular.module('ri.module.game', ['ri.module.action', 'ri.module.board', 'ri.mod
         ];
     */
     this.setupBoard = function() {
-
-        function getTiles() {
-            var tiles = [];
-            var tileGrid = grid.maps['tile'];
-            for (u in tileGrid) {
-                for (v in tileGrid[u]) {
-                    tiles.push(tileGrid[u][v]['X']);
-                }
-            }
-            return tiles;
-        }
 
         var draw = {
             content : null,
@@ -338,7 +342,7 @@ angular.module('ri.module.game', ['ri.module.action', 'ri.module.board', 'ri.mod
         }
 
         // Get board tiles
-        var tiles = getTiles();
+        var tiles = getBoardElems('tile');
         // Shuffle tiles
         tiles.sort(function() { return 0.5 - Math.random() });
 
@@ -401,44 +405,132 @@ angular.module('ri.module.game', ['ri.module.action', 'ri.module.board', 'ri.mod
         return prop ? prop.value : undefined;
     }
 
-    // TODO move in board selector
-    function selection(elem, type, selector) {
-        var dist = parseInt(selector.dist)
-                   ? selector.dist
-                   : getPropertyValue(elem.token, selector.dist);
+    function computeValue(elem, input) {
+        return parseInt(input)
+                ? input
+                : getPropertyValue(elem.token, input);
+    }
 
-        selector.conditions = selector.conditions || {};
+    function elemSelector(elemType, conditions, context) {
 
-        var elems = [];
-
-        if (selector.mode == 1) {
-            // ALIGNED NEIGHBORS
-            var lines = neighborSelector.getLines(
-                            grid,
-                            elem,
-                            type,
-                            dist,
-                            selector.conditions,
-                            selector.lines
-                        );
-
-            for (l in lines) {
-                elems = elems.concat(lines[l]);
+        function _computeParams(params) {
+            if (params.mode == 'context') {
+                return {
+                    type : context['type'],
+                    elems: [context[params.name]]
+                }
             }
-        } else {
-            // AREA NEIGHBORS
-            elems = neighborSelector.getDistNeighbors(
-                        grid,
-                        elem,
-                        type,
-                        selector.type,
-                        dist,
-                        null,
-                        selector.conditions
-                    );
+            // else mode 'selection'
+            return {
+                type  : params.type,
+                elems : elemSelector(params.type, params.conditions, context)
+            }
         }
 
-        return elems;
+        var elemGetters = {
+            type : function(params) {
+                var elems = getBoardElems(elemType);
+                elems = $.grep(
+                    elems,
+                    function(e) {
+                        return !params || match(e, params);
+                    }
+                );
+                return elems;
+            },
+            token : function(params) {
+                var elems = getBoardElems(elemType);
+                elems = $.grep(
+                    elems,
+                    function(e) {
+                        return !params || match(e.token, params);
+                    }
+                );
+                return elems;
+            },
+            area : function(params) {
+                var elems = [];
+                var dist = parseInt(params.dist) || 1;
+                var neighbors = _computeParams(params.neighbor);
+
+                for (n in neighbors.elems) {
+                    var selec = neighborSelector.getDistNeighbors(
+                        grid,
+                        neighbors.elems[n],
+                        neighbors.type,
+                        elemType,
+                        dist, // dist,
+                        null,
+                        params.path_conditions || {}
+                    );
+
+                    // Find the way to don't have duplicate entry
+                    // elems = elems.concat(selec);
+                    $.merge(elems, selec);
+                }
+                return elems;
+            },
+            lines : function(params) {
+                var elems = [];
+                var dist = parseInt(params.dist) || 10;
+                var neighbors = _computeParams(params.neighbor);
+                for (n in neighbors.elems) {
+                    var lines = neighborSelector.getLines(
+                        grid,
+                        neighbors.elems[n],
+                        neighbors.type,
+                        dist,
+                        params.path_conditions || {},
+                        params.lines
+                    );
+                    for (l in lines) {
+                        $.merge(elems, lines[l]);
+                    }
+                }
+                return elems;
+            },
+            context : function(params) {
+                return [context[params.name]];
+            },
+            // coordinates // relative or not. exemple : move of the knight in Chess
+        }
+
+        var allElems = getBoardElems(elemType);
+        var selection = (conditions  && conditions.length) ? null : allElems;
+        for (c in conditions) {
+            var cond = conditions[c];
+            var selectedElems = elemGetters[cond.type](cond.params);
+
+            if (cond.not) {
+                selectedElems = $(allElems).not(selectedElems).get();
+            }
+
+            if (selection) {
+                switch (cond.operator) {
+                    default:
+                    case 'and': // AND conditions => keep elements that match both
+                        selection = $(selection).filter(selectedElems);
+                        break;
+                    case 'or': // OR => keep all selected elements
+                        $.merge(selection, selectedElems);
+                        break;
+                    case 'xor': // XOR => keep all - match both
+                        var matchBoth = $(selection).filter(selectedElems);
+                        var all = $.merge(selection, selectedElems);
+                        selection = $(all).not(matchBoth).get();
+                        break;
+                }
+            } else {
+                selection = selectedElems;
+            }
+        }
+        return selection;
+    }
+
+    // Elem selector testing
+    this.highlightElems = function(elemType, conditions) {
+        var elems = elemSelector(elemType, conditions, {'selected' : this.selectedElem});
+        this.highlight(elems);
     }
 
     function player() {
@@ -584,7 +676,7 @@ angular.module('ri.module.game', ['ri.module.action', 'ri.module.board', 'ri.mod
 
     this.cancelAction = function(msg) {
         actions.cancel();
-        setProp(this.targets, 'highlight', false);
+        this.highlightReset();
         msg && this.setMessage(msg);
     }
 
@@ -593,6 +685,18 @@ angular.module('ri.module.game', ['ri.module.action', 'ri.module.board', 'ri.mod
                     this.tokens.all,
                     function(e) {return type == e.type}
                 )[0];
+    }
+
+    this.highlight = function(elems) {
+        this.highlighting = true;
+        setProp(this.highlighted, 'highlight', false);
+        this.highlighted = elems;
+        setProp(this.highlighted, 'highlight', true);
+    }
+    this.highlightReset = function() {
+        this.highlighting = false;
+        setProp(this.highlighted, 'highlight', false);
+        this.highlighted = undefined;
     }
 
     this.selectBoardElem = function(elem, type) {
@@ -620,8 +724,8 @@ angular.module('ri.module.game', ['ri.module.action', 'ri.module.board', 'ri.mod
         if (action) {
 
             if (action.type == "put") {
-                if (!elem.token) {
-                    if (type == action.dest.type) {
+
+                if (!elem.token && elem.highlight) {
 
                         var model = this.getTokenDefinition(action.token.type);
                         elem.token = angular.copy(model);
@@ -635,8 +739,10 @@ angular.module('ri.module.game', ['ri.module.action', 'ri.module.board', 'ri.mod
 
                         this.selectElem(elem, type);
                         this.manageEnd();
-                    }
+                        this.selectAction(action);
+
                 } else {
+                    // this.cancelAction("Action not possible on this tile");
                     this.selectElem(elem, type);
                 }
             }
@@ -644,9 +750,10 @@ angular.module('ri.module.game', ['ri.module.action', 'ri.module.board', 'ri.mod
             if (action.type == "move") {
                 if (elem.token) {
                     if ((elem.token.player && elem.token.player.name == player().name) && match(elem.token, action.token)) {
-                        setProp(this.targets, 'highlight', false);
-                        this.targets = selection(elem, type, action.dest);
-                        setProp(this.targets, 'highlight', true);
+
+                        var targets = elemSelector(action.dest.type, action.dest.conditions, {current : elem, type: type});
+
+                        this.highlight(targets);
                         this.setMessage("Select destination");
                     } else {
                         this.cancelAction("Action not possible with the selected token");
@@ -656,21 +763,22 @@ angular.module('ri.module.game', ['ri.module.action', 'ri.module.board', 'ri.mod
                     elem.token = this.selectedElem.token;
                     this.selectedElem.token = null;
                     this.selectElem(elem, type);
-                    setProp(this.targets, 'highlight', false);
+                    this.highlightReset();
                     this.manageEnd();
+                    this.selectAction(action);
                 }
             }
 
             if (action.type == "interact") {
                 if (elem.token) {
                     if (match(elem.token, action.token)) {
-                        setProp(this.targets, 'highlight', false);
-                        var targets = selection(elem, type, action.target.area);
-                        this.targets = $.grep(
+
+                        var targets = elemSelector(action.target.type, action.target.conditions, {current : elem, type: type});
+                        targets = $.grep(
                             targets,
-                            function(e) {return match(e.token, action.target)}
+                            function(e) {return match(e.token, action.target.token)}
                         );
-                        setProp(this.targets, 'highlight', true);
+                        this.highlight(targets);
                     } else {
                         this.cancelAction("Action not possible with the selected token");
                     }
@@ -679,7 +787,7 @@ angular.module('ri.module.game', ['ri.module.action', 'ri.module.board', 'ri.mod
                     // elem.token = this.selectedElem.token;
                     // this.selectedElem.token = null;
                     // this.selectElem(elem, type);
-                    setProp(this.targets, 'highlight', false);
+                    this.highlightReset();
                 }
             }
 
@@ -697,6 +805,14 @@ angular.module('ri.module.game', ['ri.module.action', 'ri.module.board', 'ri.mod
         this.overedElem.overed = true;
     }
 
+    this.onClickAction = function(action) {
+        if (actions.current && (actions.current.name==action.name)) {
+            this.cancelAction();
+        } else {
+            this.selectAction(action);
+        }
+    }
+
     this.selectAction = function(action) {
 
         if (!action.payable) {
@@ -706,16 +822,23 @@ angular.module('ri.module.game', ['ri.module.action', 'ri.module.board', 'ri.mod
 
         actions.select(action);
 
-        if (action.type == "get") {
-            if (action.property) {
-                player().properties || (player().properties = {});
-                var props = player().properties;
-                props[action.property.name] || (props[action.property.name] = 0);
-                props[action.property.name] += action.quantity;
-                this.manageEnd();
-            }
-        }
+        switch (action.type) {
+            case "get":
+                if (action.property) {
+                    player().properties || (player().properties = {});
+                    var props = player().properties;
+                    props[action.property.name] || (props[action.property.name] = 0);
+                    props[action.property.name] += action.quantity;
+                    this.manageEnd();
+                }
+                break;
+            case "put":
+                this.setMessage("=> Select a " + action.dest.type);
 
+                var targets = elemSelector(action.dest.type, action.dest.conditions);
+                this.highlight(targets);
+                break;
+        }
         if (this.selectedElem) {
             this.selectBoardElem(this.selectedElem, this.selectedElemType);
         }
