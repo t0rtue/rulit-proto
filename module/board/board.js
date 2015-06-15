@@ -414,9 +414,10 @@ angular.module('ri.module.board', [])
     function _distNeighbour(grid, elem, elemType, neighbourType, dist, direction, distOrig, elemOrig, conditions) {
 
         // Check conditions
+        // If the current elem is not valid then stop the recursive process
         // ex : cond on coords, on distance, on elem attribute
-        // if (distOrig && elem.token) {
-        if (conditions) {
+        if (conditions && distOrig) {
+            // Check conditions, skip if it's the original element (the start position)
             if (conditions.token) {
                 if (
                     // No token
@@ -428,6 +429,9 @@ angular.module('ri.module.board', [])
                 ) {
                     return [];
                 }
+            }
+            if (conditions.tile && (conditions.tile.type != elem.type)) {
+                return [];
             }
         }
 
