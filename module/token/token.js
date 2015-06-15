@@ -118,29 +118,36 @@ angular.module('ri.module.token', [])
                     return value;
                 }
 
+                function computeColor(colorDef) {
+                    return colorDef && colorDef.on
+                        && ((colorDef.bind == 'color' && colorDef.color)
+                        || (colorDef.bind == 'player' && ((scope.data.player && scope.data.player.color) || 'lightgrey')));
+                }
+
                 function shapeChanged(idx) {
                     return layersElem[idx][0].tagName != shapeToTag[scope.view.layers[idx].shape];
                 }
 
                 var l;
                 for (l in scope.view.layers) {
+                    var layer = scope.view.layers[l];
 
-                    var width = computeValue(scope.view.layers[l], 'width', 1);
-                    var size = computeValue(scope.view.layers[l], 'size', 1);
-                    var color = computeValue(scope.view.layers[l], 'color', scope.data.player ? scope.data.player.color : null);
-                    var fill = computeValue(scope.view.layers[l], 'fill', null);
+                    var width = computeValue(layer, 'width', 1);
+                    var size = computeValue(layer, 'size', 1);
+                    var color = computeColor(layer.stroke);
+                    var fill = computeColor(layer.fill);
 
                     if (!layersElem[l]) {
-                        addLayer(scope.view.layers[l]);
+                        addLayer(layer);
                     }
                     else if (shapeChanged(l)) {
-                        changeLayer(l, scope.view.layers[l]);
+                        changeLayer(l, layer);
                     }
 
                     var css = {
                         'stroke-width'  : width
                     };
-                    if (color) css['stroke'] = color;
+                    css['stroke'] = color ? color : 'none';
                     if (fill) {
                         css['fill'] = fill;
                         css['fill-opacity'] = 1;
@@ -148,7 +155,7 @@ angular.module('ri.module.token', [])
 
                     layersElem[l].css(css);
 
-                    _updateShape(layersElem[l], size, scope.view.layers[l].shape);
+                    _updateShape(layersElem[l], size, layer.shape);
                     // layersElem[l].attr('r', size);
                 }
 

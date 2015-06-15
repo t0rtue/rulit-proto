@@ -54,7 +54,13 @@ angular.module('ri.module.irulebook', ['ui.router'])
             'type'       : type,
             'properties' : [],
             'view':{
-                    layers:[{size:0.5}],
+                    layers:[{
+                        shape : 'circle',
+                        size  : 0.5,
+                        fill  : {on:true, bind:'player'},
+                        stroke: {on:true, bind:'color', color:'#333333'},
+                        width : 5
+                    }],
                     kernel:{}
                 }
         });
@@ -66,7 +72,7 @@ angular.module('ri.module.irulebook', ['ui.router'])
             'type'       : type,
             'properties' : [],
             'view':{
-                    layers:[{size:0.5}],
+                    layers:[{size:0.5, shape:game.gridType}],
                     kernel:{}
                 }
         });
