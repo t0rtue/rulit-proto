@@ -77,6 +77,30 @@ angular.module('ri.module.irulebook', ['ui.router'])
                 }
         });
     }
+
+    this.updatePlayerCount = function(type) {
+
+        // Ensure min <= max
+        if (game.minPlayer > game.maxPlayer) {
+            if (type=='min') {
+                game.maxPlayer = game.minPlayer;
+            } else {
+                game.minPlayer = game.maxPlayer;
+            }
+        }
+
+        // Add / Remove player colors
+        var defaultColors = ['#008000', '#FFD700', '#0000FF', '#FF0000', '#FFFFFF', '#000000'];
+        var n = game.theme.players.length;
+        for (; n < game.maxPlayer; n++) {
+            var color = defaultColors[n] || '#FFFFFF';
+            game.theme.players.push({color:color});
+        }
+        for (; n > game.maxPlayer; n--) {
+            game.theme.players.pop();
+        }
+    }
+
 }])
 
 .directive('autoGrow', function() {

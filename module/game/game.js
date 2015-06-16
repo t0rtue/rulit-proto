@@ -38,15 +38,6 @@ angular.module('ri.module.game', ['ri.module.action', 'ri.module.board', 'ri.mod
     var state = {
         players : {
             all : [
-                {
-                    name:'Player1',
-                    color:'green',
-                    properties : {},
-                    // properties : {
-                    //     'gold' : 0,
-                    //     'victory point' : 0,
-                    // }
-                }
             ],
             current : null,
             idx: 0,
@@ -194,6 +185,7 @@ angular.module('ri.module.game', ['ri.module.action', 'ri.module.board', 'ri.mod
             state.currentPhaseIdx = 0;
 
             // Player setup
+            state.initPlayers(gameDesc);
             for (p in state.players.all) {
                 var player = state.players.all[p];
                 player.lose = player.win = false;
@@ -207,6 +199,23 @@ angular.module('ri.module.game', ['ri.module.action', 'ri.module.board', 'ri.mod
             }
             state.players.idx = 0;
             state.players.current = state.players.all[0];
+        },
+        initPlayers : function(gameDesc) {
+            var players = state.players.all;
+            if (players.length > gameDesc.maxPlayer) {
+                players.splice(gameDesc.maxPlayer, players.length - gameDesc.maxPlayer);
+            } else {
+                for (var i = players.length; i < gameDesc.minPlayer; i++) {
+                    state.addPlayer(gameDesc);
+                }
+            }
+        },
+        addPlayer : function(gameDesc) {
+            state.players.all.push({
+                name : 'Player' + (state.players.all.length+1),
+                color : gameDesc.theme.players[state.players.all.length].color,
+                properties : {}
+            });
         }
     }
 
@@ -884,21 +893,11 @@ angular.module('ri.module.game', ['ri.module.action', 'ri.module.board', 'ri.mod
     this.players = players;
 
     this.addPlayer = function() {
-        players.push({
-            name : 'Player' + (players.length+1),
-            color: ['green', 'yellow', 'blue', 'red', 'pink', 'white', 'black'][players.length],
-            properties : {}
-        });
+        gameState.addPlayer(game);
     }
 
     this.init = function() {
-        if (players.length > game.maxPlayer) {
-            players.splice(game.maxPlayer, players.length - game.maxPlayer);
-        } else {
-            for (var i = players.length; i < game.minPlayer; i++) {
-                this.addPlayer();
-            }
-        }
+        gameState.initPlayers(game);
     }
 
     this.init();

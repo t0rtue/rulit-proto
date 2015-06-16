@@ -124,6 +124,12 @@ textarea.form-control:focus {
     padding-left: 10px;
 }
 
+input[type="color"].form-control {
+    width: 50px;
+    background-color:white;
+    border:none
+}
+
 input[type="range"],
 input[type="range"]:hover,
 input[type="range"]:focus {
@@ -201,3 +207,7 @@ rb-goal .conditions-container {
     cursor: pointer;
     font-size : 18px;
 }
+
+.condition-icon:hover {
+    cursor: pointer;
+};

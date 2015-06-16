@@ -121,9 +121,9 @@
                             </span>
                             player{{game.maxPlayer>1 ? 's' : ''}}
                             <span id="players-number-edit">
-                              <input type="number" ng-model="game.minPlayer" class="form-control" placeholder="min"></input>
+                              <input type="number" ng-model="game.minPlayer" class="form-control" min="1" placeholder="min" ng-change="rulebook.updatePlayerCount('min')"></input>
                               to
-                              <input type="number" ng-model="game.maxPlayer" class="form-control" placeholder="max"></input>
+                              <input type="number" ng-model="game.maxPlayer" class="form-control" min="1" placeholder="max" ng-change="rulebook.updatePlayerCount('max')"></input>
                             </span>
                         </h3>
                         <h3>
@@ -295,16 +295,22 @@
                             <tr>
                                 <td><label>Background</label></td>
                                 <td>
-                                    <input ng-model="rulebook.game.theme.background" type="color"/>
+                                    <input ng-model="rulebook.game.theme.background" type="color" class="form-control"/>
                                 </td>
                             </tr>
                             <tr>
                                 <td><label>Text color</label></td>
                                 <td>
-                                    <!-- <input ng-model="rulebook.game.theme.color" type="color"/> -->
+                                    <input ng-model="rulebook.game.theme.color" type="color" class="form-control"/>
                                 </td>
                             </tr>
                         </table>
+                        <div>
+                          <h4><b>Players</b></h4>
+                          <form class="form-inline">
+                            <input ng-repeat="player in rulebook.game.theme.players" ng-model="player.color" type="color" class="form-control"/>
+                          </form>
+                        </div>
                       </div> <!-- /THEME -->
 
                     </div>

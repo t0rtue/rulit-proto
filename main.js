@@ -29,7 +29,8 @@ angular.module('rulit', ['ui.bootstrap', 'ui.router', 'ri.gameStore', 'ri.module
                 tokens : {}
             },
             theme : {
-                background : '#002'
+                background : '#DDDDDD',
+                players : [{color:'#008000'}]
             },
             init : {
                 playerProps : [],
@@ -177,6 +178,8 @@ angular.module('rulit', ['ui.bootstrap', 'ui.router', 'ri.gameStore', 'ri.module
                 <span class="sr-only">Close</span> \
             </button>',
         link : function(scope, elem) {
+
+            elem.parent().addClass('show-on-hover');
 
             function remove() {
                 if (scope.data) {
