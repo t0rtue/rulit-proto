@@ -353,7 +353,11 @@ angular.module('ri.module.game', ['ri.module.action', 'ri.module.board', 'ri.mod
         // Get board tiles
         var tiles = getBoardElems('tile');
         // Shuffle tiles
-        tiles.sort(function() { return 0.5 - Math.random() });
+        function shuffle(o){
+            for(var j, x, i = o.length; i; j = Math.floor(Math.random() * i), x = o[--i], o[i] = o[j], o[j] = x);
+            return o;
+        }
+        shuffle(tiles);
 
         // TILES init
         draw.init(game.init.boardTiles);
