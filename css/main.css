@@ -220,10 +220,11 @@ body {
 }
 
 #game-view button:hover,
-#game-view .list-group-item:hover,
+#game-view .list-group-item:not(.disabled):hover,
 #game-view .clickable-item:hover svg {
     background: #FFF;
     font-weight: bold;
+    cursor : pointer;
 }
 
 #game-view .list-group-item.disabled {
