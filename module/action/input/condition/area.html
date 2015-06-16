@@ -1,0 +1,35 @@
+<form>
+
+    <ng-include src="'module/action/input/condition/elem.html'"></ng-include>
+
+    <!-- DIST -->
+    at a maximum distance of
+    <input
+        ng-model="condition.params.dist"
+        type="text"
+        class="form-control"
+        size="4"
+        placeholder="value">
+    </input>
+
+    <!-- OPTIONS section -->
+    <br/>
+
+    <!-- PATH opt -->
+    <div ng-show="condition.params.path_conditions">
+        passing by
+        <ri-input-token token='condition.params.path_conditions.tile' types='tileTypes'></ri-input-token>
+        <ri-remove-button ng-click="condition.params.path_conditions=null"></ri-remove-button>
+    </div>
+
+    <span ng-hide="condition.params.path_conditions" class="control-add" ng-click="condition.params.path_conditions={}">+ path</span>
+
+<!--     <select
+        ng-model="distType"
+        ng-init="distType=neighbor.selector.min?'min':'max'"
+        ng-options="type as label for (type,label) in {'min' : 'away from','max' : 'next to'}"
+        ng-change="neighbor.selector=null"
+        class="form-control">
+    </select>
+-->
+</form>

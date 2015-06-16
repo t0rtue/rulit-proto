@@ -1,7 +1,8 @@
 <div>
 
 <div class="container" id="game-view"
-     ng-style="{'background':game.theme.background, 'fill':game.theme.background, 'color':game.theme.color}">
+     ng-style="{'background':game.theme.background, 'fill':game.theme.background, 'color':game.theme.color}"
+     ng-class="{'highlighting':game.highlighting}">
 
     <div class="row">
         <div class="col-md-2" ng-if="rulit.layout.mode != 1">

@@ -50,7 +50,6 @@
     font-size: 25px;
 }
 
-#game-menu ri-remove-button button{
-    /*background: black;*/
-    color: lightgrey;
+#game-menu ri-remove-button button {
+    color: #222;
 }

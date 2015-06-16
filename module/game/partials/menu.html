@@ -22,7 +22,7 @@
         <div class="col-md-offset-1 col-md-2">
             <h2 class="centered"><span class="glyphicon glyphicon-user" ></span></h2>
 
-            <div ng-repeat="player in menu.players" class="show-on-hover">
+            <div ng-repeat="player in menu.players">
                 <ri-remove-button
                     ng-if="menu.players.length  > menu.game.minPlayer"
                     ng-click="menu.players.splice($index,1)">

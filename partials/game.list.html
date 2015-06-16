@@ -1,6 +1,8 @@
 <div class="list-group">
     <a ng-repeat="game in games | filter:{source:source}"
-       class="list-group-item game-item show-on-hover clearfix">
+       class="list-group-item game-item clearfix">
+
+        <ri-remove-button ng-if="canRemove" ng-click="remove({name:game.name})"></ri-remove-button>
 
        <div ng-if="game.meta.thumb" class="pull-left" style="padding-right:10px">
             <img
@@ -11,8 +13,6 @@
 
         <p>
             <span class="game-name">{{game.name}}</span>
-
-            <ri-remove-button ng-if="canRemove" ng-click="remove({name:game.name})"></ri-remove-button>
 
             <span ui-sref="game.menu({name:game.name})" title="play" class="pull-right glyphicon glyphicon-play nav-icon" ></span>
             <span ui-sref="game.rb({name:game.name})" title="rulebook" class="pull-right glyphicon glyphicon-cog nav-icon" ></span>

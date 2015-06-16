@@ -1,6 +1,13 @@
 <div>
     1
     <ri-input-token token='action.token' types='tokenTypes'></ri-input-token>
+    on a
+    <ri-input-elem-selector
+        selector="action.dest"
+        tile-types="tileTypes"
+        tile-type-map='tileByType'
+        token-types="tokenTypes"
+        context="{'current':'current position'}">
+    </ri-input-elem-selector>
     <br/>
-    <ri-input-neighbors selector="action.dest"></ri-input-neighbors>
 </div>

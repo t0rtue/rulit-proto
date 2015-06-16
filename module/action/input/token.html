@@ -1,5 +1,18 @@
 <div class="form-group form-inline">
+
+<!-- TOKEN VIEW
+    <div ng-if="typeMap" class="media-object">
+        <svg width="80" height="80" viewBox="-50 -50 100 100">
+            <ri-token
+                class="ri-token"
+                data="{}"
+                view="token.type?typeMap[token.type].view:{}">
+            </ri-token>
+        </svg>
+    </div>
+ -->
     <select ng-model="token.type" ng-options="type for type in types" class="form-control" placeholder="token"></select>
+    <!-- <select ng-model="token.type" ng-options="type as type for (type,tok) in typeMap" class="form-control"></select> -->
 
 <!--
     <h3>With properties</h3>
