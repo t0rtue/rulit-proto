@@ -6,12 +6,12 @@
             Player
             <select
                 ng-model="action.type"
-                ng-options="type for type in ['put', 'get', 'move', 'interact', 'link']"
+                ng-options="type for type in ['put', 'move', 'remove', 'get', 'interact', 'link']"
                 class="form-control"
                 id="actionType">
             </select>
             <h1 >
-                <span class="glyphicon glyphicon-{{ {'put':'log-in', 'get':'new-window','move':'share','interact':'resize-small','link':'transfer'}[action.type] }}"></span>
+                <span class="glyphicon glyphicon-{{ {'put':'log-in', 'remove':'new-window','move':'share','interact':'resize-small','link':'transfer', 'get':'share-alt'}[action.type] }}"></span>
             </h1>
 
             <span ng-hide="action.cost.length" class="control-add" ng-click="action.cost=[{}]">+ cost</span>

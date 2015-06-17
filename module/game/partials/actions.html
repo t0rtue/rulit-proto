@@ -53,7 +53,7 @@
             class="list-group-item"
             ng-class="{selected:action.selected, disabled:!action.payable}"
             >
-            <span class="glyphicon glyphicon-{{ {'put':'log-in', 'get':'new-window','move':'share','interact':'resize-small','link':'transfer'}[action.type]}}"></span>
+            <span class="glyphicon glyphicon-{{ {'put':'log-in', 'remove':'new-window','move':'share','interact':'resize-small','link':'transfer', 'get':'share-alt'}[action.type]}}"></span>
             <span class="action" >{{action.name}}</span>
             <br/>
             <span ng-repeat="transac in action.cost" class="transac">

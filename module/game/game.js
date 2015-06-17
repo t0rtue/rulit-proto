@@ -781,6 +781,17 @@ angular.module('ri.module.game', ['ri.module.action', 'ri.module.board', 'ri.mod
                 }
             }
         },
+        'remove' : {
+            onSelect : function(action) {
+                action.currentTargetLabel = action.token.type;
+                var targets = tokenElemSelector(action.token, action.orig);
+                return targets;
+            },
+            onInput : function(action, elem, type) {
+                elem.token = null;
+                action.done = true;
+            }
+        },
         'get' : {
             onSelect : function(action) {
                 if (action.property) {
