@@ -714,6 +714,26 @@ angular.module('ri.module.game', ['ri.module.action', 'ri.module.board', 'ri.mod
         this.setMessage("");
     }
 
+    function tokenElemSelector(tokenRef, eSelector, context) {
+        var selection = [];
+        if (eSelector) {
+            selection = elemSelector(eSelector.type, eSelector.conditions, context);
+        } else {
+            var types = ['tile', 'corner', 'border'];
+            for (var t in types) {
+                $.merge(selection, elemSelector(types[t]));
+            }
+        }
+        selection = $.grep(
+                        selection,
+                        function(e) {
+                            return match(e.token, tokenRef)
+                                && (e.token.player && e.token.player.name == player().name);
+                        }
+                    );
+        return selection;
+    }
+
     var actionHandlers = {
         'put' : {
             onSelect : function(action) {
@@ -722,7 +742,6 @@ angular.module('ri.module.game', ['ri.module.action', 'ri.module.board', 'ri.mod
                 return targets;
             },
             onInput : function(action, elem, type) {
-                if (!elem.highlight) {return}
                 var model = getTokenDefinition(action.token.type);
                 elem.token = angular.copy(model);
                 elem.token.player = {
@@ -736,7 +755,6 @@ angular.module('ri.module.game', ['ri.module.action', 'ri.module.board', 'ri.mod
                     player().tokens = player().tokens || [];
                     player().tokens.push(token);
                 }
-
                 addToken(elem.token);
 
                 action.done = true;
@@ -746,19 +764,16 @@ angular.module('ri.module.game', ['ri.module.action', 'ri.module.board', 'ri.mod
             onSelect : function(action) {
                 action.input = {};
                 action.currentTargetLabel = action.token.type;
+                var targets = tokenElemSelector(action.token);
+                return targets;
             },
             onInput : function(action, elem, type) {
                 if (!action.input.elemOrigin) {
-                    if (elem.token) {
-                        if ((elem.token.player && elem.token.player.name == player().name) && match(elem.token, action.token)) {
-                            action.input.elemOrigin = elem;
-                            action.currentTargetLabel = 'destination ' + action.dest.type;
-                            var targets = elemSelector(action.dest.type, action.dest.conditions, {current : elem, type: type});
-                            return targets;
-                        }
-                    }
+                    action.input.elemOrigin = elem;
+                    action.currentTargetLabel = 'destination ' + action.dest.type;
+                    var targets = elemSelector(action.dest.type, action.dest.conditions, {current : elem, type: type});
+                    return targets;
                 } else {
-                    if (!elem.highlight) {return}
                     elem.token = action.input.elemOrigin.token;
                     action.input.elemOrigin.token = null;
                     action.input = {};
@@ -773,7 +788,6 @@ angular.module('ri.module.game', ['ri.module.action', 'ri.module.board', 'ri.mod
                     var props = player().properties;
                     props[action.property.name] || (props[action.property.name] = 0);
                     props[action.property.name] += action.quantity;
-                    // this.manageEnd(action);
                 }
                 action.done = true;
             },
@@ -783,23 +797,16 @@ angular.module('ri.module.game', ['ri.module.action', 'ri.module.board', 'ri.mod
              onSelect : function(action) {
                 action.input = {};
                 action.currentTargetLabel = action.token.type;
+                var targets = tokenElemSelector(action.token);
+                return targets;
             },
             onInput : function(action, elem, type) {
                 if (!action.input.elemOrigin) {
-                    if (elem.token) {
-                        if ((elem.token.player && elem.token.player.name == player().name) && match(elem.token, action.token)) {
-                            action.input.elemOrigin = elem;
-                            action.currentTargetLabel = action.target.token.type;
-                            var targets = elemSelector(action.target.type, action.target.conditions, {current : elem, type: type});
-                            targets = $.grep(
-                                targets,
-                                function(e) {return match(e.token, action.target.token)}
-                            );
-                            return targets;
-                        }
-                    }
+                    action.input.elemOrigin = elem;
+                    action.currentTargetLabel = action.target.token.type;
+                    var targets = tokenElemSelector(action.target.token, action.target, {current : elem, type: type});
+                    return targets;
                 } else {
-                    if (!elem.highlight) {return}
                     action.input = {};
                     action.done = true;
                 }
@@ -807,24 +814,19 @@ angular.module('ri.module.game', ['ri.module.action', 'ri.module.board', 'ri.mod
         }
     }
 
-    this.selectBoardElem = function(elem, type) {
+    this.inputAction = function(elem, type) {
 
         var action = actions.current;
-        if (action) {
+        if (action && elem.highlight) {
             var targets = actionHandlers[action.type].onInput(action, elem, type);
-            if (action.done) {
+            if (targets) {
+                this.highlight(targets, action.currentTargetLabel);
+            } else {
+                // Action done
                 this.cancelAction();
                 this.manageEnd(action);
-            } else {
-                if (targets) {
-                    this.highlight(targets, action.currentTargetLabel);
-                }
             }
         }
-
-        this.selectElem(elem, type);
-
-        this.updateActionsState();
 
     }
 
@@ -832,6 +834,19 @@ angular.module('ri.module.game', ['ri.module.action', 'ri.module.board', 'ri.mod
         this.overedElem && (this.overedElem.overed = false);
         this.overedElem = elem;
         this.overedElem.overed = true;
+    }
+
+    this.onClickBoardElem = function(elem, type) {
+        if (this.selectedElem == elem) {
+            this.selectElem(null,null);
+            actions.current && this.selectAction(actions.current);
+        } else {
+            this.selectElem(elem, type);
+            if (actions.current) {
+                elem.highlight ? this.inputAction(elem, type)
+                               : this.selectAction(actions.current);
+            }
+        }
     }
 
     this.onClickAction = function(action) {
@@ -854,18 +869,15 @@ angular.module('ri.module.game', ['ri.module.action', 'ri.module.board', 'ri.mod
 
         action.done = false;
         var targets = actionHandlers[action.type].onSelect(action);
-        if (action.done) {
+        if (targets) {
+            this.highlight(targets, action.currentTargetLabel);
+            if (this.selectedElem && this.selectedElem.highlight) {
+                this.inputAction(this.selectedElem, this.selectedElemType);
+            }
+        } else {
+            // Action done
             this.cancelAction();
             this.manageEnd(action);
-        } else {
-            if (targets) {
-                this.highlight(targets, action.currentTargetLabel);
-            } else {
-                this.setMessage("> Choose a " + action.currentTargetLabel);
-                if (this.selectedElem) {
-                    this.selectBoardElem(this.selectedElem, this.selectedElemType);
-                }
-            }
         }
 
     }
