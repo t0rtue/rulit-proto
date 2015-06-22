@@ -456,7 +456,7 @@ angular.module('ri.module.game', ['ri.module.action', 'ri.module.board', 'ri.mod
                 elems = $.grep(
                     elems,
                     function(e) {
-                        return !params || match(e.token, params);
+                        return match(e.token, params);
                     }
                 );
                 return elems;
