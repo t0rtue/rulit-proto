@@ -14,7 +14,7 @@ angular.module('ri.module.game', ['ri.module.action', 'ri.module.board', 'ri.mod
     return function(actions, token) {
         res = [];
         for (var i = 0; i < actions.length; ++i) {
-            if (actions[i].type == 'move' && match(token, actions[i].token)) {
+            if ((actions[i].type == 'move' || actions[i].type == 'remove') && match(token, actions[i].token)) {
                 res.push(actions[i]);
             }
         }
@@ -211,9 +211,11 @@ angular.module('ri.module.game', ['ri.module.action', 'ri.module.board', 'ri.mod
             }
         },
         addPlayer : function(gameDesc) {
+            var playerTheme = gameDesc.theme.players[state.players.all.length];
+            var color = (playerTheme && playerTheme.color) || '#000000';
             state.players.all.push({
                 name : 'Player' + (state.players.all.length+1),
-                color : gameDesc.theme.players[state.players.all.length].color,
+                color : color,
                 properties : {}
             });
         }
@@ -244,12 +246,12 @@ angular.module('ri.module.game', ['ri.module.action', 'ri.module.board', 'ri.mod
     this.players = gameState.players;
 
     this.propertyView = {
-        'gold' : {
-            layers: [{size:0.6, width:12, shape:'square'}]
-        },
-        'victory point' : {
-            layers: [{size:0.4, width:12, shape:'circle'}]
-        }
+        // 'gold' : {
+        //     layers: [{size:0.6, width:12, shape:'square'}]
+        // },
+        // 'victory point' : {
+        //     layers: [{size:0.4, width:12, shape:'circle'}]
+        // }
     };
 
     /* Build tile view table
@@ -388,6 +390,7 @@ angular.module('ri.module.game', ['ri.module.action', 'ri.module.board', 'ri.mod
     this.nextTurn = function() {
 
         this.cancelAction();
+        this.selectElem(null,null);
 
         gameState.nextTurn();
 
@@ -397,8 +400,6 @@ angular.module('ri.module.game', ['ri.module.action', 'ri.module.board', 'ri.mod
         }, 1000);
 
         this.initActionsState();
-
-        this.selectElem(null,null);
     }
 
 

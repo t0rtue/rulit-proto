@@ -130,21 +130,11 @@ body {
 
 .highlight {
     opacity: 1;
-    fill : lightgreen;
     /*filter : url(#lighterPulseFilter);*/
 }
 
-
-.tile.highlight {
-    opacity: 1;
-}
-
-.border.highlight {
-    stroke:lightgreen;
-}
-
 #game-view.highlighting ri-board .tile:not(.highlight) {
-    opacity: 0.2;
+    opacity: 0.5;
 }
 
 .token {
@@ -274,7 +264,7 @@ body {
     width:80%;
     top:30%;
     left:10%;
-    background-color: rgba(0, 0, 0, 0.5);
+    background-color: rgba(0, 0, 0, 0.8);
     border-top: 5px solid grey;
     border-bottom: 5px solid grey;
 
@@ -322,7 +312,7 @@ body {
 
 .game-menu.active {
     visibility: visible;
-    background-color:  rgba(0, 0, 0, 0.5);
+    background-color:  rgba(0, 0, 0, 0.8);
 }
 
 .game-menu-text {
