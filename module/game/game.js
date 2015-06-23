@@ -103,8 +103,11 @@ angular.module('ri.module.game', ['ri.module.action', 'ri.module.board', 'ri.mod
                     player.properties[name] += value;
                 }
 
+                var summary = {};
+
                 // UPDATE for tokens
                 for (type in updateDef['tokens']) {
+                    summary[type] = {};
                     // List of properties to update for this token type
                     var propsUpdate = updateDef['tokens'][type];
                     // Tokens of the current type
@@ -112,6 +115,8 @@ angular.module('ri.module.game', ['ri.module.action', 'ri.module.board', 'ri.mod
 
                     for (i=0; i < tokens.length; i++) { // for each token of the current type
                         for (j=0; j < propsUpdate.length; j++) { // for each updated prop of the token
+                            var propName =  propsUpdate[j].prop;
+                            summary[type][propName] = summary[type][propName] || 0;
                             var quantity = parseInt(propsUpdate[j].quantity);
                             if (!quantity) { // Quantity is not a number, it is the name of property
                                 var prop = _getTokenProp(tokens[i], propsUpdate[j].quantity);
@@ -120,18 +125,20 @@ angular.module('ri.module.game', ['ri.module.action', 'ri.module.board', 'ri.mod
 
                             // GET from
                             if (propsUpdate[j].from == 'player') {
-                                _updatePlayerProp(state.players.current, propsUpdate[j].prop, -quantity);
+                                _updatePlayerProp(state.players.current, propName, -quantity);
+                                summary[type][propName] -= quantity;
                             } else if (propsUpdate[j].from == type) {
-                                _updateTokenProp(tokens[i], propsUpdate[j].prop, -quantity);
+                                _updateTokenProp(tokens[i], propName, -quantity);
                             }
 
                             // TODO only add quantity we can get (for transfer case)
 
                             // ADD to
                             if (propsUpdate[j].to == 'player') {
-                                _updatePlayerProp(state.players.current, propsUpdate[j].prop, quantity);
+                                _updatePlayerProp(state.players.current, propName, quantity);
+                                summary[type][propName] += quantity;
                             } else if (propsUpdate[j].to == type) {
-                                _updateTokenProp(tokens[i], propsUpdate[j].prop, quantity);
+                                _updateTokenProp(tokens[i], propName, quantity);
                             }
 
                         }
@@ -139,6 +146,7 @@ angular.module('ri.module.game', ['ri.module.action', 'ri.module.board', 'ri.mod
                 }
 
                 // UPDATE for player
+                var reportLabel = 'per turn';
                 for (i=0; i < updateDef['player'].length; i++) {
                     var propUpdate = updateDef['player'][i];
                     var quantity = parseInt(propUpdate.quantity);
@@ -146,7 +154,26 @@ angular.module('ri.module.game', ['ri.module.action', 'ri.module.board', 'ri.mod
                         quantity = -quantity;
                     }
                     _updatePlayerProp(state.players.current, propUpdate.prop, quantity);
+
+                    summary[reportLabel] = summary[reportLabel] || {};
+                    summary[reportLabel][propUpdate.prop] = quantity;
                 }
+
+                /*
+                    Transform summary data (for report)
+                    From {type:{prop:value}}
+                    To {prop:{'total':sum,'details':{type:value}}}
+                */
+                var s = {};
+                $.each(summary, function(type, data) {
+                    $.each(data, function(prop, value) {
+                        s[prop] = s[prop] || {'total':0,'details':{}};
+                        s[prop].details[type] = value;
+                        s[prop].total += value;
+                    })
+                });
+                state.updateSummary = Object.keys(s).length ? s : null;
+
             }
 
             // Next phase and next turn

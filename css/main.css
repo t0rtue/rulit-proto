@@ -379,6 +379,28 @@ body {
     color: lightgrey;
 }
 
+#update-summary-window {
+    -webkit-transition: background 350 ease;
+    transition: background 350ms ease;
+}
+
+#update-summary-window .content {
+    text-align: left;
+    background-color: lightgrey;
+}
+
+#update-summary-window .gain {
+    color: green;
+}
+
+#update-summary-window .loss {
+    color: red;
+}
+
+#update-summary-window .gain:before {
+    content : '+';
+}
+
 div {
     -webkit-transition: width 350 ease;
     transition: width 350ms ease;

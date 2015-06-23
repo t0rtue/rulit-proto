@@ -89,6 +89,31 @@
             </div>
         </div>
 
+        <!-- UPDATE SUMMARY WINDOW -->
+        <div
+            id="update-summary-window"
+            class="container game-menu"
+            ng-class="{active:game.state.updateSummary&&!game.state.turnStart}">
+            <div class="row" style="margin-top:100px">
+                <div class="content col-md-offset-4 col-md-4">
+                    <!-- <h2>Income / Expense</h2> -->
+                    <div ng-repeat="(name, info) in game.state.updateSummary">
+                        <h4><span ng-class="info.total>0?'gain':'loss'">{{info.total}}</span> {{name}}</h4>
+                        <table class="table table-condensed">
+                            <tr ng-repeat="(type, value) in info.details">
+                                <td class="col-xs-2"></td>
+                                <td class="col-xs-4">{{type}}</td>
+                                <td ng-class="value>0?'gain':'loss'">{{value}}</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <span class="pull-down menu-actions">
+                <span ng-click="game.state.updateSummary=null" class="icon"><span class="glyphicon glyphicon-chevron-right"></span></span>
+            </span>
+        </div>
+
         <!-- PLAYER OVER WINDOW -->
         <div
             id="player-over-window"
