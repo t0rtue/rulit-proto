@@ -70,7 +70,8 @@ angular.module('ri.module.irulebook', ['ui.router'])
         type = "Type " + (game.tiles.length + 1);
         game.tiles.push({
             'type'       : type,
-            'properties' : [],
+            // 'properties' : [],
+            'color' : '#EEEEEE',
             'view':{
                     layers:[{size:0.5, shape:game.gridType}],
                     kernel:{}

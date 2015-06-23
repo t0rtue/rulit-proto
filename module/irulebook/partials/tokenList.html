@@ -28,14 +28,14 @@
                     Using an hidden color input inside the same label tag than the view
                  -->
                 <label>
-                    <input class="hidden" type="color" ng-model="token.color"></input>
+                    <input class="hidden-input" type="color" ng-model="token.color"></input>
                     <div class="media-object clickable">
                         <svg width="80" height="80" viewBox="-50 -50 100 100">
                             <g >
                                 <ri-token
                                     class="ri-token"
                                     data="token"
-                                    view="{layers:[{size:1, width:1,shape:shape,fill:{on:true,bind:'color',color:token.color},stroke:{on:true,bind:'color',color:'#444'}}]}">
+                                    view="{layers:[{size:1, width:1,shape:shape,fill:{on:true,bind:'color',color:token.color},stroke:{on:true,bind:'color',color:'#444444'}}]}">
                                 </ri-token>
                             </g>
                         </svg>
@@ -48,7 +48,7 @@
                     <input ng-model="token.type" type="text" class="form-control" placeholder="{{parent}} type"></input>
                 </h3>
 
-                <ul class="list-group" >
+                <ul class="list-group" ng-if="token.properties!=undefined">
                     <li ng-repeat="prop in token.properties"
                         class="list-group-item no-border"
                         >
