@@ -864,6 +864,7 @@ angular.module('ri.module.game', ['ri.module.action', 'ri.module.board', 'ri.mod
                 // Action done
                 this.cancelAction();
                 this.manageEnd(action);
+                this.selectElem(null, null);
             }
         }
 
