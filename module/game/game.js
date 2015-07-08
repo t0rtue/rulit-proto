@@ -574,7 +574,12 @@ angular.module('ri.module.game', ['ri.module.action', 'ri.module.board', 'ri.mod
         this.highlight(elems);
     }
 
-    function player() {
+    function player(name) {
+        if (name) {
+            return $.grep(gameState.players.all, function(p) {
+                return p.name == name;
+            })[0];
+        }
         return gameState.players.current;
     }
     this.player = player;
@@ -762,6 +767,14 @@ angular.module('ri.module.game', ['ri.module.action', 'ri.module.board', 'ri.mod
         return selection;
     }
 
+    function removeToken(elem) {
+        var token = elem.token;
+        var owner = player(token.player.name);
+        var idx = owner.tokens.indexOf(token);
+        owner.tokens.splice(idx,1);
+        elem.token = null;
+    }
+
     var actionHandlers = {
         'put' : {
             onSelect : function(action) {
@@ -770,6 +783,11 @@ angular.module('ri.module.game', ['ri.module.action', 'ri.module.board', 'ri.mod
                 return targets;
             },
             onInput : function(action, elem, type) {
+
+                if (elem.token) {
+                    removeToken(elem);
+                }
+
                 var model = getTokenDefinition(action.token.type);
                 elem.token = angular.copy(model);
                 elem.token.player = {
@@ -802,6 +820,9 @@ angular.module('ri.module.game', ['ri.module.action', 'ri.module.board', 'ri.mod
                     var targets = elemSelector(action.dest.type, action.dest.conditions, {current : elem, type: type});
                     return targets;
                 } else {
+                    if (elem.token) {
+                        removeToken(elem);
+                    }
                     elem.token = action.input.elemOrigin.token;
                     action.input.elemOrigin.token = null;
                     action.input = {};
@@ -816,7 +837,7 @@ angular.module('ri.module.game', ['ri.module.action', 'ri.module.board', 'ri.mod
                 return targets;
             },
             onInput : function(action, elem, type) {
-                elem.token = null;
+                removeToken(elem);
                 action.done = true;
             }
         },
