@@ -345,6 +345,18 @@ angular.module('ri.module.game', ['ri.module.action', 'ri.module.board', 'ri.mod
                 quantity : 10
             },
         ];
+
+        boardTokens sample :  [
+            {
+                type : 'wall',
+                quantity : 10
+            },
+            {
+                type : 'unit',
+                quantity : 2,
+                perPlayer : 1
+            },
+        ];
     */
     this.setupBoard = function() {
 
@@ -395,18 +407,32 @@ angular.module('ri.module.game', ['ri.module.action', 'ri.module.board', 'ri.mod
             tiles[t].type = draw.pickup();
         }
 
-        // TOKENS init
-        draw.init(game.init.boardTokens);
-        // Randomly set token on tile
-        for (t in tiles) {
-            var type = draw.pickup();
-            if (!type) { break; }
-            var model = getTokenDefinition(type);
-            var token = angular.copy(model);
-            tiles[t].token = token;
+        /* TOKENS init
+            Randomly put token on tile
+            By default added tokens are neutral (not associated to player)
+            If perPlayer option is set for a token group
+            then tokens are added for each player
+        */
+        var t = 0;
+        for (var i in game.init.boardTokens) {
+            var group = game.init.boardTokens[i];
+            var model = getTokenDefinition(group.type);
+            var owners = [null];
+            if (group.perPlayer) {
+                owners = gameState.players.all;
+            }
+            for (o in owners) {
+                var owner = owners[o];
+                for (var n=0; n<group.quantity; n++) {
+                    var token = angular.copy(model);
+                    owner && associateTokenToPlayer(token, owner);
+                    tiles[t++].token = token;
+                }
+            }
         }
 
     }
+
 
     this.startGame = function() {
         gameState.init(game);
@@ -767,6 +793,20 @@ angular.module('ri.module.game', ['ri.module.action', 'ri.module.board', 'ri.mod
         return selection;
     }
 
+    function associateTokenToPlayer(token, player) {
+        var p = player;
+        token.player = {
+            name : p.name,
+            color: p.color
+        };
+
+        // Add a token to the tokens list of the player
+        p.tokens = p.tokens || [];
+        p.tokens.push(token);
+
+        // TODO remove the token from the token list of the previous owner
+    }
+
     function removeToken(elem) {
         var token = elem.token;
         var owner = player(token.player.name);
@@ -790,18 +830,9 @@ angular.module('ri.module.game', ['ri.module.action', 'ri.module.board', 'ri.mod
 
                 var model = getTokenDefinition(action.token.type);
                 elem.token = angular.copy(model);
-                elem.token.player = {
-                    name : player().name,
-                    color: player().color
-                };
-                //elem.token.view = model.view;
+                associateTokenToPlayer(elem.token, player());
 
-                // Add a token to the tokens list of current player
-                function addToken(token) {
-                    player().tokens = player().tokens || [];
-                    player().tokens.push(token);
-                }
-                addToken(elem.token);
+                //elem.token.view = model.view;
 
                 action.done = true;
             }

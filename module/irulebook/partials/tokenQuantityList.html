@@ -3,10 +3,14 @@
         class="list-group-item no-border"
         >
         <div class="row">
-            <div class="col-md-4">
+            <div class="col-md-5">
                 <ri-remove-button data="data" index="$index"></ri-remove-button>
                 <rb-token-select model="elem.type" tokens="tokens"></rb-token-select>
-                x <input ng-model="elem.quantity" class="form-control input-sm" type="text" placeholder="quantity"></input>
+                x <input ng-model="elem.quantity" class="form-control input-sm" size="5" type="text" placeholder="quantity"></input>
+                <label ng-if="type=='token'" ng-style="{color:elem.perPlayer?'auto':'#CCC', 'font-weight':400}">
+                    <input ng-model="elem.perPlayer" class="form-control" type="checkbox"></input>
+                    for each player
+                </label>
             </div>
         </div>
     </li>
