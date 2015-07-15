@@ -237,6 +237,12 @@ angular.module('ri.module.game', ['ri.module.action', 'ri.module.board', 'ri.mod
                     state.addPlayer(gameDesc);
                 }
             }
+            // Set color of players (change color of existing player) according to theme
+            for (var i = 0; i < players.length; i++) {
+                var playerTheme = gameDesc.theme.players[i];
+                var color = (playerTheme && playerTheme.color) || '#000000';
+                players[i].color = color;
+            }
         },
         addPlayer : function(gameDesc) {
             var playerTheme = gameDesc.theme.players[state.players.all.length];
