@@ -1,14 +1,14 @@
 <div>
 
     <div ng-if="editMode">
-        Player own at least
+        Player owns at least
         <input type="number" ng-model="condition.quantity" class="form-control small-input" placeholder="a quantity of"/>
         <!-- <ri-input-token token='cond.token' types='tokenTypes'></ri-input-token> -->
         <input type="text" ng-model="condition.propertyName" class="form-control" placeholder="property, resource, point, token"/>
     </div>
 
     <div ng-if="!editMode">
-        Player own at least {{condition.quantity}} {{condition.propertyName}}.
+        Player owns at least {{condition.quantity}} {{condition.propertyName}}.
     </div>
 
 </div>
