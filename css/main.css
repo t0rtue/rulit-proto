@@ -130,11 +130,13 @@ body {
 
 .highlight {
     opacity: 1;
+    /*fill:#AAEEAA;*/
     /*filter : url(#lighterPulseFilter);*/
 }
 
 #game-view.highlighting ri-board .tile:not(.highlight) {
     opacity: 0.5;
+    stroke-opacity:0.3;
 }
 
 .token {
@@ -170,12 +172,14 @@ body {
 
 #message-box {
     margin-bottom: 10px;
-
+    font-size: 20px;
+    font-weight: 700;
 }
 
 #message-box .game-window {
     padding-left: 10px;
     padding-top: 10px;
+    border: 2px solid;
 }
 
 .tooltip-inner, .tooltip-arrow {
