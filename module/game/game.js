@@ -223,6 +223,7 @@ angular.module('ri.module.game', ['ri.module.action', 'ri.module.board', 'ri.mod
                     player.properties[prop.name] = parseInt(prop.value);
                 }
                 player.tokens = [];
+                player.actionCount = 0;
             }
             state.players.idx = 0;
             state.players.current = state.players.all[0];
@@ -442,6 +443,11 @@ angular.module('ri.module.game', ['ri.module.action', 'ri.module.board', 'ri.mod
 
     this.nextTurn = function() {
 
+        this.playerOver = this.updatePlayerState();
+        if (this.playerOver) {
+            return;
+        }
+
         this.cancelAction();
         this.selectElem(null,null);
 
@@ -453,6 +459,7 @@ angular.module('ri.module.game', ['ri.module.action', 'ri.module.board', 'ri.mod
         }, 1000);
 
         this.initActionsState();
+        player().actionCount = 0;
     }
 
 
@@ -704,6 +711,8 @@ angular.module('ri.module.game', ['ri.module.action', 'ri.module.board', 'ri.mod
                 }
             }
         }
+
+        player().actionCount++;
 
         // Deactivate not more payable actions
         this.updateActionsState();

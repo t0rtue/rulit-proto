@@ -76,6 +76,23 @@ angular.module('ri.module.condition', [
     }
 }])
 
+/*
+    Blocked conditon, i.e player can not play.
+
+    To detect blocked state we just check if the player pass his turn
+    without having done any action.
+
+    A other more complicated way to check blocked will be to check the feasibility of each action.
+
+*/
+.service('ri.condition.blocked', function() {
+    return {
+        eval : function(cond, gamestate) {
+            return !gamestate.player.actionCount;
+        }
+    }
+})
+
 // Condition view with a switch allowing edition
 .directive('riCondition', function () {
     return {

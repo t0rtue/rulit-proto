@@ -13,7 +13,7 @@
                         </span>
                 <ng-pluralize
                     count="conditions[condtype].length"
-                    when="{'0'    : 'Player {{condtype}} if {{msg}}.',
+                    when="{'0'    : 'Player {{condtype}}s if {{msg}}.',
                            'one'  : 'Player {{condtype}}s if ',
                            'other': 'Player can {{condtype}} in {} different ways :'}"
                     ng-init="msg = {'win':'all other players lose','lose':'another player wins'}[condtype]">
@@ -38,7 +38,7 @@
                     <div class="col-md-offset-1 col-md-2 form-group form-inline">
                         <select
                             ng-model="cond.type"
-                            ng-options="type for type in ['owning', 'alignment']"
+                            ng-options="type for type in ['owning', 'alignment', 'blocked']"
                             class="form-control"
                             id="actionType">
                         </select>
