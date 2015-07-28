@@ -39,11 +39,22 @@
 
         <div>
             <!-- Player <mark>can</mark> do <mark>all</mark> of the following actions <mark>as many times he wants</mark> : -->
-            <form role="form" class="form-inline">
+<!--             <form role="form" class="form-inline">
                 Player
                 <select ng-model="phase.type" ng-options="type for type in ['can', 'must']" class="form-control"></select>
                 do each of the following actions
                 <select ng-model="phase.limit" ng-options="idx as type for (idx,type) in ['as many time he wants', 'one time']" class="form-control"></select>
+            </form> -->
+            <form role="form" class="form-inline">
+                Player can do
+                <select ng-model="phase.limit" ng-options="idx as type for (idx,type) in ['all', 'one']" class="form-control"></select>
+                of the following actions,
+                <span ng-if="phase.limit==1">
+                    one time
+                </span>
+                <span ng-if="phase.limit==0">
+                    as many time he wants
+                </span>
             </form>
 
             <div class="row">
