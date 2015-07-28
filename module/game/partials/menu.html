@@ -62,5 +62,16 @@
 
     </div>
 
+    <div id="credits-wrap" class="row">
+        <div class="col-md-offset-4 col-md-4 centered" >
+            <span ng-if="menu.game.meta.author">
+                Original rules by <b>{{menu.game.meta.author}}</b>.
+            </span>
+            <span ng-if="menu.game.meta.rulitor">
+                Rulited by <b>{{menu.game.meta.rulitor}}</b>.
+            </span>
+        </div>
+
+    </div>
 
 </div>

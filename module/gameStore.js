@@ -69,6 +69,7 @@ angular.module('ri.gameStore', ['ngResource'])
                 if (gameInfo.source == 'public') {
                     var gist = gistStore.get({ id: gameInfo.id }, function() {
                         game = angular.fromJson( gist.files['game-definition.json'].content );
+                        game.meta = gameInfo.meta;
                         deferred.resolve(game);
                     });
                 } else {

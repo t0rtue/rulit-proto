@@ -53,3 +53,9 @@
 #game-menu ri-remove-button button {
     color: #222;
 }
+
+#game-menu #credits-wrap {
+    position: absolute;
+    bottom: 5%;
+    width: 100%;
+}
