@@ -967,7 +967,7 @@ angular.module('ri.module.game', ['ri.module.action', 'ri.module.board', 'ri.mod
 
     this.selectAction = function(action) {
 
-        if (!action.payable) {
+        if (action.payable==false) {
             this.message = "Not enough resources for this action";
             return;
         }
